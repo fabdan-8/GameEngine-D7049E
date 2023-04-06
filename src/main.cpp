@@ -3,8 +3,8 @@
 // directory of this distribution and at https://www.ogre3d.org/licensing.
 // SPDX-License-Identifier: MIT
 
-#include <Ogre.h>
-#include <OgreApplicationContext.h>
+#include "Ogre.h"
+#include "OgreApplicationContext.h"
 
 //! [key_handler]
 class KeyHandler : public OgreBites::InputListener {
