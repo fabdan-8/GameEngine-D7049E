@@ -119,15 +119,18 @@ void Game::Cleanup() {
 	running = false;
 	if (window) {
 		SDL_DestroyWindow(window);
+		window = nullptr;
 	}
 	if (renderer) {
 		SDL_DestroyRenderer(renderer);
+		renderer = nullptr;
 	}
 	if (music) {
 		Mix_FreeMusic(music);
+		music = nullptr;
 	}
-	SDLNet_Quit();
 	Mix_CloseAudio();
+	SDLNet_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
