@@ -17,5 +17,7 @@ private:
 	void Render();
 	void Input();
 	void Update();
+	//debug rotation
+	double rot = 0;
 };
 
