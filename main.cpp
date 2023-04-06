@@ -1,5 +1,4 @@
 #include <iostream>
 
-int main() {
-	std::cout << "hello world\n";
-}
+int main() { std::cout << "hello world" << std::endl; }
+qw
