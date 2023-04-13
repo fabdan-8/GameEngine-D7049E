@@ -35,6 +35,7 @@ This is most likely a lot more complicated than it needs to be, but I (Erik) hav
   msbuild /P:Configuration=Release ALL_BUILD.vcxproj
   ```
   This should give a new Release folder which includes 0_main.exe
+  
 8. Copy required dll's
   ```
   for %I in (C:\projects\ogre-bsrh7\build\sdk\bin\OgreTerrain.dll C:\projects\ogre-bsrh7\build\sdk\bin\OgrePaging.dll C:\projects\ogre-bsrh7\build\sdk\bin\OgreBites.dll C:\projects\ogre-bsrh7\build\sdk\bin\OgreOverlay.dll C:\projects\ogre-bsrh7\build\sdk\bin\OgreRTShaderSystem.dll C:\projects\ogre-bsrh7\build\sdk\bin\OgreMain.dll C:\projects\ogre-bsrh7\build\sdk\bin\zlib.dll) do copy %I Release\
