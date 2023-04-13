@@ -55,7 +55,8 @@ int main(int argc, char *argv[]) {
   ctx.getRenderWindow()->addViewport(cam);
 
   // finally something to render
-  Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
+  //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
+  Ogre::Entity *ent = scnMgr->createEntity("sibenik.mesh");
   Ogre::SceneNode *node = scnMgr->getRootSceneNode()->createChildSceneNode();
   node->attachObject(ent);
   //! [setup]
