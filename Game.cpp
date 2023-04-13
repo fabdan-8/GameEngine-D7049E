@@ -10,6 +10,9 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_net.h>
 
+//ogre
+#include <OGRE/Ogre.h>
+
 //access global variables by using extern
 extern SDL_Renderer* renderer;
 extern SDL_Window* window;
@@ -102,7 +105,7 @@ void Game::Render() {
 void Game::Input() {
 	SDL_PollEvent(&mainevent);
 	SDL_GetMouseState(&mouseX, &mouseY);
-	if (GetAsyncKeyState(VK_TAB)) {//press tab to stop application
+	if (GetAsyncKeyState(VK_TAB)) {//press tab to stop application - using Windows.h
 		running = false;
 	}
 }
