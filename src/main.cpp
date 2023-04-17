@@ -5,6 +5,10 @@
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
+#include "Game.h"
+
+Ogre::Camera* cam;
+Ogre::SceneNode* camNode;
 
 //! [key_handler]
 class KeyHandler : public OgreBites::InputListener {
@@ -12,62 +16,88 @@ class KeyHandler : public OgreBites::InputListener {
     if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
       Ogre::Root::getSingleton().queueEndRendering();
     }
+    else if (evt.keysym.sym == OgreBites::SDLK_UP) {
+        camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
+    }
+    else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
+        camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
+    }
+    else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
+        camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
+    }
+    else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
+        camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
+    }
     return true;
   }
 };
 //! [key_handler]
 
 int main(int argc, char *argv[]) {
-  //! [constructor]
-  OgreBites::ApplicationContext ctx("OgreTutorialApp");
-  ctx.initApp();
-  //! [constructor]
 
-  //! [setup]
-  // get a pointer to the already created root
-  Ogre::Root *root = ctx.getRoot();
-  Ogre::SceneManager *scnMgr = root->createSceneManager();
+    //Game game;
+    //game.Load();
+    //game.MainLoop();
+    //return 0;
 
-  // register our scene with the RTSS
-  Ogre::RTShader::ShaderGenerator *shadergen =
-      Ogre::RTShader::ShaderGenerator::getSingletonPtr();
-  shadergen->addSceneManager(scnMgr);
+    //! [constructor]
+    OgreBites::ApplicationContext ctx("OgreTutorialApp");
+    ctx.initApp();
+    //! [constructor]
+    
+    //! [setup]
+    // get a pointer to the already created root
+    Ogre::Root *root = ctx.getRoot();
+    Ogre::SceneManager *scnMgr = root->createSceneManager();
+    
+    // register our scene with the RTSS
+    Ogre::RTShader::ShaderGenerator *shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+    shadergen->addSceneManager(scnMgr);
+    
+    // without light we would just get a black screen
 
-  // without light we would just get a black screen
-  Ogre::Light *light = scnMgr->createLight("MainLight");
-  Ogre::SceneNode *lightNode =
-      scnMgr->getRootSceneNode()->createChildSceneNode();
-  lightNode->setPosition(0, 10, 15);
-  lightNode->attachObject(light);
+    scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));// does not seem to work...
 
-  // also need to tell where we are
-  Ogre::SceneNode *camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-  camNode->setPosition(0, 0, 15);
-  camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
-
-  // create the camera
-  Ogre::Camera *cam = scnMgr->createCamera("myCam");
-  cam->setNearClipDistance(5); // specific to this sample
-  cam->setAutoAspectRatio(true);
-  camNode->attachObject(cam);
-
-  // and tell it to render into the main window
-  ctx.getRenderWindow()->addViewport(cam);
-
-  // finally something to render
-  //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
-  Ogre::Entity *ent = scnMgr->createEntity("sibenik.mesh");
-  Ogre::SceneNode *node = scnMgr->getRootSceneNode()->createChildSceneNode();
-  node->attachObject(ent);
-  //! [setup]
-
-  //! [main]
-  // register for input events
-  KeyHandler keyHandler;
-  ctx.addInputListener(&keyHandler);
-
-  ctx.getRoot()->startRendering();
-  ctx.closeApp();
-  //! [main]
-  return 0;
+    Ogre::Light *light = scnMgr->createLight("MainLight");
+    //light->setDiffuseColour(Ogre::ColourValue::White);
+    //light->setSpecularColour(Ogre::ColourValue::White);
+    Ogre::SceneNode *lightNode = scnMgr->getRootSceneNode()->createChildSceneNode();
+    lightNode->setPosition(20, 40, -50);
+    lightNode->attachObject(light);
+    
+    // also need to tell where we are
+    camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
+    camNode->setPosition(0, 0, 15);
+    camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
+    
+    // create the camera
+    cam = scnMgr->createCamera("myCam");
+    cam->setNearClipDistance(5); // specific to this sample
+    cam->setAutoAspectRatio(true);
+    camNode->attachObject(cam);
+    camNode->setPosition(0, 40, 140);
+    
+    // and tell it to render into the main window
+    ctx.getRenderWindow()->addViewport(cam);
+    
+    // finally something to render
+    //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
+    Ogre::Entity *ent = scnMgr->createEntity("skeleton.X");//"sibenik.mesh"
+    //ent->setMaterial()
+    Ogre::SceneNode *node = scnMgr->getRootSceneNode()->createChildSceneNode();
+    
+    node->setPosition(0, 0, -80);
+    
+    node->attachObject(ent);
+    //! [setup]
+    
+    //! [main]
+    // register for input events
+    KeyHandler keyHandler;
+    ctx.addInputListener(&keyHandler);
+    
+    ctx.getRoot()->startRendering();
+    ctx.closeApp();
+    //! [main]
+    return 0;
 }

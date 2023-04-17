@@ -11,7 +11,7 @@
 #include <SDL/SDL_net.h>
 
 //ogre
-#include <OGRE/Ogre.h>
+//#include <OGRE/Ogre.h>
 
 //access global variables by using extern
 extern SDL_Renderer* renderer;
