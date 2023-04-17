@@ -1,0 +1,56 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Release",
+      "description": "x64 Release",
+      "configurationType": "Release",
+      "generator": "Visual Studio 15 2017 Win64",
+      "buildRoot": "${workspaceRoot}/build/${name}",
+      "installRoot": "${workspaceRoot}/install/${name}",
+      "inheritEnvironments": [ "msvc_x64" ],
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "name": "x64-Debug",
+      "description": "x64 Debug",
+      "configurationType": "Debug",
+      "generator": "Visual Studio 15 2017 Win64",
+      "buildRoot": "${workspaceRoot}/build/${name}",
+      "installRoot": "${workspaceRoot}/install/${name}",
+      "inheritEnvironments": [ "msvc_x64" ],
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "name": "x64-Release",
+      "description": "x64 Release",
+      "configurationType": "Release",
+      "generator": "Visual Studio 16 2019 Win64",
+      "buildRoot": "${workspaceRoot}/build/${name}",
+      "installRoot": "${workspaceRoot}/install/${name}",
+      "inheritEnvironments": [ "msvc_x64" ],
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "name": "x64-Debug",
+      "description": "x64 Debug",
+      "configurationType": "Debug",
+      "generator": "Visual Studio 16 2019 Win64",
+      "buildRoot": "${workspaceRoot}/build/${name}",
+      "installRoot": "${workspaceRoot}/install/${name}",
+      "inheritEnvironments": [ "msvc_x64" ],
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "intelliSenseMode": "windows-msvc-x64"
+    }
+  ]
+}
