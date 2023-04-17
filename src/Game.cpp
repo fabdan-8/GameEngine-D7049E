@@ -56,8 +56,6 @@ void Game::Load() {
 
     node->attachObject(ent);
     //! [setup]
-    
-    std::cout << "W";
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL failed\n";
