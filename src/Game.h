@@ -1,28 +1,52 @@
 #pragma once
+#include "Defines.h"
 
 #include "Ogre.h"
-#include "OgreRoot.h"
-#include "OgreRenderWindow.h"
-#include "OgreWindowEventUtilities.h"
+#include "OgreApplicationContext.h"
+
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_net.h>
 
 class Game {
 public:
-	std::string name;
+	Game() {};
+	~Game() {};
+
 	void Load();
 	void MainLoop();
 	void Cleanup();
-	// I put the member in public because there is no need to put them private in these tutorials.
-		// It will allow very simple access to these useful members.
-		///\brief the root of ogre will be contained in this member.
-		/// it will be initialised in initOgre().
-	Ogre::Root* mRoot;
-	///\brief the window created in the initOgre(). NULL otherwise.
-	/// This is just a handle, not a real aggregation. 
-	/// The destruction of the Root will imply its destruction.
-	Ogre::RenderWindow* mWindow;
 
-	//I prefer to be able to access my variables directly.
-	Ogre::Root* lRoot;
-	Ogre::RenderWindow* lWindow;
+	bool Clicked(unsigned char key);
+	bool Pressed(unsigned char key);
+	bool Released(unsigned char key);
+	bool MouseClicked(unsigned char button);
+	bool MousePressed(unsigned char button);
+	bool MouseReleased(unsigned char button);
+
+private:
+	void Render();
+	void Input();
+	void Update();
+
+	void CheckEvents();
+
+	bool running = false;
+
+	SDL_Event mainevent;
+	Mix_Music* music;
+	bool music_playing = false;
+
+	OgreBites::ApplicationContext* ctx = nullptr;
+	Ogre::Camera* cam = nullptr;
+	Ogre::SceneNode* camNode = nullptr;
+
+	int mouseY;
+	int mouseX;
+	double rot = 0.0;
+
+	unsigned char keybuffer[256] = { 0 };//0b00000000 is the binary representation. The last byte is "clicked", the second to last is "pressed", the third to last is "released"
+	unsigned char mousebuffer[256] = { 0 };
 };
 

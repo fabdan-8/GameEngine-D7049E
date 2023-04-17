@@ -7,29 +7,24 @@
 #include "OgreApplicationContext.h"
 #include "Game.h"
 
-#include <Windows.h>
-
-Ogre::Camera* cam;
-Ogre::SceneNode* camNode;
-
 //! [key_handler]
 class KeyHandler : public OgreBites::InputListener {
   bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
     if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
       Ogre::Root::getSingleton().queueEndRendering();
     }
-    else if (evt.keysym.sym == OgreBites::SDLK_UP) {
-        camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
-    }
-    else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
-        camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
-    }
-    else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
-        camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
-    }
-    else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
-        camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
-    }
+    //else if (evt.keysym.sym == OgreBites::SDLK_UP) {
+    //    camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
+    //}
+    //else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
+    //    camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
+    //}
+    //else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
+    //    camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
+    //}
+    //else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
+    //    camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
+    //}
     return true;
   }
 };
@@ -37,10 +32,10 @@ class KeyHandler : public OgreBites::InputListener {
 
 int main(int argc, char *argv[]) {
 
-    //Game game;
-    //game.Load();
-    //game.MainLoop();
-    //return 0;
+    Game game;
+    game.Load();
+    game.MainLoop();
+    return 0;
 
     //! [constructor]
     OgreBites::ApplicationContext ctx("OgreTutorialApp");
@@ -68,6 +63,10 @@ int main(int argc, char *argv[]) {
     lightNode->attachObject(light);
     
     // also need to tell where we are
+
+    Ogre::Camera* cam;
+    Ogre::SceneNode* camNode;
+
     camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     camNode->setPosition(0, 0, 15);
     camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
@@ -97,10 +96,10 @@ int main(int argc, char *argv[]) {
     // register for input events
     KeyHandler keyHandler;
     ctx.addInputListener(&keyHandler);
-    while (!GetAsyncKeyState(VK_TAB)) {
-        ctx.getRoot()->renderOneFrame();
-    }
-    //ctx.getRoot()->startRendering();
+    //while (!GetAsyncKeyState(VK_TAB)) {
+    //    ctx.getRoot()->renderOneFrame();
+    //}
+    ctx.getRoot()->startRendering();
     ctx.closeApp();
     //! [main]
     return 0;
