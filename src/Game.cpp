@@ -179,7 +179,7 @@ void Game::Input() {
 
 void Game::Update() {
     if (music_playing) {
-        rot += 0.01;
+        rot += 0.05;
         if (rot >= M_PI * 2.0) {
             rot = rot - M_PI * 2.0;
         }
