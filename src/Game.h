@@ -1,5 +1,6 @@
 #pragma once
 #include "Defines.h"
+#include "Player.h"
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
