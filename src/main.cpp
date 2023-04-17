@@ -7,6 +7,8 @@
 #include "OgreApplicationContext.h"
 #include "Game.h"
 
+#include <Windows.h>
+
 Ogre::Camera* cam;
 Ogre::SceneNode* camNode;
 
@@ -95,8 +97,10 @@ int main(int argc, char *argv[]) {
     // register for input events
     KeyHandler keyHandler;
     ctx.addInputListener(&keyHandler);
-    
-    ctx.getRoot()->startRendering();
+    while (!GetAsyncKeyState(VK_TAB)) {
+        ctx.getRoot()->renderOneFrame();
+    }
+    //ctx.getRoot()->startRendering();
     ctx.closeApp();
     //! [main]
     return 0;
