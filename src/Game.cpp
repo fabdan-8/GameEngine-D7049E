@@ -48,7 +48,8 @@ void Game::Load() {
 
     // finally something to render
     //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
-    Ogre::Entity* ent = scnMgr->createEntity("skeleton.X");//"sibenik.mesh"
+    //Ogre::Entity* ent = scnMgr->createEntity("skeleton.X");//"sibenik.mesh"
+    Ogre::Entity* ent = scnMgr->createEntity("sibenik.mesh");
     //ent->setMaterial()
     Ogre::SceneNode* node = scnMgr->getRootSceneNode()->createChildSceneNode();
 

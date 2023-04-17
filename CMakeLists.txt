@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 3.10)
 # required for Ogre 1.11+
 set(CMAKE_CXX_STANDARD 11)
 
+set(PROJECT_NAME 0_main)
 set(SDL2STUFF SDL2 SDL2_image SDL2_mixer SDL2main SDL2_net)
 
 if (WIN32)
@@ -17,10 +18,43 @@ find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem CONFIG)
 find_package(SDL2)
  
 # add the source files as usual
-add_executable(0_main src/main.cpp src/Game.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/Game.cpp)
  
 # this also sets the includes and pulls third party dependencies
-target_link_libraries(0_main OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator OgreOverlay ${SDL2STUFF})
+target_link_libraries(${PROJECT_NAME} OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator OgreOverlay ${SDL2STUFF})
+
+if (WIN32)
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            C:/projects/ogre-bsrh7/build/sdk/bin
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+        #${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/dll/
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+        #${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/sound/
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+        #${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/mesh/
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/mesh)
+        #${CMAKE_CURRENT_BINARY_DIR}/mesh)
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.cfg
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+        #${CMAKE_CURRENT_BINARY_DIR})
+endif()
 
 #add_executable(1_FirstScene BasicTutorial1.cpp)
 #target_link_libraries(1_FirstScene OgreBites)
