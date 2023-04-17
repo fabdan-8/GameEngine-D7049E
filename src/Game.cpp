@@ -8,12 +8,13 @@
 void Game::Load() {
     std::string name;
 	ctx = new OgreBites::ApplicationContext("OgreTutorialApp");
+    //getline(std::cin, name);
     ctx->initApp();
     
     //! [setup]
     // get a pointer to the already created root
     Ogre::Root* root = ctx->getRoot();
-    //getline(std::cin, name);
+    
     Ogre::SceneManager* scnMgr = root->createSceneManager();
 
     // register our scene with the RTSS
@@ -45,11 +46,12 @@ void Game::Load() {
 
     // and tell it to render into the main window
     ctx->getRenderWindow()->addViewport(cam);
-
+    
     // finally something to render
     //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
     //Ogre::Entity* ent = scnMgr->createEntity("skeleton.X");//"sibenik.mesh"
     Ogre::Entity* ent = scnMgr->createEntity("sibenik.mesh");
+    
     //ent->setMaterial()
     Ogre::SceneNode* node = scnMgr->getRootSceneNode()->createChildSceneNode();
 
@@ -57,7 +59,7 @@ void Game::Load() {
 
     node->attachObject(ent);
     //! [setup]
-
+    
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL failed\n";
         return;
@@ -78,6 +80,7 @@ void Game::Load() {
     }
     Mix_VolumeMusic(48);//set volume
     running = true;
+    
 	return;
 }
 
