@@ -1,8 +1,8 @@
 ﻿{
   "configurations": [
     {
-      "name": "x64-Release",
-      "description": "x64 Release",
+      "name": "x64-Release-2017",
+      "description": "x64 Release 2017",
       "configurationType": "Release",
       "generator": "Visual Studio 15 2017 Win64",
       "buildRoot": "${workspaceRoot}/build/${name}",
@@ -14,8 +14,8 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "x64-Debug",
-      "description": "x64 Debug",
+      "name": "x64-Debug-2017",
+      "description": "x64 Debug 2017",
       "configurationType": "Debug",
       "generator": "Visual Studio 15 2017 Win64",
       "buildRoot": "${workspaceRoot}/build/${name}",
@@ -27,8 +27,8 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "x64-Release",
-      "description": "x64 Release",
+      "name": "x64-Release-2019",
+      "description": "x64 Release 2019",
       "configurationType": "Release",
       "generator": "Visual Studio 16 2019 Win64",
       "buildRoot": "${workspaceRoot}/build/${name}",
@@ -40,8 +40,8 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "x64-Debug",
-      "description": "x64 Debug",
+      "name": "x64-Debug-2019",
+      "description": "x64 Debug 2019",
       "configurationType": "Debug",
       "generator": "Visual Studio 16 2019 Win64",
       "buildRoot": "${workspaceRoot}/build/${name}",
