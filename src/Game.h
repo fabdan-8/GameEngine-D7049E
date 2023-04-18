@@ -1,6 +1,5 @@
 #pragma once
 #include "Defines.h"
-#include "Player.h"
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
@@ -9,6 +8,8 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_net.h>
+
+#include "Scene.h"
 
 class Game {
 public:
@@ -26,6 +27,8 @@ public:
 	bool MousePressed(unsigned char button);
 	bool MouseReleased(unsigned char button);
 
+	Ogre::SceneManager* scnMgr = nullptr;
+
 private:
 	void Render();
 	void Input();
@@ -38,6 +41,7 @@ private:
 	SDL_Event mainevent;
 	Mix_Music* music;
 	bool music_playing = false;
+	Scene scene;//let's start with only one scene
 
 	OgreBites::ApplicationContext* ctx = nullptr;
 	Ogre::Camera* cam = nullptr;

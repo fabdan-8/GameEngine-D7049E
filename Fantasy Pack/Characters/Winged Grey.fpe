@@ -1,0 +1,114 @@
+;header
+desc          = Winged Grey
+
+;visualinfo
+textured      = grey_D.dds
+effect        = effectbank\reloaded\character_basic.fx
+castshadow    = 0
+
+;orientation
+model         = winged2.X
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+defaultstatic = 0
+materialindex = 6
+collisionmode = 21
+fixnewy       = 0
+ragdoll       = 0
+skipfvfconvert = 1
+FULLBOUNDS    = 1
+CPUANIMS      = 1
+
+;Sound
+soundset      = 
+soundset1     = audiobank\fantasy\attack1.wav
+
+;identity details
+ischaracter   = 1
+hasweapon     = 
+isobjective   = 0
+cantakeweapon = 0
+
+
+
+;statistics
+strength      = 100
+explodable    = 0
+debrisshape   = 0
+
+;decal
+decalmax      = 0
+
+;ai
+aimain	      =  ai_demon.lua
+
+;spawn
+spawnmax      = 0
+spawndelay    = 0
+spawnqty      = 0
+
+
+;anim
+animspeed     = 100
+animmax       = 1
+anim0         = 365,449
+playanimineditor = 1
+
+;AIAnims (Classic + Demon)
+csi_relaxed1 			= 365,449
+csi_relaxed2 			= 366,451 
+csi_relaxedmovefore 		= 366,451 
+csi_cautious 			= 366,451 
+csi_cautiousmovefore 		= 366,451 
+csi_unarmed1 			= 366,451 
+csi_unarmed2 			= 366,451 
+csi_unarmedconversation		= 
+csi_unarmedexplain 		= 
+csi_unarmedpointfore 		= 
+csi_unarmedpointback 		= 
+csi_unarmedpointleft 		= 
+csi_unarmedpointright 		=
+csi_unarmedmovefore 		= 366,451 
+csi_unarmedmoverun 		= 366,451 
+csi_unarmedstairascend 		= 
+csi_unarmedstairdecend 		= 
+csi_unarmedladderascend1 	= 
+csi_unarmedladderascend2 	= 
+csi_unarmedladderascend3 	= 
+csi_unarmedladderdecend1 	= 
+csi_unarmedladderdecend2 	= 
+csi_unarmeddeath 		= 547,628
+csi_unarmedimpactfore 		= 452,471
+csi_unarmedimpactback 		= 547,628
+csi_unarmedimpactleft 		= 452,471
+csi_unarmedimpactright 		= 547,628
+csi_inchair 			= 
+csi_inchairsit 			= 
+csi_inchairgetup 		= 
+csi_swim 			= 
+csi_swimmovefore 		= 
+csi_stoodnormal			= 365,449
+csi_stoodrocket 		= 365,449
+csi_stoodfidget1 		= 365,449
+csi_stoodfidget2 		= 365,449
+csi_stoodfidget3 		= 365,449
+csi_stoodfidget4 		= 365,449
+csi_stoodstartled 		= 
+csi_stoodpunch 			= 683,726
+csi_stoodkick 			= 683,726
+csi_stoodmovefore 		= 335,391
+csi_stoodmoveback 		= 335,391
+csi_stoodmoveleft 		= 335,391
+csi_stoodmoveright 		= 335,391
+csi_stoodstepleft 		=
+csi_stoodstepright 		= 
+csi_stoodstrafeleft 		= 
+csi_stoodstraferight 		= 
+csi_stoodturnleft 		= 
+csi_stoodsubtleturnleft 	= 
+csi_stoodvault 			= 366,451
+csi_stoodmoverun 		= 366,451

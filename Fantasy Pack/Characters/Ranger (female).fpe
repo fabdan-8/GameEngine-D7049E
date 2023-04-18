@@ -1,0 +1,136 @@
+;header
+desc           =  Ranger (female)
+
+;character creator
+charactercreator = t.v:2:fmale_archer_1:fmale_archer1_tattoo:none:2_fmale_archer_hood:-1:0:0:-1:0:0:-1:0:0:-1:0:0:-1:0:0:-1:0:0
+;sound
+soundset      = Female
+
+;visualinfo
+textured      = Uber Soldier_D.dds
+effect        = effectbank\reloaded\character_basic.fx
+castshadow    = 0
+
+;ai
+aimain	      = fantasy\ai_fantasycharacter_ranger.lua
+
+;orientation
+model         = Uber Soldier.X
+defaultstatic = 0
+materialindex = 0
+
+;identity details
+ischaracter   = 1
+isobjective   = 0
+hasweapon     = fantasy\bow
+cantakeweapon = 0
+rateoffire    = 100
+ragdoll       = 1
+
+;statistics
+speed         = 300
+strength      = 100
+explodable    = 0
+debrisshape   = 0
+
+;spawn
+spawnmax      = 0
+spawndelay    = 0
+spawnqty      = 0
+
+;anim
+animspeed     = 100
+animmax       = 1
+anim0         = 22010,22090
+playanimineditor = 1
+
+;AIAnims
+csi_relaxed1 			= 22010,22090
+csi_relaxed2 			= 22010,22090
+csi_relaxedmovefore 	= 22010,22090
+csi_cautious 			= 22010,22090
+csi_cautiousmovefore 	= 22010,22090
+csi_unarmed1 			= 22010,22090
+csi_unarmed2 			= 22010,22090
+csi_unarmedconversation	= 
+csi_unarmedexplain 		= 
+csi_unarmedpointfore 	= 
+csi_unarmedpointback 	= 
+csi_unarmedpointleft 	= 
+csi_unarmedpointright 	= 
+csi_unarmedmovefore 	= 22410,22434
+csi_unarmedmoverun 		= 22410,22434
+csi_unarmedstairascend 	= 
+csi_unarmedstairdecend 	= 
+csi_unarmedladderascend1= 
+csi_unarmedladderascend2=  
+csi_unarmedladderascend3= 
+csi_unarmedladderdecend1= 
+csi_unarmedladderdecend2= 
+csi_unarmeddeath 		= 
+csi_unarmedimpactfore 	= 
+csi_unarmedimpactback 	= 
+csi_unarmedimpactleft 	= 
+csi_unarmedimpactright 	= 
+csi_inchair 			= 
+csi_inchairsit 			= 
+csi_inchairgetup 		= 
+csi_swim 				= 
+csi_swimmovefore 		= 
+csi_stoodnormal			= 22010,22090
+csi_stoodrocket 		= 
+csi_stoodfidget1 		= 22010,22090
+csi_stoodfidget2 		= 22010,22090
+csi_stoodfidget3 		= 22010,22090
+csi_stoodfidget4 		= 22010,22090
+csi_stoodstartled 		= 
+csi_stoodpunch 			= 22800,22834
+csi_stoodkick 			= 
+csi_stoodmovefore 		= 22410,22434
+csi_stoodmoveback 		= 22410,22434
+csi_stoodmoveleft 		= 22410,22434
+csi_stoodmoveright 		= 22410,22434
+csi_stoodstepleft 		=
+csi_stoodstepright 		= 
+csi_stoodstrafeleft 	= 
+csi_stoodstraferight 	= 
+csi_stoodturnleft 		= 
+csi_stoodsubtleturnleft = 
+csi_stoodvault 			= 
+csi_stoodmoverun 		= 22410,22434
+csi_stoodmoverunleft 	= 22410,22434
+csi_stoodmoverunright 	= 22410,22434
+csi_stoodreload 		= 
+csi_stoodreloadrocket 	= 
+csi_stoodwave 			= 
+csi_stoodtoss 			= 
+csi_stoodfirerocket 	= 
+csi_stoodincoverleft 	= 
+csi_stoodincoverpeekleft	= 
+csi_stoodincoverthrowleft 	= 
+csi_stoodincoverright 	= 
+csi_stoodincoverpeekright 	= 
+csi_stoodincoverthrowright 	= 
+csi_crouchidlenormal1 	= 
+csi_crouchidlenormal2 	= 
+csi_crouchidlerocket 	= 
+csi_crouchdown 			= 
+csi_crouchdownrocket 	= 
+csi_crouchrolldown 		= 
+csi_crouchrollup		= 
+csi_crouchmovefore 		= 
+csi_crouchmoveback 		= 
+csi_crouchmoveleft 		= 
+csi_crouchmoveright 	= 
+csi_crouchmoverun 		= 
+csi_crouchreload 		= 
+csi_crouchreloadrocket 	= 
+csi_crouchwave 			= 
+csi_crouchtoss 			= 
+csi_crouchfirerocket 	= 
+csi_crouchimpactfore 	= 
+csi_crouchimpactback 	= 
+csi_crouchimpactleft 	= 
+csi_crouchimpactright 	= 
+csi_crouchgetup 		= 
+csi_crouchgetuprocket 	= 

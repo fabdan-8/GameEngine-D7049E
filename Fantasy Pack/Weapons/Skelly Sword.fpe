@@ -1,0 +1,37 @@
+;Header
+desc          = Skelly Sword
+
+;AI
+aimain	      = weapon.lua
+
+;Spawn
+spawnmax      = 1
+spawndelay    = 5000
+spawnqty      = 1
+
+;Itemproperties
+defaultstatic = 0
+materialindex = 2
+collisionmode = 0
+debrisshape   = 0
+explodable    = 0
+
+;Orientation
+model         = gamecore\guns\fantasy\skellysword\vweap.x
+scale         = 100
+rotx          = 90
+offsety       = 10
+texturepath   = 
+textured      = gamecore\guns\fantasy\skellysword\vweap_D.dds
+reducetexture = -1
+transparency  = 0
+isimmobile    = 1
+
+;Identity Details
+isweapon      = fantasy\skellysword
+quantity      = 1
+speed         = 100
+
+;Decals
+decalmax      = 1
+decal0        = glowred

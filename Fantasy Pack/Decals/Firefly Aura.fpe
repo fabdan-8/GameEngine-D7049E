@@ -1,0 +1,25 @@
+;header
+desc          = Firefly Aura
+
+;visualinfo
+textured      = Firefly Aura.dds
+effect        = effectbank\reloaded\decal_animate8.fx
+addhandle     = decalhandle8.dds
+castshadow    = -1
+transparency  = 6
+
+;orientation
+model         = Decal.X
+defaultstatic = 0
+defaultheight = 50
+scale         = 300
+materialindex = 0
+cullmode      = 1
+collisionmode = 11
+
+;statistics
+strength      = 0
+explodable    = 0
+
+;ai
+aimain	      = decal_facing.lua

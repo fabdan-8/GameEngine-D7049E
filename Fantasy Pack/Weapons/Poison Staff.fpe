@@ -1,0 +1,52 @@
+;Saved by GameGuru Object Importer v1.000
+;header
+desc             = Poison Staff
+
+;visualinfo
+textured         = staff_poison_color.dds
+effect           = effectbank\reloaded\apbr_basic.fx
+castshadow       = 0
+transparency     = 0
+
+;orientation
+model            = Poison Staff.dbo
+offx             = 0
+offy             = 0
+offz             = 0
+rotx             = 0
+roty             = 0
+rotz             = 0
+scale            = 20
+collisionmode    = 0
+defaultstatic    = 0
+materialindex    = 3
+matrixmode       = 0
+cullmode         = 0
+
+;physics shapes
+physicscount     = 0
+
+;identity details
+ischaracter      = 0
+isweapon         = fantasy\PoisonStaff
+isobjective      = 0
+cantakeweapon    = 0
+
+;statistics
+strength         = 25
+explodable       = 0
+debrisshape      = 0
+isimmobile       = 1
+
+;ai
+aimain           = weapon.lua
+
+;spawn
+spawnmax         = 0
+spawndelay       = 0
+spawnqty         = 0
+
+;anim
+animmax          = 0
+anim0            = 0,0
+playanimineditor = 0
