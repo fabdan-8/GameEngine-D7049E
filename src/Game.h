@@ -28,6 +28,13 @@ public:
 	bool MouseReleased(unsigned char button);
 
 	Ogre::SceneManager* scnMgr = nullptr;
+	bool running = false;
+	unsigned char keybuffer[256] = { 0 };//0b00000000 is the binary representation. The last byte is "clicked", the second to last is "pressed", the third to last is "released"
+	unsigned char mousebuffer[256] = { 0 };
+	int mouseX;
+	int mouseY;
+	int screenW;
+	int screenH;
 
 private:
 	void Render();
@@ -36,22 +43,18 @@ private:
 
 	void CheckEvents();
 
-	bool running = false;
-
+	
 	SDL_Event mainevent;
 	Mix_Music* music;
 	bool music_playing = false;
 	Scene scene;//let's start with only one scene
+	bool camera_first_click = false;
 
 	OgreBites::ApplicationContext* ctx = nullptr;
 	Ogre::Camera* cam = nullptr;
 	Ogre::SceneNode* camNode = nullptr;
 
-	int mouseY;
-	int mouseX;
+	//test
 	double rot = 0.0;
-
-	unsigned char keybuffer[256] = { 0 };//0b00000000 is the binary representation. The last byte is "clicked", the second to last is "pressed", the third to last is "released"
-	unsigned char mousebuffer[256] = { 0 };
 };
 
