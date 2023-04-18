@@ -54,6 +54,12 @@ if (WIN32)
             ${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.cfg
             $<TARGET_FILE_DIR:${PROJECT_NAME}>)
         #${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/ogre.cfg
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+        #${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 #add_executable(1_FirstScene BasicTutorial1.cpp)

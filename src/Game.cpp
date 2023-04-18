@@ -7,17 +7,55 @@
 
 #include "Player.h"
 
+extern Game game;
+
+class KeyHandler : public OgreBites::InputListener {
+    bool keyPressed(const OgreBites::KeyboardEvent& evt) override {
+        game.keybuffer[(unsigned char)evt.keysym.sym] |= 0b00000011;
+        return true;
+    }
+
+    bool keyReleased(const OgreBites::KeyboardEvent& evt) override {
+        game.keybuffer[(unsigned char)evt.keysym.sym] &= 0b11111101;
+        game.keybuffer[(unsigned char)evt.keysym.sym] |= 0b00000100;
+        return true;
+    }
+
+    bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override {
+
+        return true;
+    }
+
+    bool mouseWheelRolled(const OgreBites::MouseWheelEvent& evt) override {
+
+        return true;
+    }
+
+    bool mousePressed(const OgreBites::MouseButtonEvent& evt) override {
+        game.mousebuffer[(unsigned char)evt.button] |= 0b00000011;
+        return true;
+    }
+
+    bool mouseReleased(const OgreBites::MouseButtonEvent& evt) override {
+        game.mousebuffer[(unsigned char)evt.button] &= 0b11111101;
+        game.mousebuffer[(unsigned char)evt.button] |= 0b00000100;
+        return true;
+    }
+};
 
 void Game::Load() {
     std::string name;
     ctx = new OgreBites::ApplicationContext("OgreTutorialApp");
     //getline(std::cin, name);
     ctx->initApp();
+    
 
     //! [setup]
     // get a pointer to the already created root
     Ogre::Root* root = ctx->getRoot();
-
+    
+    // Load Ogre configuration file
+    //root->loadConfig("ogre.cfg");
     scnMgr = root->createSceneManager();
 
     // register our scene with the RTSS
@@ -39,7 +77,7 @@ void Game::Load() {
     camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     camNode->setPosition(0, 0, 15);
     camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
-    camNode->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0));
+    camNode->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0));//so that up is always up
 
     // create the camera
     cam = scnMgr->createCamera("myCam");
@@ -50,6 +88,9 @@ void Game::Load() {
 
     // and tell it to render into the main window
     ctx->getRenderWindow()->addViewport(cam);
+
+    //KeyHandler keyHandler;
+    //ctx->addInputListener(&keyHandler);
 
     // finally something to render
     for (int a = 0; a < 10; a++) {
@@ -179,6 +220,38 @@ void Game::Input() {
             music_playing = false;
             std::cout << "\n\n";
         }
+    }
+    if (MousePressed(SDL_BUTTON_MIDDLE)) {//MMB
+        std::cout << "A";
+        screenW = 1920;
+        screenH = 1080;
+        //ctx->getRenderWindow()->resize(screenW, screenH);
+        auto window = ctx->getRenderWindow();
+        window->resize(screenW, screenH);
+        //if (camera_first_click) {
+        //    SDL_WarpMouseInWindow(window, screenw / 2, screenh / 2);
+        //    SDL_GetMouseState(&mX, &mY);
+        //    //mX = screenw / 2;
+        //    //mY = screenh / 2;
+        //    camera_first_click = false;
+        //    SDL_ShowCursor(false);
+        //}
+        //else {
+        //    SDL_GetMouseState(&mX, &mY);//"bug" in SDL (?) means that I have to call it again to get the correct value after setting it the loop before
+        //    //std::cout << mX << " " << mY << "\n";
+        //    float rotY = camera.pan_sensitivity * (float)(mX - (screenw / 2)) / screenw;
+        //    float rotX = camera.pan_sensitivity * (float)(mY - (screenh / 2)) / screenh;
+
+        //    glm::vec3 new_orientation = glm::rotate(camera.orientation, glm::radians(-rotX), glm::normalize(glm::cross(camera.orientation, camera.up)));
+
+        //    if (!((glm::angle(new_orientation, camera.up) <= glm::radians(5.0f) || (glm::angle(new_orientation, -camera.up) <= glm::radians(5.0f))))) {
+        //        camera.orientation = new_orientation;
+        //    }
+
+        //    camera.orientation = glm::rotate(camera.orientation, glm::radians(-rotY), camera.up);
+        //    SDL_WarpMouseInWindow(window, screenw / 2, screenh / 2);
+        //    SDL_GetMouseState(&mX, &mY);
+        //}
     }
 }
 

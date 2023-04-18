@@ -8,26 +8,26 @@
 #include "Global.h"
 
 //! [key_handler]
-class KeyHandler : public OgreBites::InputListener {
-  bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
-    if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
-      Ogre::Root::getSingleton().queueEndRendering();
-    }
-    //else if (evt.keysym.sym == OgreBites::SDLK_UP) {
-    //    camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
-    //}
-    //else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
-    //    camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
-    //}
-    //else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
-    //    camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
-    //}
-    //else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
-    //    camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
-    //}
-    return true;
-  }
-};
+//class KeyHandler : public OgreBites::InputListener {
+//  bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
+//    if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
+//      Ogre::Root::getSingleton().queueEndRendering();
+//    }
+//    //else if (evt.keysym.sym == OgreBites::SDLK_UP) {
+//    //    camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
+//    //}
+//    //else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
+//    //    camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
+//    //}
+//    //else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
+//    //    camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
+//    //}
+//    //else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
+//    //    camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
+//    //}
+//    return true;
+//  }
+//};
 //! [key_handler]
 
 int main(int argc, char *argv[]) {
@@ -94,8 +94,9 @@ int main(int argc, char *argv[]) {
     
     //! [main]
     // register for input events
-    KeyHandler keyHandler;
-    ctx.addInputListener(&keyHandler);
+    //KeyHandler keyHandler;
+    //ctx.addInputListener(&keyHandler);
+    
     //while (!GetAsyncKeyState(VK_TAB)) {
     //    ctx.getRoot()->renderOneFrame();
     //}
