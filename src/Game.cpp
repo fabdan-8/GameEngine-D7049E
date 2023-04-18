@@ -45,14 +45,35 @@ class KeyHandler : public OgreBites::InputListener {
 
 void Game::Load() {
     std::string name;
-    ctx = new OgreBites::ApplicationContext("OgreTutorialApp");
+    ctx = new OgreBites::ApplicationContext("GameEngine-D7049E");
     //getline(std::cin, name);
+
     ctx->initApp();
-    
+    window = ctx->getRenderWindow();
+
+    //ctx->getRenderWindow()->destroy();
+    //ctx->getRenderWindow()->create("GameEngine-D7049E", 1920, 1080, false, NULL);
+    //ctx->destroyWindow("GameEngine-D7049E");
+    //getline(std::cin, name);
+    //ctx->createWindow("GameEngine-D7049E", 1920, 1080);
 
     //! [setup]
     // get a pointer to the already created root
-    Ogre::Root* root = ctx->getRoot();
+    root = ctx->getRoot();
+    //root = new Ogre::Root();
+
+    //// Load plugins and configure Ogre3D
+    //root->loadPlugin("RenderSystem_GL");
+    //
+    //Ogre::RenderSystem* rs = root->getRenderSystemByName("OpenGL Rendering Subsystem");
+    //root->setRenderSystem(rs);
+    //rs->setConfigOption("Full Screen", "No");
+    //rs->setConfigOption("Video Mode", "800 x 600 @ 32-bit colour");
+
+    //getline(std::cin, name);
+    //// Create an Ogre3D window
+    //window = root->createRenderWindow("MyWindow", 800, 600, false);
+    //getline(std::cin, name);
     
     // Load Ogre configuration file
     //root->loadConfig("ogre.cfg");
@@ -61,6 +82,9 @@ void Game::Load() {
     // register our scene with the RTSS
     Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
     shadergen->addSceneManager(scnMgr);
+
+    // attempt to resize the window
+    //ctx->getRenderWindow()->destroy();
 
     // without light we would just get a black screen
 
@@ -87,7 +111,13 @@ void Game::Load() {
     camNode->setPosition(0, 40, 140);
 
     // and tell it to render into the main window
-    ctx->getRenderWindow()->addViewport(cam);
+    //ctx->getRenderWindow()->addViewport(cam);
+    window->addViewport(cam);
+
+    //if (ctx->getRenderWindow()->isActive()) {
+    //    getline(std::cin, name);
+    //}
+    //ctx->getRenderWindow()->getCustomAttribute("SDL_Window", window);//does not work
 
     //KeyHandler keyHandler;
     //ctx->addInputListener(&keyHandler);
@@ -149,8 +179,9 @@ void Game::MainLoop() {
 }
 
 void Game::Cleanup() {
-    ctx->closeApp();
-	delete ctx;
+    // ctx->closeApp();
+	// delete ctx;
+    delete root;
 
     SDLNet_Quit();
     Mix_CloseAudio();
@@ -201,7 +232,8 @@ bool Game::MouseReleased(unsigned char button) {
 }
 
 void Game::Render() {
-    ctx->getRoot()->renderOneFrame();
+    //ctx->getRoot()->renderOneFrame();
+    root->renderOneFrame();
 }
 
 void Game::Input() {
@@ -220,38 +252,36 @@ void Game::Input() {
             music_playing = false;
             std::cout << "\n\n";
         }
+        //ctx->getRenderWindow()->setHidden(false);
     }
-    if (MousePressed(SDL_BUTTON_MIDDLE)) {//MMB
-        std::cout << "A";
-        screenW = 1920;
-        screenH = 1080;
-        //ctx->getRenderWindow()->resize(screenW, screenH);
-        auto window = ctx->getRenderWindow();
-        window->resize(screenW, screenH);
-        //if (camera_first_click) {
-        //    SDL_WarpMouseInWindow(window, screenw / 2, screenh / 2);
-        //    SDL_GetMouseState(&mX, &mY);
-        //    //mX = screenw / 2;
-        //    //mY = screenh / 2;
-        //    camera_first_click = false;
-        //    SDL_ShowCursor(false);
+    if (MouseClicked(SDL_BUTTON_MIDDLE)) {
+        //SDL_WarpMouseInWindow(window, 800 / 2, 800 / 2);
+        //SDL_GetMouseState(&mX, &mY);
+        ////mX = screenw / 2;
+        ////mY = screenh / 2;
+        //SDL_ShowCursor(false);
+    }
+    if (MousePressed(SDL_BUTTON_MIDDLE)) {
+        //screenW = 1920;
+        //screenH = 1080;
+        ////ctx->getRenderWindow()->resize(screenW, screenH);
+        ////ctx->getRenderWindow()->setHidden(true);
+        //std::cout << ctx->getRenderWindow()->getWidth();
+        //
+        //SDL_GetMouseState(&mX, &mY);//"bug" in SDL (?) means that I have to call it again to get the correct value after setting it the loop before
+        ////std::cout << mX << " " << mY << "\n";
+        //float rotY = camera.pan_sensitivity * (float)(mX - (screenw / 2)) / screenw;
+        //float rotX = camera.pan_sensitivity * (float)(mY - (screenh / 2)) / screenh;
+
+        //glm::vec3 new_orientation = glm::rotate(camera.orientation, glm::radians(-rotX), glm::normalize(glm::cross(camera.orientation, camera.up)));
+
+        //if (!((glm::angle(new_orientation, camera.up) <= glm::radians(5.0f) || (glm::angle(new_orientation, -camera.up) <= glm::radians(5.0f))))) {
+        //    camera.orientation = new_orientation;
         //}
-        //else {
-        //    SDL_GetMouseState(&mX, &mY);//"bug" in SDL (?) means that I have to call it again to get the correct value after setting it the loop before
-        //    //std::cout << mX << " " << mY << "\n";
-        //    float rotY = camera.pan_sensitivity * (float)(mX - (screenw / 2)) / screenw;
-        //    float rotX = camera.pan_sensitivity * (float)(mY - (screenh / 2)) / screenh;
 
-        //    glm::vec3 new_orientation = glm::rotate(camera.orientation, glm::radians(-rotX), glm::normalize(glm::cross(camera.orientation, camera.up)));
-
-        //    if (!((glm::angle(new_orientation, camera.up) <= glm::radians(5.0f) || (glm::angle(new_orientation, -camera.up) <= glm::radians(5.0f))))) {
-        //        camera.orientation = new_orientation;
-        //    }
-
-        //    camera.orientation = glm::rotate(camera.orientation, glm::radians(-rotY), camera.up);
-        //    SDL_WarpMouseInWindow(window, screenw / 2, screenh / 2);
-        //    SDL_GetMouseState(&mX, &mY);
-        //}
+        //camera.orientation = glm::rotate(camera.orientation, glm::radians(-rotY), camera.up);
+        //SDL_WarpMouseInWindow(window, screenw / 2, screenh / 2);
+        //SDL_GetMouseState(&mX, &mY);
     }
 }
 
@@ -272,6 +302,7 @@ void Game::CheckEvents() {
     SDL_GetMouseState(&mouseX, &mouseY);//Get mouse positions
     for (int a = 0; a < 256; a++) {
         keybuffer[a] = (keybuffer[a] & 0b11111010);
+        mousebuffer[a] = (mousebuffer[a] & 0b11111010);
     }
     while (SDL_PollEvent(&mainevent)) {//poll new event as long as we have a new event
         if (mainevent.type == SDL_QUIT) {//pressed red X
