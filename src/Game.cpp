@@ -5,17 +5,20 @@
 #include <time.h>
 #include <string>
 
+#include "Player.h"
+
+
 void Game::Load() {
     std::string name;
-	ctx = new OgreBites::ApplicationContext("OgreTutorialApp");
+    ctx = new OgreBites::ApplicationContext("OgreTutorialApp");
     //getline(std::cin, name);
     ctx->initApp();
-    
+
     //! [setup]
     // get a pointer to the already created root
     Ogre::Root* root = ctx->getRoot();
-    
-    Ogre::SceneManager* scnMgr = root->createSceneManager();
+
+    scnMgr = root->createSceneManager();
 
     // register our scene with the RTSS
     Ogre::RTShader::ShaderGenerator* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
@@ -36,6 +39,7 @@ void Game::Load() {
     camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     camNode->setPosition(0, 0, 15);
     camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
+    camNode->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0));
 
     // create the camera
     cam = scnMgr->createCamera("myCam");
@@ -46,20 +50,21 @@ void Game::Load() {
 
     // and tell it to render into the main window
     ctx->getRenderWindow()->addViewport(cam);
-    
+
     // finally something to render
-    //Ogre::Entity *ent = scnMgr->createEntity("Sinbad.mesh");
-    Ogre::Entity* ent = scnMgr->createEntity("skeleton.X");//"sibenik.mesh"
-    //Ogre::Entity* ent = scnMgr->createEntity("sibenik.mesh");
-    
-    //ent->setMaterial()
-    Ogre::SceneNode* node = scnMgr->getRootSceneNode()->createChildSceneNode();
+    for (int a = 0; a < 10; a++) {
+        for (int b = 0; b < 10; b++) {
+            std::string skeleton_name = scene.AddEntity("skeleton.X", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 4, 0.0f, -80.0f -b * 10 + ((float)(rand() % 10) - 4.5f) / 4);
+        }
+    }
+    //std::cout << "---------------------\n";
+    //std::cout << skeleton_name << "\n";
+    std::string town_name = scene.AddEntity("sibenik.mesh");
+    //std::cout << "---------------------\n";
+    //std::cout << town_name << "\n";
 
-    node->setPosition(0, 0, -80);
-
-    node->attachObject(ent);
     //! [setup]
-    
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL failed\n";
         return;
@@ -80,8 +85,8 @@ void Game::Load() {
     }
     Mix_VolumeMusic(48);//set volume
     running = true;
-    
-	return;
+
+    return;
 }
 
 void Game::MainLoop() {
@@ -185,8 +190,8 @@ void Game::Update() {
         }
         std::cout << "e";
         //camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
-        camNode->setPosition(0 + 220 * sin(rot), 40, -80 + 220 * cos(rot));
-        camNode->lookAt(Ogre::Vector3(0, 0, -80), Ogre::Node::TS_PARENT);
+        camNode->setPosition(0.0 + 200.0 * sin(rot), 40.0, 0.0 + 200.0 * cos(rot));
+        camNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_PARENT);
     }
 }
 

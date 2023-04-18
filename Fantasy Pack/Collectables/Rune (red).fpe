@@ -1,0 +1,37 @@
+;header
+desc          = Rune (red)
+
+;visualinfo
+textured      = runered_color.dds
+effect           = effectbank\reloaded\apbr_basic.fx
+castshadow    = 0
+
+;orientation
+model         = rune.x
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 90
+roty          = 0
+rotz          = 0
+defaultstatic = 0
+materialindex = 1
+
+;statistics
+strength      = 25
+isimmobile    = 1
+explodable    = 0
+debrisshape   = 0
+
+;ai
+aimain	      = magic.lua
+
+;Sound
+soundset      = audiobank\fantasy\magic.wav
+
+;spawn
+spawnmax      = 0
+spawndelay    = 0
+spawnqty      = 0
+
+

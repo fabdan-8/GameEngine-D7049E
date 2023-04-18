@@ -1,0 +1,137 @@
+;header
+desc          = Imp Ally
+
+;ai
+aimain	      = fantasy\ai_fantasyally_imp.lua
+soundset      = audiobank\fantasy\Imphello.wav
+soundset1     = audiobank\fantasy\imp.wav
+soundset2     = audiobank\fantasy\thump.wav
+soundset3     = audiobank\fantasy\Impdie.wav
+
+;orientation
+model         = Imp.X
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+scale         = 100
+collisionmode = 21
+fixnewy       = 0
+skipfvfconvert= 0
+ragdoll       = 1
+FULLBOUNDS    = 0
+CPUANIMS      = 0
+IGNOREDEFANIM = 0
+
+;visualinfo
+textured      = ImpAlly_D2.dds
+effect        = effectbank\reloaded\character_basic.fx
+transparency  = 0
+specularperc  = 400
+
+;identity details
+strength      = 200
+speed         = 200
+ischaracter   = 1
+hasweapon     = 
+isobjective   = 0
+cantakeweapon = 0
+
+;anim
+animspeed     = 280
+animmax       = 1
+anim0         = 10,100
+playanimineditor = 1
+
+;AIAnims (Classic + Zombie)
+csi_relaxed1 			= 10,100
+csi_relaxed2 			= 10,100
+csi_relaxedmovefore 		= 10,100
+csi_cautious 			= 10,100
+csi_cautiousmovefore 		= 10,100
+csi_unarmed1 			= 10,100
+csi_unarmed2 			= 10,100
+csi_unarmedconversation		= 
+csi_unarmedexplain 		= 
+csi_unarmedpointfore 		= 
+csi_unarmedpointback 		= 
+csi_unarmedpointleft 		= 
+csi_unarmedpointright 		= 
+csi_unarmedmovefore 		= 565,597
+csi_unarmedmoverun 		= 565,597
+csi_unarmedstairascend 		= 
+csi_unarmedstairdecend 		= 
+csi_unarmedladderascend1 	= 
+csi_unarmedladderascend2 	=  
+csi_unarmedladderascend3 	= 
+csi_unarmedladderdecend1 	= 
+csi_unarmedladderdecend2 	= 
+csi_unarmeddeath 		= 
+csi_unarmedimpactfore 		= 
+csi_unarmedimpactback 		= 
+csi_unarmedimpactleft 		= 
+csi_unarmedimpactright 		= 
+csi_inchair 			= 
+csi_inchairsit 			= 
+csi_inchairgetup 		= 
+csi_swim 			= 
+csi_swimmovefore 		= 
+csi_stoodnormal			= 10,100
+csi_stoodrocket 		= 
+csi_stoodfidget1 		= 10,100
+csi_stoodfidget2 		= 10,100
+csi_stoodfidget3 		= 10,100
+csi_stoodfidget4 		= 10,100
+csi_stoodstartled 		= 
+csi_stoodpunch 			= 980,1022
+csi_stoodkick 			= 
+csi_stoodmovefore 		= 565,597
+csi_stoodmoveback 		= 565,597
+csi_stoodmoveleft 		= 565,597
+csi_stoodmoveright 		= 565,597
+csi_stoodstepleft 		=
+csi_stoodstepright 		= 
+csi_stoodstrafeleft 		= 
+csi_stoodstraferight 		= 
+csi_stoodturnleft 		= 
+csi_stoodsubtleturnleft 	= 
+csi_stoodvault 			= 
+csi_stoodmoverun 		= 565,597
+csi_stoodmoverunleft 		= 565,597
+csi_stoodmoverunright 		= 565,597
+csi_stoodreload 		= 
+csi_stoodreloadrocket 		= 
+csi_stoodwave 			= 
+csi_stoodtoss 			= 
+csi_stoodfirerocket 		= 
+csi_stoodincoverleft 		= 
+csi_stoodincoverpeekleft 	= 
+csi_stoodincoverthrowleft 	= 
+csi_stoodincoverright 		= 
+csi_stoodincoverpeekright 	= 
+csi_stoodincoverthrowright 	= 
+csi_crouchidlenormal1 		= 
+csi_crouchidlenormal2 		= 
+csi_crouchidlerocket 		= 
+csi_crouchdown 			= 
+csi_crouchdownrocket 		= 
+csi_crouchrolldown 		= 
+csi_crouchrollup		= 
+csi_crouchmovefore 		= 
+csi_crouchmoveback 		= 
+csi_crouchmoveleft 		= 
+csi_crouchmoveright 		= 
+csi_crouchmoverun 		= 
+csi_crouchreload 		= 
+csi_crouchreloadrocket 		= 
+csi_crouchwave 			= 
+csi_crouchtoss 			= 
+csi_crouchfirerocket 		= 
+csi_crouchimpactfore 		= 
+csi_crouchimpactback 		= 
+csi_crouchimpactleft 		= 
+csi_crouchimpactright 		= 
+csi_crouchgetup 		= 
+csi_crouchgetuprocket 		= 

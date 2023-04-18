@@ -1,0 +1,37 @@
+;header
+desc          = Treasure Chest
+
+;visualinfo
+textured      = Treasure Chest_color.dds
+effect           = effectbank\reloaded\apbr_basic.fx
+castshadow    = 0
+
+;orientation
+model         = Treasure Chest.x
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+defaultstatic = 0
+materialindex = 2
+
+;statistics
+strength      = 25
+isimmobile    = 1
+explodable    = 0
+debrisshape   = 0
+
+;ai
+aimain	      = winitem.lua
+
+;Sound
+soundset      = audiobank\fantasy\health.wav
+
+;spawn
+spawnmax      = 0
+spawndelay    = 0
+spawnqty      = 0
+
+

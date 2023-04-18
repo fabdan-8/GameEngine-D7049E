@@ -1,0 +1,40 @@
+;header
+desc          = Elixir Green
+
+;visualinfo
+textured      = elixirgreen_color.dds
+effect           = effectbank\reloaded\apbr_basic.fx
+castshadow    = 0
+
+;orientation
+model         = elixir.x
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+defaultstatic = 0
+materialindex = 1
+
+;statistics
+strength      = 25
+isimmobile    = 1
+explodable    = 0
+debrisshape   = 0
+
+;specific data
+quantity      = 200
+
+;ai
+aimain	      = health.lua
+
+;Sound
+soundset      = audiobank\fantasy\health.wav
+
+;spawn
+spawnmax      = 0
+spawndelay    = 0
+spawnqty      = 0
+
+

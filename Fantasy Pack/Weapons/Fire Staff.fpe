@@ -1,0 +1,46 @@
+;Saved by GameGuru Object Importer v1.000
+;header
+desc             = Fire Staff
+
+;visualinfo
+textured         = staff_fire_color.dds
+effect           = effectbank\reloaded\apbr_basic.fx
+castshadow       = 0
+transparency     = 0
+
+;orientation
+model            = Fire Staff.X
+scale            = 100
+collisionmode    = 0
+defaultstatic    = 0
+materialindex    = 0
+matrixmode       = 0
+cullmode         = 0
+
+;physics shapes
+physicscount     = 0
+
+;identity details
+ischaracter      = 0
+isweapon         = fantasy\Staff
+isobjective      = 0
+cantakeweapon    = 0
+
+;statistics
+strength         = 25
+explodable       = 0
+debrisshape      = 0
+isimmobile       = 1
+
+;ai
+aimain           = weapon.lua
+
+;spawn
+spawnmax         = 0
+spawndelay       = 0
+spawnqty         = 0
+
+;anim
+animmax          = 0
+anim0            = 0,0
+playanimineditor = 0

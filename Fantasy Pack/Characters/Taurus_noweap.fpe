@@ -1,0 +1,135 @@
+;header
+desc          = Taurus (Neutral)
+
+;ai
+aimain	      = ai_neutral.lua
+soundset      = fantasy
+soundset1     = audiobank\fantasy\Taurus.wav
+
+;orientation
+model         = Taurus_noweap.X
+offx          = 0
+offsety       = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+scale         = 100
+collisionmode = 21
+fixnewy       = 0
+skipfvfconvert= 0
+ragdoll       = 1
+FULLBOUNDS    = 0
+CPUANIMS      = 0
+IGNOREDEFANIM = 0
+
+;visualinfo
+textured      = Taurus_noweap_D2.dds
+effect        = effectbank\reloaded\character_basic.fx
+transparency  = 0
+
+;identity details
+strength      = 300
+ischaracter   = 1
+hasweapon     = 
+isobjective   = 0
+cantakeweapon = 0
+defaultheight = 0
+speed         = 200
+
+;anim
+animspeed     = 100
+animmax       = 1
+anim0         = 10,129
+playanimineditor = 1
+
+;AIAnims (Classic + Zombie)
+csi_relaxed1 			= 10,129
+csi_relaxed2 			= 10,129
+csi_relaxedmovefore 		= 10,129
+csi_cautious 			= 10,129
+csi_cautiousmovefore 		= 10,129
+csi_unarmed1 			= 10,129
+csi_unarmed2 			= 10,129
+csi_unarmedconversation		= 
+csi_unarmedexplain 		= 
+csi_unarmedpointfore 		= 
+csi_unarmedpointback 		= 
+csi_unarmedpointleft 		= 
+csi_unarmedpointright 		= 
+csi_unarmedmovefore 		= 300,340
+csi_unarmedmoverun 		= 300,340
+csi_unarmedstairascend 		= 
+csi_unarmedstairdecend 		= 
+csi_unarmedladderascend1 	= 
+csi_unarmedladderascend2 	=  
+csi_unarmedladderascend3 	= 
+csi_unarmedladderdecend1 	= 
+csi_unarmedladderdecend2 	= 
+csi_unarmeddeath 		= 
+csi_unarmedimpactfore 		= 
+csi_unarmedimpactback 		= 
+csi_unarmedimpactleft 		= 
+csi_unarmedimpactright 		= 
+csi_inchair 			= 
+csi_inchairsit 			= 
+csi_inchairgetup 		= 
+csi_swim 			= 
+csi_swimmovefore 		= 
+csi_stoodnormal			= 10,129
+csi_stoodrocket 		= 
+csi_stoodfidget1 		= 10,129
+csi_stoodfidget2 		= 10,129
+csi_stoodfidget3 		= 10,129
+csi_stoodfidget4 		= 10,129
+csi_stoodstartled 		= 
+csi_stoodpunch 			= 880,951
+csi_stoodkick 			= 
+csi_stoodmovefore 		= 300,340
+csi_stoodmoveback 		= 300,340
+csi_stoodmoveleft 		= 300,340
+csi_stoodmoveright 		= 300,340
+csi_stoodstepleft 		=
+csi_stoodstepright 		= 
+csi_stoodstrafeleft 		= 
+csi_stoodstraferight 		= 
+csi_stoodturnleft 		= 
+csi_stoodsubtleturnleft 	= 
+csi_stoodvault 			= 
+csi_stoodmoverun 		= 300,340
+csi_stoodmoverunleft 		= 300,340
+csi_stoodmoverunright 		= 300,340
+csi_stoodreload 		= 
+csi_stoodreloadrocket 		= 
+csi_stoodwave 			= 
+csi_stoodtoss 			= 
+csi_stoodfirerocket 		= 
+csi_stoodincoverleft 		= 
+csi_stoodincoverpeekleft 	= 
+csi_stoodincoverthrowleft 	= 
+csi_stoodincoverright 		= 
+csi_stoodincoverpeekright 	= 
+csi_stoodincoverthrowright 	= 
+csi_crouchidlenormal1 		= 
+csi_crouchidlenormal2 		= 
+csi_crouchidlerocket 		= 
+csi_crouchdown 			= 
+csi_crouchdownrocket 		= 
+csi_crouchrolldown 		= 
+csi_crouchrollup		= 
+csi_crouchmovefore 		= 
+csi_crouchmoveback 		= 
+csi_crouchmoveleft 		= 
+csi_crouchmoveright 		= 
+csi_crouchmoverun 		= 
+csi_crouchreload 		= 
+csi_crouchreloadrocket 		= 
+csi_crouchwave 			= 
+csi_crouchtoss 			= 
+csi_crouchfirerocket 		= 
+csi_crouchimpactfore 		= 
+csi_crouchimpactback 		= 
+csi_crouchimpactleft 		= 
+csi_crouchimpactright 		= 
+csi_crouchgetup 		= 
+csi_crouchgetuprocket 		= 

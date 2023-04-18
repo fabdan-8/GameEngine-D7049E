@@ -1,0 +1,36 @@
+;Header
+desc          = Knife
+
+;AI
+aimain	      = weapon.lua
+
+;Spawn
+spawnmax      = 1
+spawndelay    = 5000
+spawnqty      = 1
+
+;Itemproperties
+defaultstatic = 0
+materialindex = 2
+collisionmode = 0
+debrisshape   = 0
+explodable    = 0
+
+;Orientation
+model         = gamecore\guns\fantasy\knife\combatknife.x
+scale         = 100
+rotz          = 0
+texturepath   = 
+textured      = gamecore\guns\fantasy\knife\combatknife_D.dds
+reducetexture = -1
+transparency  = 0
+isimmobile    = 1
+
+;Identity Details
+isweapon      = fantasy\knife
+quantity      = 1
+speed         = 100
+
+;Decals
+decalmax      = 1
+decal0        = glowred

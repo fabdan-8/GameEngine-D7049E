@@ -5,7 +5,7 @@
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
-#include "Game.h"
+#include "Global.h"
 
 //! [key_handler]
 class KeyHandler : public OgreBites::InputListener {
@@ -32,7 +32,6 @@ class KeyHandler : public OgreBites::InputListener {
 
 int main(int argc, char *argv[]) {
 
-    Game game;
     game.Load();
     game.MainLoop();
     return 0;
@@ -70,6 +69,7 @@ int main(int argc, char *argv[]) {
     camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     camNode->setPosition(0, 0, 15);
     camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
+    //camNode->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0));
     
     // create the camera
     cam = scnMgr->createCamera("myCam");

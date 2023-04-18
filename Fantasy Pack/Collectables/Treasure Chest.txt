@@ -1,0 +1,3 @@
+initial pose: 0-4
+normal open: 40-55
+jump open: 5-35
