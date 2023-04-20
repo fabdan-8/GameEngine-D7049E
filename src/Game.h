@@ -58,7 +58,7 @@ private:
 
 	int my;
 	int mx;
-	float camspeed = 1.0f;
+	float camspeed = 0.5f;
 	float rotspeed = 0.01f;
 
 	OgreBites::ApplicationContext* ctx = nullptr;

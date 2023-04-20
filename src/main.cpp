@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
 
     game.Load();
     game.MainLoop();
+    game.Cleanup();
     return 0;
 
     //! [constructor]
@@ -104,8 +105,8 @@ int main(int argc, char *argv[]) {
     // register for input events
     //KeyHandler keyHandler;
     //ctx.addInputListener(&keyHandler);
-    
-    //while (!GetAsyncKeyState(VK_TAB)) {
+    //
+    //while (true) {
     //    ctx.getRoot()->renderOneFrame();
     //}
     ctx.getRoot()->startRendering();
