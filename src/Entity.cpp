@@ -17,14 +17,14 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
     Ogre::Entity* ent;
     try {
 
-        Ogre::String meshName = "skeleton.X";// your mesh name
-        Ogre::String materialName = "skeleton_D.png";// your material name
-        Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        //Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().getByName(materialName);
-        Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skeleton_material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        
-        material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
-        //ent->setMaterialName("skeleton_material");
+        //              Ogre::String meshName = "skeleton.X";// your mesh name
+        //              Ogre::String materialName = "skeleton_D.png";// your material name
+        //              Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        //              //Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().getByName(materialName);
+        //              Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skeleton_material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        //              
+        //              material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
+        //              ent->setMaterialName("skeleton_material");
 
         //// Flip the texture coordinates of all submeshes in the mesh
         //Ogre::Mesh::SubMeshIterator submeshIter = mesh->getSubMeshIterator();
@@ -48,7 +48,61 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
         ent = game.scnMgr->createEntity(name);
         //Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         //material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
+        //ent->setMaterialName("skeleton_material");
+
+        SDL_Surface* surf = IMG_Load("mesh/skeleton_D.png");
+        if (!surf) {
+            return "";
+        }
+        if (surf->format->BytesPerPixel == 4) {
+            //ok
+        }
+        else {
+            SDL_Surface* buf_surf = surf;
+            surf = SDL_ConvertSurfaceFormat(buf_surf, SDL_PIXELFORMAT_RGBA32, 0);
+            SDL_FreeSurface(buf_surf);
+        }
+
+        //modify pixel data
+        unsigned char* pixels = (unsigned char*)surf->pixels;
+        unsigned char* pixel_buf = (unsigned char*)malloc(surf->w * surf->h * 4);
+        memcpy(pixel_buf, pixels, surf->w * surf->h * 4);
+
+        int w = surf->w;
+        int h = surf->h;
+
+        //for (int a = 0; a < surf->h; a++) {//flip vertically
+        //    for (int b = 0; b < surf->w; b += 4) {
+        //        pixels[a * w + b + 0] = pixel_buf[(a + 1) * w - b - 4 + 0];
+        //        pixels[a * w + b + 1] = pixel_buf[(a + 1) * w - b - 4 + 1];
+        //        pixels[a * w + b + 2] = pixel_buf[(a + 1) * w - b - 4 + 2];
+        //        pixels[a * w + b + 3] = pixel_buf[(a + 1) * w - b - 4 + 3];
+        //    }
+        //}
+
+        //memcpy(pixel_buf, pixels, surf->w * surf->h * 4);
+
+        //for (int a = 0; a < surf->h; a++) {//flip horizontally
+        //    for (int b = 0; b < surf->w; b += 4) {
+        //        pixels[a * w + b + 0] = pixel_buf[(h - a - 1) * w + b + 0];
+        //        pixels[a * w + b + 1] = pixel_buf[(h - a - 1) * w + b + 1];
+        //        pixels[a * w + b + 2] = pixel_buf[(h - a - 1) * w + b + 2];
+        //        pixels[a * w + b + 3] = pixel_buf[(h - a - 1) * w + b + 3];
+        //    }
+        //}
+
+        free(pixel_buf);
+
+        Ogre::Image image;
+        image.loadDynamicImage((Ogre::uchar*)surf->pixels, (Ogre::uint32)surf->w, (Ogre::uint32)surf->h, Ogre::PF_BYTE_RGBA);
+        Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().loadImage("skeleton_texture", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, image);
+
+        Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skeleton_material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        Ogre::TextureUnitState* textureUnit = material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_texture");
+
         ent->setMaterialName("skeleton_material");
+
+        SDL_FreeSurface(surf);
     }
     catch (...) {
         ent = nullptr;
