@@ -78,7 +78,7 @@ void Entity::SetMaterial ( std::string name )
     //     }
     // }
 
-    free ( pixel_buf );
+    //free ( pixel_buf );
 
     Ogre::Image image;
     image.loadDynamicImage (
