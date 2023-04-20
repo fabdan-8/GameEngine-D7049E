@@ -123,9 +123,9 @@ void Game::Load() {
     //ctx->addInputListener(&keyHandler);
 
     // finally something to render
-    for (int a = 0; a < 10; a++) {
+    for (int a = 0; a < 10; a++) {//add 100 skeletons
         for (int b = 0; b < 10; b++) {
-            std::string skeleton_name = scene.AddEntity("skeleton.X", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 4, 0.0f, -80.0f -b * 10 + ((float)(rand() % 10) - 4.5f) / 4);
+            std::string skeleton_name = scene.AddEntity("skeleton.X", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f -b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
         }
     }
     //std::cout << "---------------------\n";
@@ -148,6 +148,18 @@ void Game::Load() {
         std::cout << "SDL Mixer failed\n";
         return;
     }
+    //void* window_data = nullptr;
+    
+    //HWND wind;
+    //ctx->getRenderWindow()->getCustomAttribute("WINDOW", wind);
+    //getline(std::cin, name);
+    //sdl_window = SDL_CreateWindowFrom(wind);
+
+    //sdl_window = SDL_CreateWindow("SDL window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_OPENGL);
+    //if (!sdl_window) {
+    //    std::cout << "Couldn't make the SDL window\n";
+    //    return;
+    //}
 
     //Load music
     music = Mix_LoadMUS("Spinnin.mp3");
@@ -234,6 +246,7 @@ bool Game::MouseReleased(unsigned char button) {
 void Game::Render() {
     //ctx->getRoot()->renderOneFrame();
     root->renderOneFrame();
+    //SDL_GL_SwapWindow(sdl_window);
 }
 
 void Game::Input() {
@@ -255,6 +268,15 @@ void Game::Input() {
         //ctx->getRenderWindow()->setHidden(false);
     }
     if (MouseClicked(SDL_BUTTON_MIDDLE)) {
+
+        ctx->getRenderWindow()->resize(screenW, screenH);
+        cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth() / (float)ctx->getRenderWindow()->getHeight()));
+
+        //ctx->getRenderWindow()->set
+
+        //sdl_window = (SDL_Window*)(void*)ctx->getRenderWindow();
+        //SDL_WarpMouseInWindow(sdl_window, 800 / 2, 800 / 2);
+
         //SDL_WarpMouseInWindow(window, 800 / 2, 800 / 2);
         //SDL_GetMouseState(&mX, &mY);
         ////mX = screenw / 2;
@@ -262,6 +284,7 @@ void Game::Input() {
         //SDL_ShowCursor(false);
     }
     if (MousePressed(SDL_BUTTON_MIDDLE)) {
+        
         //screenW = 1920;
         //screenH = 1080;
         ////ctx->getRenderWindow()->resize(screenW, screenH);

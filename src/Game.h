@@ -44,7 +44,7 @@ private:
 	void CheckEvents();
 
 	SDL_Event mainevent;
-	//SDL_Window* window = nullptr;
+	SDL_Window* sdl_window = nullptr;
 	Mix_Music* music;
 	bool music_playing = false;
 	Scene scene;//let's start with only one scene
