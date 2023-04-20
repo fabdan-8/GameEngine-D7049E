@@ -32,6 +32,14 @@
 
 int main(int argc, char *argv[]) {
 
+    //Ogre::String version = Ogre::StringConverter::toString(OGRE_VERSION_MAJOR) + "." +
+    //    Ogre::StringConverter::toString(OGRE_VERSION_MINOR) + "." +
+    //    Ogre::StringConverter::toString(OGRE_VERSION_PATCH);
+
+    //// Print the version number to the console
+    //std::cout << "Ogre version: " << version << std::endl;
+    //Ogre version is 13.6.4
+
     game.Load();
     game.MainLoop();
     return 0;

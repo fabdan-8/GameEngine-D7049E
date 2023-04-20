@@ -11,6 +11,6 @@ public:
 	void SetActive();
 private:
 	std::vector<Entity*> entity;
-	Ogre::SceneNode* node = nullptr;
+	Ogre::SceneNode* node = nullptr;//?
 };
 

@@ -2,6 +2,8 @@
 
 #include "Defines.h"
 
+#include <iostream>
+
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
 
