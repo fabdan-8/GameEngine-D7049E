@@ -9,6 +9,13 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_net.h>
 
+//probably change glm to ogre specific stuff later
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Scene.h"
 
 class Game {
@@ -48,6 +55,11 @@ private:
 	Mix_Music* music;
 	bool music_playing = false;
 	Scene scene;//let's start with only one scene
+
+	int my;
+	int mx;
+	float camspeed = 1.0f;
+	float rotspeed = 0.01f;
 
 	OgreBites::ApplicationContext* ctx = nullptr;
 	Ogre::Root* root = nullptr;

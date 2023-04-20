@@ -16,5 +16,5 @@ void Scene::UpdateAllEntities() {
 }
 
 void Scene::SetActive() {
-
+	//?
 }
