@@ -15,7 +15,7 @@ endif()
 # The COMPONENTS part checks that OGRE was built the way we need it
 # The CONFIG flag makes sure we get OGRE instead of OGRE-next
 find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem CONFIG)
-find_package(SDL2)
+# find_package(SDL2 REQUIRED)
  
 # add the source files as usual
 add_executable(${PROJECT_NAME} "src/main.cpp" "src/Game.cpp" "src/Scene.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h")
@@ -29,38 +29,32 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             C:/projects/ogre-bsrh7/build/sdk/bin
             $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-        #${CMAKE_CURRENT_BINARY_DIR})
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_CURRENT_SOURCE_DIR}/resources/dll/
             $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-        #${CMAKE_CURRENT_BINARY_DIR})
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/sound/
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-        #${CMAKE_CURRENT_BINARY_DIR})
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/mesh/
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>/mesh)
-        #${CMAKE_CURRENT_BINARY_DIR}/mesh)
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.cfg
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-        #${CMAKE_CURRENT_BINARY_DIR})
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/ogre.cfg
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-        #${CMAKE_CURRENT_BINARY_DIR})
 endif()
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/sound/
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/mesh/
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/mesh)
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.cfg
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/ogre.cfg
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
 #add_executable(1_FirstScene BasicTutorial1.cpp)
 #target_link_libraries(1_FirstScene OgreBites)
