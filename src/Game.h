@@ -68,10 +68,10 @@ class Game {
     bool        music_playing = false;
     Scene       scene; // let's start with only one scene
 
-	int my;
-	int mx;
-	float camspeed = 0.5f;
-	float rotspeed = 0.01f;
+    int   my;
+    int   mx;
+    float camspeed = 0.5f;
+    float rotspeed = 0.01f;
 
     OgreBites::ApplicationContext *ctx     = nullptr;
     Ogre::Root                    *root    = nullptr;
