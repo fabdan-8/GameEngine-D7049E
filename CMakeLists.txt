@@ -15,7 +15,7 @@ endif()
 # The COMPONENTS part checks that OGRE was built the way we need it
 # The CONFIG flag makes sure we get OGRE instead of OGRE-next
 find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem CONFIG)
-find_package(SDL2 REQUIRED)
+# find_package(SDL2 REQUIRED)
  
 # add the source files as usual
 add_executable(${PROJECT_NAME} "src/main.cpp" "src/Game.cpp" "src/Scene.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h")
