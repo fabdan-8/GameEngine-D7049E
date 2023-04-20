@@ -11,8 +11,8 @@
 
 extern Game game;
 
-void Entity::Update() {
-
+void Entity::Update ( )
+{
 }
 
 void Entity::SetMaterial(std::string name) {
@@ -123,19 +123,23 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
         
         SetMaterial(name);
     }
-    catch (...) {
+    catch ( ... )
+    {
         ent = nullptr;
     }
-    if (ent) {
-        Ogre::SceneNode* node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
-        
-        node->setScale(Ogre::Vector3(scale, scale, scale));
-        node->setPosition(start_x, start_y, start_z);
+    if ( ent )
+    {
+        Ogre::SceneNode *node
+                = game.scnMgr->getRootSceneNode ( )->createChildSceneNode ( );
 
-        node->attachObject(ent);
-        return ent->getName();
+        node->setScale ( Ogre::Vector3 ( scale, scale, scale ) );
+        node->setPosition ( start_x, start_y, start_z );
+
+        node->attachObject ( ent );
+        return ent->getName ( );
     }
-    else {
+    else
+    {
         std::cout << "Can't find mesh '" << name << "'\n";
         return "";
     }
