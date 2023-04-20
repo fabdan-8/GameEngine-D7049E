@@ -49,14 +49,14 @@ void Entity::SetMaterial ( std::string name )
         SDL_FreeSurface ( buf_surf );
     }
 
-    // modify pixel data
-    unsigned char *pixels = ( unsigned char * ) surf->pixels;
-    unsigned char *pixel_buf
-            = ( unsigned char * ) malloc ( surf->w * surf->h * 4 );
-    memcpy ( pixel_buf, pixels, surf->w * surf->h * 4 );
+    //// modify pixel data
+    //unsigned char *pixels = ( unsigned char * ) surf->pixels;
+    //unsigned char *pixel_buf
+    //        = ( unsigned char * ) malloc ( surf->w * surf->h * 4 );
+    //memcpy ( pixel_buf, pixels, surf->w * surf->h * 4 );
 
-    int w = surf->w;
-    int h = surf->h;
+    //int w = surf->w;
+    //int h = surf->h;
 
     // for (int a = 0; a < surf->h; a++) {//flip vertically
     //     for (int b = 0; b < surf->w; b += 4) {
