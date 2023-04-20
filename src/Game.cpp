@@ -26,12 +26,12 @@ class KeyHandler : public OgreBites::InputListener {
         return true;
     }
 
-    //bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override {
+    // bool mouseMoved(const OgreBites::MouseMotionEvent& evt) override {
 
     //    return true;
     //}
 
-    //bool mouseWheelRolled(const OgreBites::MouseWheelEvent& evt) override {
+    // bool mouseWheelRolled(const OgreBites::MouseWheelEvent& evt) override {
 
     //    return true;
     //}
@@ -133,21 +133,30 @@ void Game::Load ( )
     // ctx->getRenderWindow()->getCustomAttribute("SDL_Window", window);//does
     // not work
 
-    //KeyHandler keyHandler;
-    //ctx->addInputListener(&keyHandler);
-    //getline(std::cin, name);
-    scene.AddEntity("skeleton");
+    // KeyHandler keyHandler;
+    // ctx->addInputListener(&keyHandler);
+    // getline(std::cin, name);
+    scene.AddEntity ( "skeleton" );
     // finally something to render
-    for (int a = 0; a < 10; a++) {//add 100 skeletons
-        for (int b = 0; b < 10; b++) {
-            std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f -b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+    for ( int a = 0; a < 10; a++ )
+    { // add 100 skeletons
+        for ( int b = 0; b < 10; b++ )
+        {
+            std::string skeleton_name = scene.AddEntity (
+                    "skeleton",
+                    0.1f,
+                    -50.0f + a * 10
+                            + ( ( float ) ( rand ( ) % 10 ) - 4.5f ) / 3,
+                    0.0f,
+                    -80.0f - b * 10 + ( ( float ) ( rand ( ) % 10 ) - 4.5f ) / 3
+            );
         }
     }
-    //std::cout << "---------------------\n";
-    //std::cout << skeleton_name << "\n";
-   // std::string town_name = scene.AddEntity("sibenik.mesh");
-    //std::cout << "---------------------\n";
-    //std::cout << town_name << "\n";
+    // std::cout << "---------------------\n";
+    // std::cout << skeleton_name << "\n";
+    // std::string town_name = scene.AddEntity("sibenik.mesh");
+    // std::cout << "---------------------\n";
+    // std::cout << town_name << "\n";
 
     //! [setup]
 
@@ -453,9 +462,11 @@ void Game::Input ( )
     }
 }
 
-void Game::Update() {
+void Game::Update ( )
+{
 
-    if (music_playing) {
+    if ( music_playing )
+    {
         rot += 0.05;
         if ( rot >= M_PI * 2.0 )
         {
@@ -518,10 +529,13 @@ void Game::CheckEvents ( )
             mousebuffer[ ( unsigned char ) mainevent.button.button ]
                     |= 0b00000100;
         }
-        else if (mainevent.type == SDL_WINDOWEVENT) {
-            if (mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
-                //std::cout << "Resized window\n";
-                //cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth() / (float)ctx->getRenderWindow()->getHeight()));
+        else if ( mainevent.type == SDL_WINDOWEVENT )
+        {
+            if ( mainevent.window.event == SDL_WINDOWEVENT_RESIZED )
+            {
+                // std::cout << "Resized window\n";
+                // cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth()
+                // / (float)ctx->getRenderWindow()->getHeight()));
             }
         }
     }

@@ -42,9 +42,9 @@ int main ( int argc, char *argv[] )
     // std::cout << "Ogre version: " << version << std::endl;
     // Ogre version is 13.6.4
 
-    game.Load();
-    game.MainLoop();
-    game.Cleanup();
+    game.Load ( );
+    game.MainLoop ( );
+    game.Cleanup ( );
     return 0;
 
     //! [constructor]
@@ -112,14 +112,14 @@ int main ( int argc, char *argv[] )
 
     //! [main]
     // register for input events
-    //KeyHandler keyHandler;
-    //ctx.addInputListener(&keyHandler);
+    // KeyHandler keyHandler;
+    // ctx.addInputListener(&keyHandler);
     //
-    //while (true) {
+    // while (true) {
     //    ctx.getRoot()->renderOneFrame();
     //}
-    ctx.getRoot()->startRendering();
-    ctx.closeApp();
+    ctx.getRoot ( )->startRendering ( );
+    ctx.closeApp ( );
     //! [main]
     return 0;
 }
