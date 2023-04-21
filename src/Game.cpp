@@ -116,7 +116,7 @@ void Game::Load() {
     // ctx->getRenderWindow()->addViewport(cam);
     window->addViewport(cam);
 
-    //Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
+    // Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
 
     // if (ctx->getRenderWindow()->isActive()) {
     //     getline(std::cin, name);
@@ -130,8 +130,8 @@ void Game::Load() {
     scene.AddEntity("skeleton");
     scene.AddEntity("sibenik.mesh");
     // finally something to render
-    for (int a = 0; a < 10; a++) { // add 100 skeletons
-        for (int b = 0; b < 10; b++) {
+    for(int a = 0; a < 10; a++) { // add 100 skeletons
+        for(int b = 0; b < 10; b++) {
             std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
         }
     }
@@ -143,15 +143,15 @@ void Game::Load() {
 
     //! [setup]
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL failed\n";
         return;
     }
-    if (SDLNet_Init() != 0) {
+    if(SDLNet_Init() != 0) {
         std::cout << "SDL Net failed\n";
         return;
     }
-    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
+    if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
         std::cout << "SDL Mixer failed\n";
         return;
     }
@@ -171,9 +171,7 @@ void Game::Load() {
 
     // Load music
     music = Mix_LoadMUS("Spinnin.mp3");
-    if (!music) {
-        return;
-    }
+    if(!music) { return; }
     Mix_VolumeMusic(48); // set volume
     running = true;
 
@@ -183,13 +181,13 @@ void Game::Load() {
 void Game::MainLoop() {
     clock_t last_tick = clock();
     clock_t current_time;
-    while (running) {
+    while(running) {
         current_time = clock();
-        Render();                                     // no fps cap.
-        if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
+        Render();                                    // no fps cap.
+        if(current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
-            if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
-                                                         // do something, you are lagging behind.
+            if(current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
+                                                        // do something, you are lagging behind.
             }
             Update();
         }
@@ -211,44 +209,32 @@ void Game::Cleanup() {
 }
 
 bool Game::Clicked(unsigned char key) {
-    if (keybuffer[key] & 0b00000001) {
-        return true;
-    }
+    if(keybuffer[key] & 0b00000001) { return true; }
     return false;
 }
 
 bool Game::Pressed(unsigned char key) {
-    if (keybuffer[key] & 0b00000010) {
-        return true;
-    }
+    if(keybuffer[key] & 0b00000010) { return true; }
     return false;
 }
 
 bool Game::Released(unsigned char key) {
-    if (keybuffer[key] & 0b00000100) {
-        return true;
-    }
+    if(keybuffer[key] & 0b00000100) { return true; }
     return false;
 }
 
 bool Game::MouseClicked(unsigned char button) {
-    if (mousebuffer[button] & 0b00000001) {
-        return true;
-    }
+    if(mousebuffer[button] & 0b00000001) { return true; }
     return false;
 }
 
 bool Game::MousePressed(unsigned char button) {
-    if (mousebuffer[button] & 0b00000010) {
-        return true;
-    }
+    if(mousebuffer[button] & 0b00000010) { return true; }
     return false;
 }
 
 bool Game::MouseReleased(unsigned char button) {
-    if (mousebuffer[button] & 0b00000100) {
-        return true;
-    }
+    if(mousebuffer[button] & 0b00000100) { return true; }
     return false;
 }
 
@@ -260,11 +246,9 @@ void Game::Render() {
 
 void Game::Input() {
     CheckEvents();
-    if (Pressed(SDLK_TAB)) {
-        running = false;
-    }
-    if (Clicked(SDLK_RETURN)) {
-        if (!music_playing) {
+    if(Pressed(SDLK_TAB)) { running = false; }
+    if(Clicked(SDLK_RETURN)) {
+        if(!music_playing) {
             Mix_PlayMusic(music, 0);
             music_playing = true;
             std::cout << "W";
@@ -275,7 +259,7 @@ void Game::Input() {
         }
         // ctx->getRenderWindow()->setHidden(false);
     }
-    if (MouseClicked(SDL_BUTTON_MIDDLE)) {
+    if(MouseClicked(SDL_BUTTON_MIDDLE)) {
 
         // ctx->getRenderWindow()->resize(screenW, screenH);
         // cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth()
@@ -294,14 +278,14 @@ void Game::Input() {
         my = mouseY;
         mx = mouseX;
     }
-    if (MousePressed(SDL_BUTTON_MIDDLE)) {
+    if(MousePressed(SDL_BUTTON_MIDDLE)) {
 
         // screenW = 1920;
         // screenH = 1080;
         ////ctx->getRenderWindow()->resize(screenW, screenH);
         ////ctx->getRenderWindow()->setHidden(true);
         // std::cout << ctx->getRenderWindow()->getWidth();
-        
+
         // camera_orientation = glm::vec4((float)camNode->getOrientation().x,
         // (float)camNode->getOrientation().y,
         // (float)camNode->getOrientation().z,
@@ -337,39 +321,21 @@ void Game::Input() {
         // camNode->yaw(Ogre::Radian(rotX));
         // camNode->pitch(Ogre::Radian(rotY));
     }
-    if (Pressed(SDLK_UP) || Pressed(SDLK_w)) {
-        camNode->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
-    }
-    if (Pressed(SDLK_DOWN) || Pressed(SDLK_s)) {
-        camNode->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL);
-    }
-    if (Pressed(SDLK_LEFT) || Pressed(SDLK_a)) {
-        camNode->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
-    }
-    if (Pressed(SDLK_RIGHT) || Pressed(SDLK_d)) {
-        camNode->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
-    }
-    if (Pressed(SDLK_SPACE)) {
-        camNode->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT);
-    }
-    if (Pressed(SDLK_LSHIFT)) {
-        camNode->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT);
-    }
-    if (Pressed(SDLK_q)) {
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
-    }
-    if (Pressed(SDLK_e)) {
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
-    }
+    if(Pressed(SDLK_UP) || Pressed(SDLK_w)) { camNode->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL); }
+    if(Pressed(SDLK_DOWN) || Pressed(SDLK_s)) { camNode->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL); }
+    if(Pressed(SDLK_LEFT) || Pressed(SDLK_a)) { camNode->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL); }
+    if(Pressed(SDLK_RIGHT) || Pressed(SDLK_d)) { camNode->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL); }
+    if(Pressed(SDLK_SPACE)) { camNode->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT); }
+    if(Pressed(SDLK_LSHIFT)) { camNode->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT); }
+    if(Pressed(SDLK_q)) { camNode->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT); }
+    if(Pressed(SDLK_e)) { camNode->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT); }
 }
 
 void Game::Update() {
 
-    if (music_playing) {
+    if(music_playing) {
         rot += 0.05;
-        if (rot >= M_PI * 2.0) {
-            rot = rot - M_PI * 2.0;
-        }
+        if(rot >= M_PI * 2.0) { rot = rot - M_PI * 2.0; }
         std::cout << "e";
         // camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
         camNode->setPosition(0.0 + 200.0 * sin(rot), 40.0, 0.0 + 200.0 * cos(rot));
@@ -380,7 +346,7 @@ void Game::Update() {
 
 void Game::CheckEvents() {
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse positions
-    for (int a = 0; a < 256; a++) {
+    for(int a = 0; a < 256; a++) {
         keybuffer[a] = (keybuffer[a] & 0b11111010);
         mousebuffer[a] = (mousebuffer[a] & 0b11111010);
         // if (*SDL_GetKeyboardState(&a)) {
@@ -391,21 +357,21 @@ void Game::CheckEvents() {
         //     keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000100;
         // }
     }
-    while (SDL_PollEvent(&mainevent)) {   // poll new event as long as we have a new event
-        if (mainevent.type == SDL_QUIT) { // pressed red X
+    while(SDL_PollEvent(&mainevent)) {   // poll new event as long as we have a new event
+        if(mainevent.type == SDL_QUIT) { // pressed red X
             running = false;
-        } else if (mainevent.type == SDL_KEYDOWN) {
+        } else if(mainevent.type == SDL_KEYDOWN) {
             keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000011;
-        } else if (mainevent.type == SDL_KEYUP) {
+        } else if(mainevent.type == SDL_KEYUP) {
             keybuffer[(unsigned char)mainevent.key.keysym.sym] &= 0b11111101;
             keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000100;
-        } else if (mainevent.type == SDL_MOUSEBUTTONDOWN) {
+        } else if(mainevent.type == SDL_MOUSEBUTTONDOWN) {
             mousebuffer[(unsigned char)mainevent.button.button] |= 0b00000011;
-        } else if (mainevent.type == SDL_MOUSEBUTTONUP) {
+        } else if(mainevent.type == SDL_MOUSEBUTTONUP) {
             mousebuffer[(unsigned char)mainevent.button.button] &= 0b11111101;
             mousebuffer[(unsigned char)mainevent.button.button] |= 0b00000100;
-        } else if (mainevent.type == SDL_WINDOWEVENT) {
-            if (mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
+        } else if(mainevent.type == SDL_WINDOWEVENT) {
+            if(mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
                 // std::cout << "Resized window\n";
                 // cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth()
                 // / (float)ctx->getRenderWindow()->getHeight()));

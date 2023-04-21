@@ -16,24 +16,20 @@ void Entity::Update() {
 }
 
 void Entity::SetMaterial(std::string name) {
-    if (Ogre::MaterialManager::getSingleton().resourceExists(std::string(name + "_material"))) { // material exists, just assign it
-        if (ent) {
-            ent->setMaterialName(std::string(name + "_material"));
-        }
+    if(Ogre::MaterialManager::getSingleton().resourceExists(std::string(name + "_material"))) { // material exists, just assign it
+        if(ent) { ent->setMaterialName(std::string(name + "_material")); }
         return;
     }
 
     // otherwise, make the material
     // std::cout << name << "_material is being made\n";
 
-    if (false) {
+    if(false) {
 
         std::string folder = "mesh/";
         SDL_Surface *surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
-        if (!surf) {
-            return;
-        }
-        if (surf->format->BytesPerPixel == 4) {
+        if(!surf) { return; }
+        if(surf->format->BytesPerPixel == 4) {
             // ok
         } else {
             SDL_Surface *buf_surf = surf;
@@ -83,28 +79,21 @@ void Entity::SetMaterial(std::string name) {
     } else {
         Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(std::string(name + "_material"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.dds");
-        //material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_S.dds");
-        //material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_N.dds");
+        // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_S.dds");
+        // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_N.dds");
         material->setCullingMode(Ogre::CullingMode::CULL_ANTICLOCKWISE);
     }
 
-
-
-    if (ent) {
-        ent->setMaterialName(std::string(name + "_material"));
-    }
+    if(ent) { ent->setMaterialName(std::string(name + "_material")); }
 
     return;
 }
 
 std::string Entity::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
-    if (name.find(".mesh") != std::string::npos) {
+    if(name.find(".mesh") != std::string::npos) {
         try {
             ent = game.scnMgr->createEntity(name);
-        }
-        catch (...) {
-            ent = nullptr;
-        }
+        } catch(...) { ent = nullptr; }
     } else {
         try {
             // From ChatGPT:
@@ -143,7 +132,7 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
             SetMaterial(name);
         } catch(...) { ent = nullptr; }
     }
-    if (ent) {
+    if(ent) {
         Ogre::SceneNode *node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
 
         node->setScale(Ogre::Vector3(scale, scale, scale));
