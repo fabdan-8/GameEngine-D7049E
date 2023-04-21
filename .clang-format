@@ -1,8 +1,27 @@
 ﻿---
 BasedOnStyle: Microsoft
 BreakBeforeBraces: Attach
-BinPackArguments: 'true'
-BinPackParameters: 'true'
+BinPackArguments: 'false'
+BinPackParameters: 'false'
 ColumnLimit: '200'
+AllowAllArgumentsOnNextLine: 'true'
+AllowAllConstructorInitializersOnNextLine: 'true'
+AllowAllParametersOfDeclarationOnNextLine: 'true'
+AllowShortIfStatementsOnASingleLine: 'true'
+AllowShortBlocksOnASingleLine: 'true'
+AllowShortFunctionsOnASingleLine: 'InlineOnly'
+BraceWrapping:
+  AfterClass: 'false'
+  AfterControlStatement: 'false'
+  AfterEnum: 'false'
+  AfterFunction: 'false'
+  AfterNamespace: 'false'
+  AfterStruct: 'false'
+  AfterUnion: 'false'
+  BeforeCatch: 'false'
+  BeforeElse: 'false'
+  AfterCaseLabel: 'false'
+  IndentBraces: 'false'
+SpaceBeforeParens: Never
 
 ...

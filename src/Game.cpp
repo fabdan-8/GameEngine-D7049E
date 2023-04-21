@@ -116,6 +116,8 @@ void Game::Load() {
     // ctx->getRenderWindow()->addViewport(cam);
     window->addViewport(cam);
 
+    //Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
+
     // if (ctx->getRenderWindow()->isActive()) {
     //     getline(std::cin, name);
     // }
@@ -126,6 +128,7 @@ void Game::Load() {
     // ctx->addInputListener(&keyHandler);
     // getline(std::cin, name);
     scene.AddEntity("skeleton");
+    scene.AddEntity("sibenik.mesh");
     // finally something to render
     for (int a = 0; a < 10; a++) { // add 100 skeletons
         for (int b = 0; b < 10; b++) {
@@ -298,7 +301,7 @@ void Game::Input() {
         ////ctx->getRenderWindow()->resize(screenW, screenH);
         ////ctx->getRenderWindow()->setHidden(true);
         // std::cout << ctx->getRenderWindow()->getWidth();
-
+        
         // camera_orientation = glm::vec4((float)camNode->getOrientation().x,
         // (float)camNode->getOrientation().y,
         // (float)camNode->getOrientation().z,
