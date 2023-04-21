@@ -1,6 +1,7 @@
 ﻿---
 BasedOnStyle: Microsoft
 BreakBeforeBraces: Attach
-BAS_Align: Align
+BinPack: true
+ColumnLimit: 200
 
 ...
