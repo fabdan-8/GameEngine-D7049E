@@ -2,4 +2,4 @@
 
 #include "Chunk.h"
 
-class Map { };
+class Map {};
