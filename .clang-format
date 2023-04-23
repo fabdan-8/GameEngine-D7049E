@@ -7,8 +7,6 @@ ColumnLimit: '200'
 AllowAllArgumentsOnNextLine: 'true'
 AllowAllConstructorInitializersOnNextLine: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'true'
-AllowShortIfStatementsOnASingleLine: 'true'
-AllowShortBlocksOnASingleLine: 'true'
 AllowShortFunctionsOnASingleLine: 'InlineOnly'
 BraceWrapping:
   AfterClass: 'false'
@@ -22,6 +20,6 @@ BraceWrapping:
   BeforeElse: 'false'
   AfterCaseLabel: 'false'
   IndentBraces: 'false'
-SpaceBeforeParens: Never
+SpaceBeforeParens: ControlStatements
 
 ...
