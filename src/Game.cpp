@@ -116,6 +116,7 @@ void Game::Load() {
     // ctx->getRenderWindow()->addViewport(cam);
     window->addViewport(cam);
 
+    // Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
     //Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
 
     // if (ctx->getRenderWindow()->isActive()) {
@@ -189,7 +190,7 @@ void Game::MainLoop() {
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
             if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
-                                                         // do something, you are lagging behind.
+                                                        // do something, you are lagging behind.
             }
             Update();
         }
@@ -301,7 +302,7 @@ void Game::Input() {
         ////ctx->getRenderWindow()->resize(screenW, screenH);
         ////ctx->getRenderWindow()->setHidden(true);
         // std::cout << ctx->getRenderWindow()->getWidth();
-        
+
         // camera_orientation = glm::vec4((float)camNode->getOrientation().x,
         // (float)camNode->getOrientation().y,
         // (float)camNode->getOrientation().z,
