@@ -76,7 +76,8 @@ class Game {
     Ogre::Root *root = nullptr;
     Ogre::RenderWindow *window = nullptr;
     Ogre::Camera *cam = nullptr;
-    Ogre::SceneNode *camNode = nullptr;
+    Ogre::SceneNode *cam_node = nullptr;
+    Ogre::Viewport* viewport = nullptr;
 
     // test
     double rot = 0.0;

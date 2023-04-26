@@ -101,21 +101,21 @@ void Game::Load() {
     lightNode->attachObject(light);
 
     // also need to tell where we are
-    camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-    camNode->setPosition(0, 0, 15);
-    camNode->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
-    camNode->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0)); // so that up is always up
+    cam_node = scnMgr->getRootSceneNode()->createChildSceneNode();
+    cam_node->setPosition(0, 0, 15);
+    cam_node->lookAt(Ogre::Vector3(0, 0, -1), Ogre::Node::TS_PARENT);
+    cam_node->setFixedYawAxis(true, Ogre::Vector3(0, 1, 0)); // so that up is always up
 
     // create the camera
     cam = scnMgr->createCamera("camera");
     cam->setNearClipDistance(5); // specific to this sample
     cam->setAutoAspectRatio(true);
-    camNode->attachObject(cam);
-    camNode->setPosition(0, 40, 140);
+    cam_node->attachObject(cam);
+    cam_node->setPosition(0, 40, 140);
 
     // and tell it to render into the main window
     // ctx->getRenderWindow()->addViewport(cam);
-    window->addViewport(cam);
+    viewport = window->addViewport(cam);
 
     // Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
     //Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
@@ -326,13 +326,13 @@ void Game::Input() {
                                     // to get
                                     // the correct value after setting it the loop before
         // std::cout << mX << " " << mY << "\n";
-        float rotX = -2.0 * (float)(mouseX - mx) / window->getWidth();
-        float rotY = -2.0 * (float)(mouseY - my) / window->getHeight();
+        float rotX = -2.0 * (float)(mouseX - mx) / 500;// / window->getWidth();
+        float rotY = -2.0 * (float)(mouseY - my) / 500;// / window->getHeight();
         mx = mouseX;
         my = mouseY;
 
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(rotX), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(rotY), Ogre::Vector3::UNIT_X), Ogre::Node::TS_LOCAL);
+        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotX), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotY), Ogre::Vector3::UNIT_X), Ogre::Node::TS_LOCAL);
 
         // glm::vec3 new_orientation = glm::rotate(camera.orientation,
         // glm::radians(-rotX), glm::normalize(glm::cross(camera.orientation,
@@ -352,28 +352,28 @@ void Game::Input() {
         // camNode->pitch(Ogre::Radian(rotY));
     }
     if (Pressed(SDLK_UP) || Pressed(SDLK_w)) {
-        camNode->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
+        cam_node->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_DOWN) || Pressed(SDLK_s)) {
-        camNode->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL);
+        cam_node->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_LEFT) || Pressed(SDLK_a)) {
-        camNode->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
+        cam_node->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_RIGHT) || Pressed(SDLK_d)) {
-        camNode->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
+        cam_node->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_SPACE)) {
-        camNode->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT);
+        cam_node->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_LSHIFT)) {
-        camNode->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT);
+        cam_node->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_q)) {
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_e)) {
-        camNode->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
     }
 }
 
@@ -386,8 +386,8 @@ void Game::Update() {
         }
         std::cout << "e";
         // camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
-        camNode->setPosition(0.0 + 200.0 * sin(rot), 40.0, 0.0 + 200.0 * cos(rot));
-        camNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_PARENT);
+        cam_node->setPosition(0.0 + 200.0 * sin(rot), 40.0, 0.0 + 200.0 * cos(rot));
+        cam_node->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_PARENT);
         // camNode->roll(Ogre::Radian(0), Ogre::Node::TS_PARENT);
     }
 }
@@ -425,6 +425,13 @@ void Game::CheckEvents() {
         }
         if (mainevent.type == SDL_WINDOWEVENT) {
             if (mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
+                //viewport->setDimensions(0, 0, 1, 1);
+                //viewport->setActualDimensions(window->getWidth(), window->getHeight());//does not exist
+                window->resize(window->getWidth(), window->getHeight());
+                // Update the aspect ratio of the camera associated with the viewport
+                //if (cam) {
+                //    cam->setAspectRatio(Ogre::Real(window->getWidth()) / Ogre::Real(window->getHeight()));
+                //}
                 // std::cout << "Resized window\n";
                 // cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth()
                 // / (float)ctx->getRenderWindow()->getHeight()));
