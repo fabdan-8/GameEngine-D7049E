@@ -30,3 +30,5 @@
 #include "UI.h"
 
 Game game;
+
+std::string meshfolder = "";

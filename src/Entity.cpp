@@ -12,6 +12,7 @@
 #include <OgreMeshManager.h>
 
 extern Game game;
+extern std::string meshfolder;
 
 void Entity::Update() {
 }
@@ -29,7 +30,7 @@ void Entity::SetMaterial(std::string name) {
 
     if (false) {
 
-        std::string folder = "mesh/";
+        std::string folder = meshfolder;
         SDL_Surface *surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
         if (!surf) {
             return;
@@ -83,10 +84,10 @@ void Entity::SetMaterial(std::string name) {
         SDL_FreeSurface(surf);
     } else {
         Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(std::string(name + "_material"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        if (std::filesystem::exists(std::string("mesh/") + name + "_D.dds")) {
+        if (std::filesystem::exists(meshfolder + name + "_D.dds")) {
             material->getTechnique(0)->getPass(0)->createTextureUnitState(name + "_D.dds");
         }
-        if (std::filesystem::exists(std::string("mesh/") + name + "_D2.dds")) {
+        if (std::filesystem::exists(meshfolder + name + "_D2.dds")) {
             material->getTechnique(0)->getPass(0)->createTextureUnitState(name + "_D2.dds");
         }
         //material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_S.dds");

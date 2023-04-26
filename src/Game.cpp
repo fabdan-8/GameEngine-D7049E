@@ -11,6 +11,7 @@
 #include "Player.h"
 
 extern Game game;
+extern std::string meshfolder;
 
 class KeyHandler : public OgreBites::InputListener {
     bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -128,8 +129,15 @@ void Game::Load() {
     // KeyHandler keyHandler;
     // ctx->addInputListener(&keyHandler);
     // getline(std::cin, name);
+
+    meshfolder = "ArgumentsGameFolder/data/mesh/";
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+
+    // Add the new resource location
+    rgm.addResourceLocation(meshfolder, "FileSystem");
+
     scene.AddEntity("skeleton");
-    scene.AddEntity("sibenik.mesh");
+    //scene.AddEntity("sibenik.mesh");
     // finally something to render
     for (int a = 0; a < 10; a++) { // add 100 skeletons
         for (int b = 0; b < 10; b++) {
@@ -400,17 +408,22 @@ void Game::CheckEvents() {
     while (SDL_PollEvent(&mainevent)) {   // poll new event as long as we have a new event
         if (mainevent.type == SDL_QUIT) { // pressed red X
             running = false;
-        } else if (mainevent.type == SDL_KEYDOWN) {
+        }
+        if (mainevent.type == SDL_KEYDOWN) {
             keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000011;
-        } else if (mainevent.type == SDL_KEYUP) {
+        }
+        if (mainevent.type == SDL_KEYUP) {
             keybuffer[(unsigned char)mainevent.key.keysym.sym] &= 0b11111101;
             keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000100;
-        } else if (mainevent.type == SDL_MOUSEBUTTONDOWN) {
+        }
+        if (mainevent.type == SDL_MOUSEBUTTONDOWN) {
             mousebuffer[(unsigned char)mainevent.button.button] |= 0b00000011;
-        } else if (mainevent.type == SDL_MOUSEBUTTONUP) {
+        }
+        if (mainevent.type == SDL_MOUSEBUTTONUP) {
             mousebuffer[(unsigned char)mainevent.button.button] &= 0b11111101;
             mousebuffer[(unsigned char)mainevent.button.button] |= 0b00000100;
-        } else if (mainevent.type == SDL_WINDOWEVENT) {
+        }
+        if (mainevent.type == SDL_WINDOWEVENT) {
             if (mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
                 // std::cout << "Resized window\n";
                 // cam->setAspectRatio(Ogre::Real((float)ctx->getRenderWindow()->getWidth()

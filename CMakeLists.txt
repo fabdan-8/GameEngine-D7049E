@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.10)
 # project(GameEngine-D7049E)
 
-# 11 required for Ogre 1.11+
+# 11+ required for Ogre 1.11+
 set(CMAKE_CXX_STANDARD 17)
 
 set(PROJECT_NAME 0_main)
@@ -45,6 +45,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/mesh/
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/mesh)
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/ArgumentsGameFolder/
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/ArgumentsGameFolder)
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
