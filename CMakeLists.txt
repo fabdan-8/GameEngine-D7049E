@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 3.10)
 # project(GameEngine-D7049E)
 
-# required for Ogre 1.11+
-set(CMAKE_CXX_STANDARD 11)
+# 11 required for Ogre 1.11+
+set(CMAKE_CXX_STANDARD 17)
 
 set(PROJECT_NAME 0_main)
 set(SDL2STUFF SDL2 SDL2_image SDL2_mixer SDL2main SDL2_net)

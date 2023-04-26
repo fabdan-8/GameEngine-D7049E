@@ -133,7 +133,12 @@ void Game::Load() {
     // finally something to render
     for (int a = 0; a < 10; a++) { // add 100 skeletons
         for (int b = 0; b < 10; b++) {
-            std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+            if (rand() % 2 == 0) {
+                std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+            }
+            else {
+                std::string orc_name = scene.AddEntity("Orc", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+            }
         }
     }
     // std::cout << "---------------------\n";
