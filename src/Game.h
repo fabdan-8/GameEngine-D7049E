@@ -27,6 +27,26 @@
 
 #include "Scene.h"
 
+class Variable {
+public:
+    std::string name = "";
+    std::string content = "";
+    double value = 0;
+    bool IsValue() {
+        return content == "$value";
+    }
+    bool IsString() {
+        return !IsValue();
+    }
+};
+
+class Script {
+public:
+    std::vector<std::string> command;
+    std::vector<std::vector<Variable>> argument;
+    void Read();
+};
+
 class Game {
   public:
     Game(){};
@@ -42,6 +62,8 @@ class Game {
     bool MouseClicked(unsigned char button);
     bool MousePressed(unsigned char button);
     bool MouseReleased(unsigned char button);
+
+    void ScriptReader(std::string filename);
 
     Ogre::SceneManager *scnMgr = nullptr;
     bool running = false;

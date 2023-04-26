@@ -1,0 +1,8 @@
+#this script makes a menu
+
+variable button1text="test"
+
+make_button x=0.3,y=0.2,w=0.4,h=0.15,text=$button1text,script=button1script.txt
+make_button x=0.3,y=0.4,w=0.4,h=0.15,text="play",script=load_game.txt
+make_button x=0.3,y=0.6,w=0.4,h=0.15,text="exit",script=shutdown
+# script=shutdown is hardcoded and means that the program will quit

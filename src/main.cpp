@@ -41,6 +41,11 @@ int main(int argc, char *argv[]) {
     // std::cout << "Ogre version: " << version << std::endl;
     // Ogre version is 13.6.4
 
+    //std::string d = "hello world";
+    //size_t div = d.find_first_of(" ");
+    //std::cout << d.substr(0, div) << "\n";
+    //std::cout << d.substr(div + 1, d.size() - div - 1) << "\n";
+    //getline(std::cin, d);
     game.Load();
     game.MainLoop();
     game.Cleanup();

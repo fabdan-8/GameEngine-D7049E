@@ -1,0 +1,4 @@
+
+variable scale=0.1
+
+spawn skeleton scale=$scale,x=,y=,z=

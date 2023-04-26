@@ -3,6 +3,9 @@
 #include "Defines.h"
 
 #include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
@@ -32,3 +35,5 @@
 Game game;
 
 std::string meshfolder = "";
+std::string scriptfolder = "";
+std::map<std::string, Script*> scripthandler;

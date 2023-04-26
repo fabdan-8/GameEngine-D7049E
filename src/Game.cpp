@@ -7,11 +7,16 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <fstream>
+#include <map>
+#include <vector>
 
 #include "Player.h"
 
 extern Game game;
 extern std::string meshfolder;
+extern std::string scriptfolder;
+extern std::map<std::string, Script*> scripthandler;
 
 class KeyHandler : public OgreBites::InputListener {
     bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -46,6 +51,34 @@ class KeyHandler : public OgreBites::InputListener {
         return true;
     }
 };
+
+void Script::Read() {
+    std::cout << "script is being read\n";
+    if (command.size() == 0 || command.size() != argument.size()) {//not a valid command
+        return;
+    }
+    //the command vector is valid
+    for (int a = 0; a < command.size(); a++) {
+        if (command[a] == "shutdown") {
+            game.running = false;
+        }
+        else if (command[a] == "music") {
+
+        }
+        else if (command[a] == "spawn") {
+
+        }
+        else if (command[a] == "make_button") {
+
+        }
+        else if (command[a] == "script") {
+            game.ScriptReader(argument[a][0].name);
+        }
+        else if (command[a] == "print") {
+            std::cout << argument[a][0].content;
+        }
+    }
+}
 
 void Game::Load() {
     std::string name;
@@ -129,6 +162,10 @@ void Game::Load() {
     // KeyHandler keyHandler;
     // ctx->addInputListener(&keyHandler);
     // getline(std::cin, name);
+
+    scriptfolder = "ArgumentsGameFolder/data/scripts/";
+    ScriptReader("button1test.txt");
+    getline(std::cin, name);
 
     meshfolder = "ArgumentsGameFolder/data/mesh/";
     Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
@@ -218,6 +255,10 @@ void Game::Cleanup() {
     // delete ctx;
     delete root;
 
+    for (auto const& script : scripthandler) {
+        delete script.second;
+    }
+
     SDLNet_Quit();
     Mix_CloseAudio();
     IMG_Quit();
@@ -264,6 +305,78 @@ bool Game::MouseReleased(unsigned char button) {
         return true;
     }
     return false;
+}
+
+void Game::ScriptReader(std::string filename) {
+    Script* script = nullptr;
+    if (scripthandler.find(filename) != scripthandler.end()) {//script already exists, just read it
+        script = scripthandler[filename];
+        script->Read();
+    }
+    else {//script does not exist, first make it
+        std::ifstream file;
+        file.open(scriptfolder + filename);
+        if (!file.is_open()) {
+            //could not run script
+            return;
+        }
+
+        script = new Script;//deleted in game.Cleanup()
+        scripthandler[filename] = script;//add script to scripthandler map
+
+        //parse file, make script
+        std::string buf;
+        int iter = 0;
+        while (file.good()) {
+            getline(file, buf);
+            buf += ";";//add ';' to be able to find end easier
+            size_t div = buf.find_first_of(" ");//find first space
+            if (div > 0 && div != std::string::npos && buf[0] != '#') {//also check if it is a comment
+                script->command[iter] = buf.substr(0, div);//command name
+                bool find_args = true;
+                while (find_args) {//loop over all arguments
+                    if (buf.size() > div + 1) {
+                        buf = buf.substr(div + 1);//remove previous part of string
+                        div = buf.find_first_of(",;");//find next argument
+                    }
+                    else {
+                        div = 0;//will result in find_args = false;
+                    }
+                    if (div > 0 && div != std::string::npos) {
+                        std::string arg = buf.substr(0, div);//arg is the whole argument, including the equals
+
+                        size_t equals = buf.find_first_of("=");//find the equals sign
+
+                        if (equals > 0 && equals != std::string::npos && buf.size() > equals + 1) {
+                            Variable var;
+                            var.name = buf.substr(0, equals);//name before the equals
+                            var.content = buf.substr(equals + 1, div - var.name.size());//content after the equals
+                            if (var.content.size() > 1 && var.content[0] == '"' && var.content[var.content.size() - 1] == '"') {//is string
+                                var.content = var.content.substr(1, var.content.size() - 2);//remove " "-signs
+                            }
+                            else {//is value
+                                var.value = atof(var.content.c_str());//convert the value from string to numerical value
+                                var.content = "$value";
+                            }
+                            script->argument[iter].push_back(var);//add to argument vector
+                        }
+                        else {//argument invalid, stop accepting arguments to avoid more errors
+                            find_args = false;
+                        }
+                    }
+                    else {//can't find next argument
+                        find_args = false;
+                    }
+                }
+            }
+            iter++;
+        }
+
+        file.close();
+    }
+    if (script) {
+        script->Read();
+    }
 }
 
 void Game::Render() {

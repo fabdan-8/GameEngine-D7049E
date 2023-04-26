@@ -1,0 +1,7 @@
+# initial file, loaded after the engine and resources are loaded.
+
+# this is a comment
+# the script is loaded and is run before this script continues running
+script make_menu.txt
+
+music Spinning.mp3
