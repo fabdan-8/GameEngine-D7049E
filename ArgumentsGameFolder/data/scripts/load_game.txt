@@ -1,4 +1,16 @@
-
+#this is a comment
+#variables
 variable scale=0.1
+variable house_scale=0.4
 
-spawn skeleton scale=$scale,x=,y=,z=
+#graveyard
+spawn skeleton scale=$scale,x=1,y=0,z=8,interaction_script="skeleton_interaction.txt",update_script="skeleton_update.txt"
+spawn gravestone scale=$scale,x=2,y=0,z=8
+spawn gravestone scale=$scale,x=3,y=0,z=6
+spawn gravestone scale=$scale,x=1,y=0,z=5
+spawn gravestone_alt scale=$scale,x=2.5,y=0,z=9
+
+#house
+spawn house scale=$house_scale,x=-10,y=0,z=-5
+spawn friend scale=$scale,x=-9,y=0.3,z=-4
+

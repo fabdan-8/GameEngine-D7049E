@@ -1,0 +1,30 @@
+# skeleton will stand next to gravestone,
+# but move towards the player if it is
+# closer than 20 units away, but stop if
+# it is within 5 units away, occasionally
+# spin around, but otherwise face the player
+
+if $distance_to_player < 5
+
+set_target x=$x,y=0,z=$z,speed=0.0
+
+elseif $distance_to_player < 20
+
+set_target x=$player_x,y=0,z=$player_z,speed=$speed
+
+else
+
+set_target x=1,y=0,z=8,speed=$speed
+
+end
+
+if $d100 > 98
+
+# queue spinning action
+spin deg=360,time=1.0
+
+else
+
+face_player time=0.1
+
+end
