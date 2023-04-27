@@ -1,1 +1,1 @@
-print text="hello"
+print hello world
