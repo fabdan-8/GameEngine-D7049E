@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 #include "Defines.h"
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
@@ -15,4 +16,9 @@ class Entity {
     Ogre::Entity *ent = nullptr;
     Ogre::SceneNode *node = nullptr;
     double speed;
+};
+*/
+struct Entity {
+    const int entityId;
+    Entity(int entityId);
 };
