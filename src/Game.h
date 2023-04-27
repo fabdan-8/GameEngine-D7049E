@@ -27,6 +27,7 @@
 
 #include "Scene.h"
 
+/*
 class Variable {
 public:
     std::string name = "";
@@ -46,6 +47,7 @@ public:
     std::vector<std::vector<Variable>> argument;
     void Read();
 };
+*/
 
 class Game {
   public:
@@ -55,26 +57,6 @@ class Game {
     void Load();
     void MainLoop();
     void Cleanup();
-
-    bool Clicked(unsigned char key);
-    bool Pressed(unsigned char key);
-    bool Released(unsigned char key);
-    bool MouseClicked(unsigned char button);
-    bool MousePressed(unsigned char button);
-    bool MouseReleased(unsigned char button);
-
-    void ScriptReader(std::string filename);
-
-    Ogre::SceneManager *scnMgr = nullptr;
-    bool running = false;
-    unsigned char keybuffer[256] = {0}; // 0b00000000 is the binary representation. The last byte
-                                        // is "clicked", the second to last is "pressed", the third
-                                        // to last is "released"
-    unsigned char mousebuffer[256] = {0};
-    int mouseX;
-    int mouseY;
-    int screenW;
-    int screenH;
 
   private:
     void Render();
@@ -87,7 +69,6 @@ class Game {
     SDL_Window *sdl_window = nullptr;
     Mix_Music *music;
     bool music_playing = false;
-    Scene scene; // let's start with only one scene
 
     int my;
     int mx;
@@ -99,7 +80,7 @@ class Game {
     Ogre::RenderWindow *window = nullptr;
     Ogre::Camera *cam = nullptr;
     Ogre::SceneNode *cam_node = nullptr;
-    Ogre::Viewport* viewport = nullptr;
+    Ogre::Viewport *viewport = nullptr;
 
     // test
     double rot = 0.0;

@@ -1,16 +1,27 @@
 #include "GameEngine.h"
+
+#include "Entity.h"
 #include "EntityManager.h"
 #include "GameSceneManager.h"
 #include "Global.h"
+#include "Renderable.h"
+#include "Script.h"
+#include "Sound.h"
+
+GameEngine *GAME_ENGINE;
+EntityManager *ENTITY_M;
+GameSceneManager *GAME_SCENE_M;
 
 int main(int argv, char **argc) {
     GAME_ENGINE = new GameEngine();
     ENTITY_M = new EntityManager();
     GAME_SCENE_M = new GameSceneManager();
-    GAME_ENGINE->Startup();
+    GAME_ENGINE->Load();
+    // GAME_ENGINE->MainLoop();
+    // GAME_ENGINE->Cleanup();
 }
 
-void GameEngine::Startup() {
+void GameEngine::Load() {
     // Start creating stuff for the game
 }
 

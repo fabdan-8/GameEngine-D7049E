@@ -3,15 +3,23 @@
 #include <filesystem>
 #include <iostream>
 
-#include "Game.h"
+#include "GameEngine.h"
+#include "Global.h"
 
 #include <OgreMaterialManager.h>
 #include <OgreMeshManager.h>
 
-extern Game game;
-extern std::string meshfolder;
+// extern std::string meshfolder;
 
 void Renderable::Update() {
+}
+
+Renderable::Renderable(int entityId, std::string filename, float scale, Ogre::Vector3 xyz) : entityId(entityId) {
+    // TODO: actually load the object that is to be rendered
+    if (filename.size() > 0) {
+        GAME_ENGINE->renderableMap.insert(std::pair<int, Renderable *>(entityId, this));
+        // this->Load(filename, scale, xyz);
+    }
 }
 
 /*

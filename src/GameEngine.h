@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 
+/*
 #include "Camera.h"
 #include "Entity.h"
 #include "Physics.h"
@@ -10,6 +11,14 @@
 #include "Script.h"
 #include "ScriptData.h"
 #include "Sound.h"
+*/
+struct Script;
+struct Entity;
+struct Renderable;
+struct Physics;
+struct ScriptData;
+struct Sound;
+struct Camera;
 
 struct GameEngine {
     std::map<int, Ogre::SceneManager *> sceneMap;
@@ -26,7 +35,17 @@ struct GameEngine {
     Renderable *getRenderableFromName(std::string name);
     Sound *getSoundFromName(std::string name);
 
-    void Startup();
-
-    GameEngine();
+    void Load();
+    void MainLoop();
+    void Cleanup();
 };
+
+#include "Camera.h"
+#include "Entity.h"
+#include "EntityManager.h"
+#include "GameSceneManager.h"
+#include "Physics.h"
+#include "Renderable.h"
+#include "Script.h"
+#include "ScriptData.h"
+#include "Sound.h"

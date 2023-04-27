@@ -2,6 +2,9 @@
 
 struct Camera {
     const int entityId;
-    // TODO
+    // TODO: Add functionality
+
+    void Update(); // TODO: Is this needed?
+
     Camera();
 };

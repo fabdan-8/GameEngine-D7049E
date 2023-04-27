@@ -18,7 +18,7 @@ find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem CONFIG)
 # find_package(SDL2 REQUIRED)
  
 # add the source files as usual
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/Game.cpp" "src/Scene.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h")
+add_executable(${PROJECT_NAME} "src/GameEngine.cpp" "src/GameSceneManager.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h" "src/EntityManager.cpp" "src/Renderable.cpp" "src/Physics.cpp" "src/ScriptData.cpp" "src/Camera.cpp")
  
 # this also sets the includes and pulls third party dependencies
 target_link_libraries(${PROJECT_NAME} OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator OgreOverlay ${SDL2STUFF})

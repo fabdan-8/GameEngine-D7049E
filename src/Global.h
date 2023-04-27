@@ -4,9 +4,9 @@ struct GameEngine;
 struct EntityManager;
 struct GameSceneManager;
 
-GameEngine *GAME_ENGINE;
-EntityManager *ENTITY_M;
-GameSceneManager *GAME_SCENE_M;
+extern GameEngine *GAME_ENGINE;
+extern EntityManager *ENTITY_M;
+extern GameSceneManager *GAME_SCENE_M;
 /*
 
 #include "Defines.h"
