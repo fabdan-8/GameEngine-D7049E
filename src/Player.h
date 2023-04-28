@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Scene.h"
+#include "GameSceneManager.h"
 
-class Player {
-  public:
-    Scene *active_scene = nullptr;
-};
+struct Player {};

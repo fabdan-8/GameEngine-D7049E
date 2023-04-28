@@ -7,29 +7,6 @@
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
 
-//! [key_handler]
-// class KeyHandler : public OgreBites::InputListener {
-//   bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
-//     if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
-//       Ogre::Root::getSingleton().queueEndRendering();
-//     }
-//     //else if (evt.keysym.sym == OgreBites::SDLK_UP) {
-//     //    camNode->translate(Ogre::Vector3(0.0f, 1.0f, 0.0f));
-//     //}
-//     //else if (evt.keysym.sym == OgreBites::SDLK_DOWN) {
-//     //    camNode->translate(Ogre::Vector3(0.0f, -1.0f, 0.0f));
-//     //}
-//     //else if (evt.keysym.sym == OgreBites::SDLK_LEFT) {
-//     //    camNode->translate(Ogre::Vector3(-1.0f, 0.0f, 0.0f));
-//     //}
-//     //else if (evt.keysym.sym == OgreBites::SDLK_RIGHT) {
-//     //    camNode->translate(Ogre::Vector3(1.0f, 0.0f, 0.0f));
-//     //}
-//     return true;
-//   }
-// };
-//! [key_handler]
-
 int main(int argc, char *argv[]) {
 
     // Ogre::String version =
@@ -41,11 +18,11 @@ int main(int argc, char *argv[]) {
     // std::cout << "Ogre version: " << version << std::endl;
     // Ogre version is 13.6.4
 
-    //std::string d = "hello world";
-    //size_t div = d.find_first_of(" ");
-    //std::cout << d.substr(0, div) << "\n";
-    //std::cout << d.substr(div + 1, d.size() - div - 1) << "\n";
-    //getline(std::cin, d);
+    // std::string d = "hello world";
+    // size_t div = d.find_first_of(" ");
+    // std::cout << d.substr(0, div) << "\n";
+    // std::cout << d.substr(div + 1, d.size() - div - 1) << "\n";
+    // getline(std::cin, d);
     game.Load();
     game.MainLoop();
     game.Cleanup();

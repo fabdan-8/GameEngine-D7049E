@@ -1,5 +1,14 @@
 #pragma once
 
+struct GameEngine;
+struct EntityManager;
+struct GameSceneManager;
+
+extern GameEngine *GAME_ENGINE;
+extern EntityManager *ENTITY_M;
+extern GameSceneManager *GAME_SCENE_M;
+/*
+
 #include "Defines.h"
 
 #include <iostream>
@@ -37,3 +46,4 @@ Game game;
 std::string meshfolder = "";
 std::string scriptfolder = "";
 std::map<std::string, Script*> scripthandler;
+*/
