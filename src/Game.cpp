@@ -317,34 +317,35 @@ void Game::ScriptReader(std::string filename) {
     Script *script = nullptr;
     if (scripthandler.find(filename) != scripthandler.end()) { // script already exists, just read it
         script = scripthandler[filename];
-        // std::cout << "script already exists\n";
-    } else { // script does not exist, first make it
+        //std::cout << "script already exists\n";
+    }
+    else {//script does not exist, first make it
         std::ifstream file;
         file.open(scriptfolder + filename);
         if (!file.is_open()) {
-            // could not run script
-            // std::cout << "could not find script '" << scriptfolder + filename << "'\n";
+            //could not run script
+            //std::cout << "could not find script '" << scriptfolder + filename << "'\n";
             return;
         }
 
-        script = new Script;              // deleted in game.Cleanup()
-        scripthandler[filename] = script; // add script to scripthandler map
-        // std::cout << "making script\n";
-        // parse file, make script
+        script = new Script;//deleted in game.Cleanup()
+        scripthandler[filename] = script;//add script to scripthandler map
+        //std::cout << "making script\n";
+        //parse file, make script
         std::string buf;
         int iter = 0;
-        while (file.good()) { // loop over all lines in the script file
-            // std::cout << "command\n";
+        while (file.good()) {//loop over all lines in the script file
+            //std::cout << "command\n";
             getline(file, buf);
-            buf += ";";                                                 // add ';' to be able to find end easier
-            size_t div = buf.find_first_of(" ");                        // find first space
-            if (div > 0 && div != std::string::npos && buf[0] != '#') { // also check if it is a comment
-                script->command.push_back(buf.substr(0, div));          // command name
+            buf += ";";//add ';' to be able to find end easier
+            size_t div = buf.find_first_of(" ");//find first space
+            if (div > 0 && div != std::string::npos && buf[0] != '#') {//also check if it is a comment
+                script->command.push_back(buf.substr(0, div));//command name
                 std::vector<Variable> var_vector;
-                script->argument.push_back(var_vector); // argument vector
+                script->argument.push_back(var_vector);//argument vector
                 bool find_args = true;
-                while (find_args) { // loop over all arguments
-                    // std::cout << "argument:\n";
+                while (find_args) {//loop over all arguments
+                    //std::cout << "argument:\n";
                     if (buf.size() > div + 1) {
                         buf = buf.substr(div + 1);     // remove previous part of string
                         div = buf.find_first_of(",;"); // find next argument
@@ -358,29 +359,31 @@ void Game::ScriptReader(std::string filename) {
 
                         if (equals > 0 && equals != std::string::npos && buf.size() > equals + 1) {
                             Variable var;
-                            var.name = buf.substr(0, equals);                                // name before the equals
-                            var.content = buf.substr(equals + 1, div - var.name.size() - 1); // content after the equals
-                            // std::cout << "name: '" << var.name << "'\n";
-                            // std::cout << "content: '" << var.content << "'\n";
-                            if (var.content.size() > 1 && var.content[0] == '\"' && var.content[var.content.size() - 1] == '\"') { // is string
-                                var.content = var.content.substr(1, var.content.size() - 2);                                       // remove " "-signs
-                                // std::cout << "content changed to: '" << var.content << "'\n";
-                            } else {                                   // is value
-                                var.value = atof(var.content.c_str()); // convert the value from string to numerical value
-                                // std::cout << "value changed to: '" << var.value << "'\n";
+                            var.name = buf.substr(0, equals);//name before the equals
+                            var.content = buf.substr(equals + 1, div - var.name.size() - 1);//content after the equals
+                            //std::cout << "name: '" << var.name << "'\n";
+                            //std::cout << "content: '" << var.content << "'\n";
+                            if (var.content.size() > 1 && var.content[0] == '\"' && var.content[var.content.size() - 1] == '\"') {//is string
+                                var.content = var.content.substr(1, var.content.size() - 2);//remove " "-signs
+                                //std::cout << "content changed to: '" << var.content << "'\n";
+                            }
+                            else {//is value
+                                var.value = atof(var.content.c_str());//convert the value from string to numerical value
+                                //std::cout << "value changed to: '" << var.value << "'\n";
                                 var.content = "$value";
                             }
-                            script->argument.back().push_back(var); // add to argument vector
-                        } else {                                    // no equals sign, this is a single line argument
+                            script->argument.back().push_back(var);//add to argument vector
+                        }
+                        else {//no equals sign, this is a single line argument
 
                             Variable var;
                             var.name = "oneline";
-                            var.content = buf.substr(0, buf.size() - 1); // remove ';' that was added previously
-                            // std::cout << "name: '" << var.name << "'\n";
-                            // std::cout << "content: '" << var.content << "'\n";
-                            script->argument.back().push_back(var); // add to argument vector
+                            var.content = buf.substr(0, buf.size() - 1);//remove ';' that was added previously
+                            //std::cout << "name: '" << var.name << "'\n";
+                            //std::cout << "content: '" << var.content << "'\n";
+                            script->argument.back().push_back(var);//add to argument vector
 
-                            find_args = false; // also break since there is only one argument
+                            find_args = false;//also break since there is only one argument
                         }
                     } else { // can't find next argument
                         find_args = false;
@@ -393,10 +396,10 @@ void Game::ScriptReader(std::string filename) {
         file.close();
     }
     if (script) {
-        // std::cout << "running script\n";
+        //std::cout << "running script\n";
         script->Read();
     }
-    // std::cout << "all done\n";
+    //std::cout << "all done\n";
 }
 
 void Game::Render() {
