@@ -35,17 +35,10 @@ struct GameEngine {
     Renderable *getRenderableFromName(std::string name);
     Sound *getSoundFromName(std::string name);
 
+    bool running = true;
+
     void Load();
     void MainLoop();
     void Cleanup();
+    void Update();
 };
-
-#include "Camera.h"
-#include "Entity.h"
-#include "EntityManager.h"
-#include "GameSceneManager.h"
-#include "Physics.h"
-#include "Renderable.h"
-#include "Script.h"
-#include "ScriptData.h"
-#include "Sound.h"
