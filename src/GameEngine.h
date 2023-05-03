@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Ogre.h"
-#include "OgreApplicationContext.h"
+#include <Ogre.h>
+#include <OgreApplicationContext.h>
 #include <iostream>
 #include <map>
 

@@ -160,6 +160,7 @@ void Input::GetInput() {
 
 void Input::CheckEvents() {
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse positions
+    SDL_Event mainevent;
     for (int a = 0; a < 256; a++) {
         keybuffer[a] = (keybuffer[a] & 0b11111010);
         mousebuffer[a] = (mousebuffer[a] & 0b11111010);
