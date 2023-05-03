@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 
+//#include "OgreMeshSerializer.h"
+
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
 
@@ -54,6 +56,9 @@ void GameEngine::Cleanup() {
     // ctx->closeApp();
     // delete ctx;
     delete GAME_SCENE_M->root;
+    delete ENTITY_M;
+    delete GAME_SCENE_M;
+    delete INPUT;
 
     SDLNet_Quit();
     Mix_CloseAudio();

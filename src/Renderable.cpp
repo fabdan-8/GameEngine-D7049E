@@ -9,6 +9,7 @@
 
 //#include <OgreMaterialManager.h>
 //#include <OgreMeshManager.h>
+#include <OgreMeshSerializer.h>
 
 #include "SDL.h"
 
@@ -117,15 +118,7 @@ void Renderable::SetMaterial(std::string name) {
 }
 
 std::string Renderable::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
-    if (name.find(".mesh") != std::string::npos) {
-        try {
-            ent = GAME_SCENE_M->sceneManager->createEntity(name);
-        }
-        catch (...) {
-            ent = nullptr;
-        }
-    }
-    else {
+    if (name.find(".X") != std::string::npos) {
         try {
             // From ChatGPT:
             // Ogre::String meshName = "skeleton.X";         // your mesh name
@@ -159,7 +152,20 @@ std::string Renderable::Load(std::string name, float scale, float start_x, float
             // Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
             // ent->setMaterialName("skeleton_material");
+            if (ent) {//export mesh
+                Ogre::MeshSerializer serializer;
+                serializer.exportMesh(ent->getMesh(), GAME_SCENE_M->meshfolder + name + ".mesh");
+            }
 
+            SetMaterial(name);
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
+    else {
+        try {
+            ent = GAME_SCENE_M->sceneManager->createEntity(std::string(name + ".mesh"));
             SetMaterial(name);
         }
         catch (...) {
@@ -173,6 +179,7 @@ std::string Renderable::Load(std::string name, float scale, float start_x, float
         node->setPosition(start_x, start_y, start_z);
 
         node->attachObject(ent);
+
         return ent->getName();
     }
     else {
