@@ -91,9 +91,9 @@ void GameSceneManager::InitWindowContext() {
 
     //create an entity
     Renderable entities[10];
-    entities[0].Load("skeleton", 1, 0, 0, 0);
+    entities[0].Load("skeleton.X", 1, 0, 0, 0);
     entities[1].Load("fern", 1, 50, 0, 0);
-    entities[2].Load("Dessicated Priest", 1, 0, 0, 50);
+    entities[2].Load("Desiccated Priest", 1, 0, 0, 200);
     entities[3].Load("Goblin", 1, 50, 0, 50);
     entities[4].Load("Orc", 1, 100, 0, 50);
     entities[5].Load("crypt", 1, -400, 0, 100);

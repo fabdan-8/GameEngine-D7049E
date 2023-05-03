@@ -118,7 +118,7 @@ void Renderable::SetMaterial(std::string name) {
 }
 
 std::string Renderable::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
-    if (name.find(".X") != std::string::npos) {
+    if (name.find(".X") != std::string::npos && name.size() > 2) {
         try {
             // From ChatGPT:
             // Ogre::String meshName = "skeleton.X";         // your mesh name
@@ -147,6 +147,7 @@ std::string Renderable::Load(std::string name, float scale, float start_x, float
 
             // Create an entity from the mesh
             // Ogre::Entity* entity = scnMgr->createEntity(mesh);
+            name = name.substr(0, name.size() - 2);
 
             ent = GAME_SCENE_M->sceneManager->createEntity(std::string(name + ".X"));
             // Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
