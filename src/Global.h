@@ -31,8 +31,10 @@
 #include "Player.h"
 #include "Scene.h"
 #include "UI.h"
+#include "Server.h"
 
 Game game;
+Server server;
 
 std::string meshfolder = "";
 std::string scriptfolder = "";
