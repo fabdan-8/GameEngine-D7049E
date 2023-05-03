@@ -12,7 +12,7 @@
 
 #include "SDL.h"
 
-extern std::string meshfolder;
+std::string meshfolder;
 
 void Renderable::Update() {
 

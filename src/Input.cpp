@@ -3,6 +3,7 @@
 #include "Global.h"
 
 #include "Input.h"
+#include "SDL.h"
 
 bool Input::Clicked(unsigned char key) {
     if (keybuffer[key] & 0b00000001) {
