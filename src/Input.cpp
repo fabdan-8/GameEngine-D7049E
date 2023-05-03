@@ -1,9 +1,8 @@
-#include "Input.h"
-
 #include "GameEngine.h"
 #include "GameSceneManager.h"
 #include "Global.h"
-#include "SDL.h"
+
+#include "Input.h"
 
 bool Input::Clicked(unsigned char key) {
     if (keybuffer[key] & 0b00000001) {
