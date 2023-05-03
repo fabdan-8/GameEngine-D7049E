@@ -4,25 +4,28 @@
 #include <iostream>
 
 #include "GameEngine.h"
+#include "GameSceneManager.h"
 #include "Global.h"
 
-#include <OgreMaterialManager.h>
-#include <OgreMeshManager.h>
+//#include <OgreMaterialManager.h>
+//#include <OgreMeshManager.h>
 
-// extern std::string meshfolder;
+#include "SDL.h"
+
+extern std::string meshfolder;
 
 void Renderable::Update() {
+
 }
 
-Renderable::Renderable(int entityId, std::string filename, float scale, Ogre::Vector3 xyz) : entityId(entityId) {
-    // TODO: actually load the object that is to be rendered
-    if (filename.size() > 0) {
-        GAME_ENGINE->renderableMap.insert(std::pair<int, Renderable *>(entityId, this));
-        // this->Load(filename, scale, xyz);
-    }
-}
+//Renderable::Renderable(int entityId, std::string filename, float scale, Ogre::Vector3 xyz) : entityId(entityId) {
+//    // TODO: actually load the object that is to be rendered
+//    if (filename.size() > 0) {
+//        GAME_ENGINE->renderableMap.insert(std::pair<int, Renderable *>(entityId, this));
+//        // this->Load(filename, scale, xyz);
+//    }
+//}
 
-/*
 void Renderable::SetMaterial(std::string name) {
     if (Ogre::MaterialManager::getSingleton().resourceExists(std::string(name + "_material"))) { // material exists, just assign it
         if (ent) {
@@ -37,14 +40,15 @@ void Renderable::SetMaterial(std::string name) {
     if (false) {
 
         std::string folder = meshfolder;
-        SDL_Surface *surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
+        SDL_Surface* surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
         if (!surf) {
             return;
         }
         if (surf->format->BytesPerPixel == 4) {
             // ok
-        } else {
-            SDL_Surface *buf_surf = surf;
+        }
+        else {
+            SDL_Surface* buf_surf = surf;
             surf = SDL_ConvertSurfaceFormat(buf_surf, SDL_PIXELFORMAT_RGBA32, 0);
             SDL_FreeSurface(buf_surf);
         }
@@ -81,14 +85,15 @@ void Renderable::SetMaterial(std::string name) {
         // free ( pixel_buf );
 
         Ogre::Image image;
-        image.loadDynamicImage((Ogre::uchar *)surf->pixels, (Ogre::uint32)surf->w, (Ogre::uint32)surf->h, Ogre::PF_BYTE_RGBA);
+        image.loadDynamicImage((Ogre::uchar*)surf->pixels, (Ogre::uint32)surf->w, (Ogre::uint32)surf->h, Ogre::PF_BYTE_RGBA);
         Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().loadImage(std::string(name + "_texture"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, image);
 
         Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(std::string(name + "_material"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         // Ogre::TextureUnitState *textureUnit =
         material->getTechnique(0)->getPass(0)->createTextureUnitState(std::string(name + "_texture"));
         SDL_FreeSurface(surf);
-    } else {
+    }
+    else {
         Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(std::string(name + "_material"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         if (std::filesystem::exists(meshfolder + name + "_D.dds")) {
             material->getTechnique(0)->getPass(0)->createTextureUnitState(name + "_D.dds");
@@ -111,11 +116,13 @@ void Renderable::SetMaterial(std::string name) {
 std::string Renderable::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
     if (name.find(".mesh") != std::string::npos) {
         try {
-            ent = game.scnMgr->createEntity(name);
-        } catch (...) {
+            ent = GAME_SCENE_M->sceneManager->createEntity(name);
+        }
+        catch (...) {
             ent = nullptr;
         }
-    } else {
+    }
+    else {
         try {
             // From ChatGPT:
             // Ogre::String meshName = "skeleton.X";         // your mesh name
@@ -145,27 +152,28 @@ std::string Renderable::Load(std::string name, float scale, float start_x, float
             // Create an entity from the mesh
             // Ogre::Entity* entity = scnMgr->createEntity(mesh);
 
-            ent = game.scnMgr->createEntity(std::string(name + ".X"));
+            ent = GAME_SCENE_M->sceneManager->createEntity(std::string(name + ".X"));
             // Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
             // ent->setMaterialName("skeleton_material");
 
             SetMaterial(name);
-        } catch (...) {
+        }
+        catch (...) {
             ent = nullptr;
         }
     }
     if (ent) {
-        Ogre::SceneNode *node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
+        Ogre::SceneNode* node = GAME_SCENE_M->sceneManager->getRootSceneNode()->createChildSceneNode();
 
         node->setScale(Ogre::Vector3(scale, scale, scale));
         node->setPosition(start_x, start_y, start_z);
 
         node->attachObject(ent);
         return ent->getName();
-    } else {
+    }
+    else {
         std::cout << "Can't find mesh '" << name << "'\n";
         return "";
     }
 }
-*/
