@@ -24,6 +24,7 @@ int main(int argv, char **argc) {
     GAME_ENGINE->Load();
     GAME_ENGINE->MainLoop();
     GAME_ENGINE->Cleanup();
+    return 0;
 }
 
 void GameEngine::Load() {

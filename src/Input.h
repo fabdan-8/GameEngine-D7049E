@@ -1,5 +1,4 @@
 #pragma once
-#include "SDL.h"
 
 struct Input {
     unsigned char mousebuffer[256] = {0};
@@ -16,7 +15,6 @@ struct Input {
     bool MouseClicked(unsigned char button);
     bool MousePressed(unsigned char button);
     bool MouseReleased(unsigned char button);
-    SDL_Event mainevent;
 
     void GetInput();
     void CheckEvents();
