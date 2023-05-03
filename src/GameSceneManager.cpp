@@ -84,6 +84,25 @@ void GameSceneManager::InitWindowContext() {
     TEMPORARY_SCENE_NODE = GAME_SCENE_M->sceneManager->getRootSceneNode()->createChildSceneNode();
     TEMPORARY_SCENE_NODE->attachObject(TEMPORARY_ENTITY);
 
+    //add a mesh folder
+    meshfolder = "ArgumentsGameFolder/data/mesh/";
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+    rgm.addResourceLocation(meshfolder, "FileSystem");
+
+    //create an entity
+    Renderable entities[10];
+    entities[0].Load("skeleton", 1, 0, 0, 0);
+    entities[1].Load("fern", 1, 50, 0, 0);
+    entities[2].Load("Dessicated Priest", 1, 0, 0, 50);
+    entities[3].Load("Goblin", 1, 50, 0, 50);
+    entities[4].Load("Orc", 1, 100, 0, 50);
+    entities[5].Load("crypt", 1, -400, 0, 100);
+    entities[6].Load("statuewall", 1, 0, 0, 300);
+    entities[7].Load("skeleton", 1, -50, 0, 0);
+    entities[8].Load("skeleton", 1, 0, 0, -100);
+    entities[9].Load("skeleton", 0.2, -50, 0, -50);
+
+
     //! [setup]
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {

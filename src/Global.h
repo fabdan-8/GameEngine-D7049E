@@ -13,7 +13,7 @@ extern GameSceneManager *GAME_SCENE_M;
 extern Input *INPUT;
 
 
-//std::string meshfolder = "";
+//extern std::string meshfolder;
 //std::string scriptfolder = "";
 //std::map<std::string, Script*> scripthandler;
 

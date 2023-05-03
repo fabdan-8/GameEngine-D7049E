@@ -4,10 +4,11 @@
 #include "OgreApplicationContext.h"
 #include <iostream>
 
-struct Renderable {
-    const int entityId;
-    Ogre::Entity *ent;
-    Ogre::SceneNode *node;
+class Renderable {
+public:
+    unsigned long int entityId = 0;
+    Ogre::Entity *ent = nullptr;
+    Ogre::SceneNode *node = nullptr;
 
     void createLight(Ogre::Vector3 xyz);
     std::string Load(std::string name, float scale, float start_x, float start_y, float start_z);

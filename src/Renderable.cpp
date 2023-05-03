@@ -12,7 +12,7 @@
 
 #include "SDL.h"
 
-std::string meshfolder;
+//std::string meshfolder;
 
 void Renderable::Update() {
 
@@ -33,13 +33,12 @@ void Renderable::SetMaterial(std::string name) {
         }
         return;
     }
-
     // otherwise, make the material
-    // std::cout << name << "_material is being made\n";
+    //std::cout << name << "_material is being made\n";
 
     if (false) {
 
-        std::string folder = meshfolder;
+        std::string folder = GAME_SCENE_M->meshfolder;
         SDL_Surface* surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
         if (!surf) {
             return;
@@ -95,10 +94,14 @@ void Renderable::SetMaterial(std::string name) {
     }
     else {
         Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(std::string(name + "_material"), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        if (std::filesystem::exists(meshfolder + name + "_D.dds")) {
+        //std::cout << ">";
+        //std::cout << GAME_SCENE_M->meshfolder + name + "_D.dds" << "\n";
+        if (std::filesystem::exists(GAME_SCENE_M->meshfolder + name + "_D.dds")) {
+            //std::cout << "D";
             material->getTechnique(0)->getPass(0)->createTextureUnitState(name + "_D.dds");
         }
-        if (std::filesystem::exists(meshfolder + name + "_D2.dds")) {
+        if (std::filesystem::exists(GAME_SCENE_M->meshfolder + name + "_D2.dds")) {
+            //std::cout << "D2";
             material->getTechnique(0)->getPass(0)->createTextureUnitState(name + "_D2.dds");
         }
         // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_S.dds");

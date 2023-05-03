@@ -2,8 +2,8 @@
 #include "GameSceneManager.h"
 #include "Global.h"
 
-#include "Input.h"
 #include "SDL.h"
+#include "Input.h"
 
 bool Input::Clicked(unsigned char key) {
     if (keybuffer[key] & 0b00000001) {
@@ -81,10 +81,10 @@ void Input::GetInput() {
         ////mX = screenw / 2;
         ////mY = screenh / 2;
         // SDL_ShowCursor(false);
-        /*
+        
         my = mouseY;
         mx = mouseX;
-        */
+        
     }
     if (MousePressed(SDL_BUTTON_MIDDLE)) {
 
@@ -99,20 +99,17 @@ void Input::GetInput() {
         // (float)camNode->getOrientation().z,
         // (float)camNode->getOrientation().w);
 
-        SDL_GetMouseState(&mouseX,
-                          &mouseY); //"bug" in SDL (?) means that I have to call it again
-                                    // to get
-                                    // the correct value after setting it the loop before
+        SDL_GetMouseState(&mouseX, &mouseY);
         // std::cout << mX << " " << mY << "\n";
-        /*
+        
         float rotX = -2.0 * (float)(mouseX - mx) / 500; // / window->getWidth();
         float rotY = -2.0 * (float)(mouseY - my) / 500; // / window->getHeight();
         mx = mouseX;
         my = mouseY;
 
-        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotX), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
-        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotY), Ogre::Vector3::UNIT_X), Ogre::Node::TS_LOCAL);
-        */
+        GAME_SCENE_M->cameraNode->rotate(Ogre::Quaternion(Ogre::Radian(rotX), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        GAME_SCENE_M->cameraNode->rotate(Ogre::Quaternion(Ogre::Radian(rotY), Ogre::Vector3::UNIT_X), Ogre::Node::TS_LOCAL);
+        
 
         // glm::vec3 new_orientation = glm::rotate(camera.orientation,
         // glm::radians(-rotX), glm::normalize(glm::cross(camera.orientation,
@@ -131,38 +128,42 @@ void Input::GetInput() {
         // camNode->yaw(Ogre::Radian(rotX));
         // camNode->pitch(Ogre::Radian(rotY));
     }
-    /*
     if (Pressed(SDLK_UP) || Pressed(SDLK_w)) {
-        cam_node->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_DOWN) || Pressed(SDLK_s)) {
-        cam_node->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(0.0f, 0.0f, camspeed), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_LEFT) || Pressed(SDLK_a)) {
-        cam_node->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(-camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_RIGHT) || Pressed(SDLK_d)) {
-        cam_node->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(camspeed, 0.0f, 0.0f), Ogre::Node::TS_LOCAL);
     }
     if (Pressed(SDLK_SPACE)) {
-        cam_node->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(0.0f, camspeed, 0.0f), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_LSHIFT)) {
-        cam_node->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT);
+        GAME_SCENE_M->cameraNode->translate(Ogre::Vector3(0.0f, -camspeed, 0.0f), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_q)) {
-        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        GAME_SCENE_M->cameraNode->rotate(Ogre::Quaternion(Ogre::Radian(rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
     }
     if (Pressed(SDLK_e)) {
-        cam_node->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+        GAME_SCENE_M->cameraNode->rotate(Ogre::Quaternion(Ogre::Radian(-rotspeed), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
     }
-    */
 }
 
 void Input::CheckEvents() {
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse positions
-    SDL_Event mainevent;
+    static SDL_Event mainevent;
     for (int a = 0; a < 256; a++) {
+        if (keybuffer[a] & 0b00000100) {//fail safe
+            keybuffer[a] & 0b11111101;
+        }
+        if (mousebuffer[a] & 0b00000100) {//fail safe;
+            mousebuffer[a] & 0b11111101;
+        }
         keybuffer[a] = (keybuffer[a] & 0b11111010);
         mousebuffer[a] = (mousebuffer[a] & 0b11111010);
         // if (*SDL_GetKeyboardState(&a)) {
