@@ -4,11 +4,11 @@
 #include <Windows.h>
 #endif
 
-#include <fstream>
 #include <iostream>
-#include <map>
 #include <string>
 #include <time.h>
+#include <fstream>
+#include <map>
 #include <vector>
 
 #include "Player.h"
@@ -16,7 +16,7 @@
 extern Game game;
 extern std::string meshfolder;
 extern std::string scriptfolder;
-// extern std::map<std::string, Script*> scripthandler;
+extern std::map<std::string, Script*> scripthandler;
 
 class KeyHandler : public OgreBites::InputListener {
     bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -52,7 +52,6 @@ class KeyHandler : public OgreBites::InputListener {
     }
 };
 
-/*
 void Script::Read() {
     //std::cout << "script is being read\n";
     //std::cout << command.size() << " " << argument.size() << "\n";
@@ -87,7 +86,6 @@ void Script::Read() {
         }
     }
 }
-*/
 
 void Game::Load() {
     std::string name;
@@ -160,7 +158,7 @@ void Game::Load() {
     viewport = window->addViewport(cam);
 
     // Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
-    // Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
+    //Ogre::Root::getSingleton().getRenderSystem()->_setCullingMode(Ogre::CullingMode::CULL_CLOCKWISE);
 
     // if (ctx->getRenderWindow()->isActive()) {
     //     getline(std::cin, name);
@@ -179,19 +177,20 @@ void Game::Load() {
     getline(std::cin, name);
 
     meshfolder = "ArgumentsGameFolder/data/mesh/";
-    Ogre::ResourceGroupManager &rgm = Ogre::ResourceGroupManager::getSingleton();
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
 
     // Add the new resource location
     rgm.addResourceLocation(meshfolder, "FileSystem");
 
     scene.AddEntity("skeleton");
-    // scene.AddEntity("sibenik.mesh");
-    //  finally something to render
+    //scene.AddEntity("sibenik.mesh");
+    // finally something to render
     for (int a = 0; a < 10; a++) { // add 100 skeletons
         for (int b = 0; b < 10; b++) {
             if (rand() % 2 == 0) {
                 std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
-            } else {
+            }
+            else {
                 std::string orc_name = scene.AddEntity("Orc", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
             }
         }
@@ -250,7 +249,7 @@ void Game::MainLoop() {
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
             if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
-                                                         // do something, you are lagging behind.
+                                                        // do something, you are lagging behind.
             }
             Update();
         }
@@ -264,6 +263,10 @@ void Game::Cleanup() {
     // ctx->closeApp();
     // delete ctx;
     delete root;
+
+    for (auto const& script : scripthandler) {
+        delete script.second;
+    }
 
     SDLNet_Quit();
     Mix_CloseAudio();
@@ -314,8 +317,8 @@ bool Game::MouseReleased(unsigned char button) {
 }
 
 void Game::ScriptReader(std::string filename) {
-    Script *script = nullptr;
-    if (scripthandler.find(filename) != scripthandler.end()) { // script already exists, just read it
+    Script* script = nullptr;
+    if (scripthandler.find(filename) != scripthandler.end()) {//script already exists, just read it
         script = scripthandler[filename];
         //std::cout << "script already exists\n";
     }
@@ -347,15 +350,16 @@ void Game::ScriptReader(std::string filename) {
                 while (find_args) {//loop over all arguments
                     //std::cout << "argument:\n";
                     if (buf.size() > div + 1) {
-                        buf = buf.substr(div + 1);     // remove previous part of string
-                        div = buf.find_first_of(",;"); // find next argument
-                    } else {
-                        div = 0; // will result in find_args = false;
+                        buf = buf.substr(div + 1);//remove previous part of string
+                        div = buf.find_first_of(",;");//find next argument
+                    }
+                    else {
+                        div = 0;//will result in find_args = false;
                     }
                     if (div > 0 && div != std::string::npos) {
-                        std::string arg = buf.substr(0, div); // arg is the whole argument, including the equals
+                        std::string arg = buf.substr(0, div);//arg is the whole argument, including the equals
 
-                        size_t equals = buf.find_first_of("="); // find the equals sign
+                        size_t equals = buf.find_first_of("=");//find the equals sign
 
                         if (equals > 0 && equals != std::string::npos && buf.size() > equals + 1) {
                             Variable var;
@@ -385,7 +389,8 @@ void Game::ScriptReader(std::string filename) {
 
                             find_args = false;//also break since there is only one argument
                         }
-                    } else { // can't find next argument
+                    }
+                    else {//can't find next argument
                         find_args = false;
                     }
                 }
@@ -462,8 +467,8 @@ void Game::Input() {
                                     // to get
                                     // the correct value after setting it the loop before
         // std::cout << mX << " " << mY << "\n";
-        float rotX = -2.0 * (float)(mouseX - mx) / 500; // / window->getWidth();
-        float rotY = -2.0 * (float)(mouseY - my) / 500; // / window->getHeight();
+        float rotX = -2.0 * (float)(mouseX - mx) / 500;// / window->getWidth();
+        float rotY = -2.0 * (float)(mouseY - my) / 500;// / window->getHeight();
         mx = mouseX;
         my = mouseY;
 
@@ -561,11 +566,11 @@ void Game::CheckEvents() {
         }
         if (mainevent.type == SDL_WINDOWEVENT) {
             if (mainevent.window.event == SDL_WINDOWEVENT_RESIZED) {
-                // viewport->setDimensions(0, 0, 1, 1);
-                // viewport->setActualDimensions(window->getWidth(), window->getHeight());//does not exist
+                //viewport->setDimensions(0, 0, 1, 1);
+                //viewport->setActualDimensions(window->getWidth(), window->getHeight());//does not exist
                 window->resize(window->getWidth(), window->getHeight());
                 // Update the aspect ratio of the camera associated with the viewport
-                // if (cam) {
+                //if (cam) {
                 //    cam->setAspectRatio(Ogre::Real(window->getWidth()) / Ogre::Real(window->getHeight()));
                 //}
                 // std::cout << "Resized window\n";
