@@ -1,6 +1,8 @@
 #pragma once
 #include "Defines.h"
 
+#include <mutex>
+
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
 
@@ -18,12 +20,12 @@
 #include <SDL2/SDL_pixels.h>
 #endif
 
-// probably change glm to ogre specific stuff later
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
+//// probably change glm to ogre specific stuff later
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtx/rotate_vector.hpp>
+//#include <glm/gtx/vector_angle.hpp>
 
 #include "Scene.h"
 
@@ -64,9 +66,11 @@ class Game {
     bool MouseReleased(unsigned char button);
 
     void ScriptReader(std::string filename);
+    bool IsRunning();
+    void Shutdown();
 
     Ogre::SceneManager *scnMgr = nullptr;
-    bool running = false;
+    
     unsigned char keybuffer[256] = {0}; // 0b00000000 is the binary representation. The last byte
                                         // is "clicked", the second to last is "pressed", the third
                                         // to last is "released"
@@ -81,6 +85,8 @@ class Game {
     void Input();
     void Update();
 
+    void InputThread();
+
     void CheckEvents();
 
     SDL_Event mainevent;
@@ -88,6 +94,9 @@ class Game {
     Mix_Music *music;
     bool music_playing = false;
     Scene scene; // let's start with only one scene
+
+    bool running = false;//don't access this directly, use IsRunning() and Shutdown() instead
+    std::mutex running_mut;
 
     int my;
     int mx;

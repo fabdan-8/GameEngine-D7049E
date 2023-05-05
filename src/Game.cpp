@@ -10,6 +10,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <thread>
 
 #include "Player.h"
 
@@ -62,7 +63,7 @@ void Script::Read() {
     for (int a = 0; a < command.size(); a++) {
         //std::cout << "command:\n";
         if (command[a] == "shutdown") {
-            game.running = false;
+            game.Shutdown();
         }
         else if (command[a] == "music") {
 
@@ -174,7 +175,7 @@ void Game::Load() {
     ScriptReader("button1script.txt");
     ScriptReader("button1script.txt");
     ScriptReader("button1script.txt");
-    getline(std::cin, name);
+    //getline(std::cin, name);
 
     meshfolder = "ArgumentsGameFolder/data/mesh/";
     Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
@@ -182,19 +183,29 @@ void Game::Load() {
     // Add the new resource location
     rgm.addResourceLocation(meshfolder, "FileSystem");
 
-    scene.AddEntity("skeleton");
-    //scene.AddEntity("sibenik.mesh");
-    // finally something to render
-    for (int a = 0; a < 10; a++) { // add 100 skeletons
-        for (int b = 0; b < 10; b++) {
-            if (rand() % 2 == 0) {
-                std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
-            }
-            else {
-                std::string orc_name = scene.AddEntity("Orc", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
-            }
-        }
-    }
+    //scene.AddEntity("skeleton");
+    ////scene.AddEntity("sibenik.mesh");
+    //// finally something to render
+    //for (int a = 0; a < 10; a++) { // add 100 skeletons
+    //    for (int b = 0; b < 10; b++) {
+    //        if (rand() % 2 == 0) {
+    //            std::string skeleton_name = scene.AddEntity("skeleton", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+    //        }
+    //        else {
+    //            std::string orc_name = scene.AddEntity("Orc", 0.1f, -50.0f + a * 10 + ((float)(rand() % 10) - 4.5f) / 3, 0.0f, -80.0f - b * 10 + ((float)(rand() % 10) - 4.5f) / 3);
+    //        }
+    //    }
+    //}
+    scene.AddEntity("skeleton.X", 1, 0, 0, 0);
+    scene.AddEntity("fern.X", 1, 50, 0, 0);
+    scene.AddEntity("Desiccated Priest.X", 1, 0, 0, 200);
+    scene.AddEntity("Goblin.X", 1, 50, 0, 50);
+    scene.AddEntity("Orc.X", 1, 100, 0, 50);
+    scene.AddEntity("crypt.X", 1, -400, 0, 100);
+    scene.AddEntity("statuewall.X", 1, 0, 0, 300);
+    scene.AddEntity("skeleton", 1, -50, 0, 0);
+    scene.AddEntity("skeleton", 1, 0, 0, -100);
+    scene.AddEntity("skeleton", 0.2, -50, 0, -50);
     // std::cout << "---------------------\n";
     // std::cout << skeleton_name << "\n";
     // std::string town_name = scene.AddEntity("sibenik.mesh");
@@ -235,25 +246,39 @@ void Game::Load() {
         return;
     }
     Mix_VolumeMusic(48); // set volume
-    running = true;
+    running = true;//this is the only time it is OK to access game.running directly
 
     return;
 }
 
 void Game::MainLoop() {
     clock_t last_tick = clock();
+    clock_t last_input = clock();
     clock_t current_time;
-    while (running) {
+    while (IsRunning()) {
         current_time = clock();
         Render();                                     // no fps cap.
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
             if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
-                                                        // do something, you are lagging behind.
+                // do something, you are lagging behind.
             }
             Update();
         }
-        Input(); // take inputs as often as possible
+        //the following does not really work, you need fast inputs
+        //CheckEvents();
+        //if (current_time >= last_input + input_speed) { // update once per tick_speed milliseconds
+        //    last_input += input_speed;
+        //    if (current_time > last_input + input_speed) { // running (more than) one whole tick behind
+        //        // do something, you are lagging behind.
+        //        //for (int a = 0; a < (current_time - last_input - input_speed) / input_speed; a++) {
+        //        //    Input();
+        //        //}
+        //    }
+        //    Input();
+        //}
+        CheckEvents();
+        Input();
         // Connection(); //check internet communication, this should maybe be
         // done on a separate thread
     }
@@ -407,6 +432,20 @@ void Game::ScriptReader(std::string filename) {
     //std::cout << "all done\n";
 }
 
+bool Game::IsRunning() {
+    bool ret;
+    running_mut.lock();
+    ret = running;
+    running_mut.unlock();
+    return ret;
+}
+
+void Game::Shutdown() {
+    running_mut.lock();
+    running = false;
+    running_mut.unlock();
+}
+
 void Game::Render() {
     // ctx->getRoot()->renderOneFrame();
     root->renderOneFrame();
@@ -414,9 +453,9 @@ void Game::Render() {
 }
 
 void Game::Input() {
-    CheckEvents();
+    //CheckEvents();//done separately as well
     if (Pressed(SDLK_TAB)) {
-        running = false;
+        Shutdown();
     }
     if (Clicked(SDLK_RETURN)) {
         if (!music_playing) {
@@ -462,10 +501,7 @@ void Game::Input() {
         // (float)camNode->getOrientation().z,
         // (float)camNode->getOrientation().w);
 
-        SDL_GetMouseState(&mouseX,
-                          &mouseY); //"bug" in SDL (?) means that I have to call it again
-                                    // to get
-                                    // the correct value after setting it the loop before
+        //SDL_GetMouseState(&mouseX, &mouseY);
         // std::cout << mX << " " << mY << "\n";
         float rotX = -2.0 * (float)(mouseX - mx) / 500;// / window->getWidth();
         float rotY = -2.0 * (float)(mouseY - my) / 500;// / window->getHeight();
@@ -533,9 +569,36 @@ void Game::Update() {
     }
 }
 
+void Game::InputThread() {
+    clock_t last_input = clock();
+    clock_t current_time;
+    while (IsRunning()) {
+        current_time = clock();
+        CheckEvents();
+        if (current_time >= last_input + input_speed) { // update once per tick_speed milliseconds
+            last_input += input_speed;
+            if (current_time > last_input + input_speed) { // running (more than) one whole tick behind
+                // do something, you are lagging behind.
+                //for (int a = 0; a < (current_time - last_input - input_speed) / input_speed; a++) {
+                //    CheckEvents();
+                //    Input();
+                //}
+            }
+            CheckEvents();
+            Input();
+        }
+    }
+}
+
 void Game::CheckEvents() {
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse positions
     for (int a = 0; a < 256; a++) {
+        if (keybuffer[a] & 0b00000100) {//fail safe
+            keybuffer[a] & 0b11111101;
+        }
+        if (mousebuffer[a] & 0b00000100) {//fail safe;
+            mousebuffer[a] & 0b11111101;
+        }
         keybuffer[a] = (keybuffer[a] & 0b11111010);
         mousebuffer[a] = (mousebuffer[a] & 0b11111010);
         // if (*SDL_GetKeyboardState(&a)) {
@@ -548,7 +611,7 @@ void Game::CheckEvents() {
     }
     while (SDL_PollEvent(&mainevent)) {   // poll new event as long as we have a new event
         if (mainevent.type == SDL_QUIT) { // pressed red X
-            running = false;
+            Shutdown();
         }
         if (mainevent.type == SDL_KEYDOWN) {
             keybuffer[(unsigned char)mainevent.key.keysym.sym] |= 0b00000011;
