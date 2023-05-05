@@ -67,6 +67,14 @@ void GameEngine::Cleanup() {
 }
 
 void GameEngine::Update() {
+    //for (const auto& i : GAME_ENGINE->renderableMap) {
+    //    int ok = i.second->Update();
+    //    if (!ok) {
+    //        delete i.second;
+    //        i.second = (Renderable*)nullptr;
+    //        // also remove from map
+    //    }
+    //}
     return;
 }
 

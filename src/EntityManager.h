@@ -3,11 +3,11 @@
 #include "Entity.h"
 
 struct EntityManager {
-    int entityId = 0;
+    unsigned int entityId = 0;
     // This gets incremented after each object added
     // that does not share id
 
-    void deleteEntity(); // This also deletes associated components
+    void deleteEntity(unsigned int ID); // This also deletes associated components
 
     Entity *createEntity();
 };

@@ -15,14 +15,23 @@
 
 //std::string meshfolder;
 
-void Renderable::Update() {
+int Renderable::Update() {
+    //if (GAME_ENGINE->renderableMap.find(entityId) != GAME_ENGINE->renderableMap.end()) {
+    //    //ok
 
+    //    return 1;
+    //}
+    //else {
+    //    return 0;
+    //    //cleanup self, whatever called function should delete to free memory
+    //}
 }
 
 //Renderable::Renderable(int entityId, std::string filename, float scale, Ogre::Vector3 xyz) : entityId(entityId) {
 //    // TODO: actually load the object that is to be rendered
 //    if (filename.size() > 0) {
-//        GAME_ENGINE->renderableMap.insert(std::pair<int, Renderable *>(entityId, this));
+//        // GAME_ENGINE->renderableMap.insert(std::pair<int, Renderable *>(entityId, this));
+//        GAME_ENGINE->renderableMap[entityId] = this;
 //        // this->Load(filename, scale, xyz);
 //    }
 //}
@@ -37,7 +46,7 @@ void Renderable::SetMaterial(std::string name) {
     // otherwise, make the material
     //std::cout << name << "_material is being made\n";
 
-    if (false) {
+    if (false) {//only works for png, jpg and perhaps a few others (not dds though)
 
         std::string folder = GAME_SCENE_M->meshfolder;
         SDL_Surface* surf = IMG_Load(std::string(folder + name + "_D.png").c_str());
