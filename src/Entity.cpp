@@ -77,7 +77,7 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
     if (ent) {
 
         size = ent->getBoundingBox().getSize();//this sounds like the size
-        mass = 1.0f * size.x * size.y * size.z;//"density" 1.0f
+        mass = 1.0f * scale * size.x * size.y * size.z;//"density" 1.0f
 
         node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
 
@@ -99,8 +99,8 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
 void Entity::Update() {
     //std::cout << "a";
     //node->translate(Ogre::Vector3((Ogre::Real)(0.0f), (Ogre::Real)(0.1f), (Ogre::Real)(0.0f)), Ogre::Node::TS_LOCAL);
-    if (node && ent) {
-        node->translate(Ogre::Vector3(0.0f, 0.1f, 0.0f), Ogre::Node::TS_PARENT);
+    if (node) {
+        node->translate(Ogre::Vector3(0.0f, 0.02f, 0.0f), Ogre::Node::TS_PARENT);//TEST ONLY
         //node->setPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
         //node->attachObject(ent);
     }

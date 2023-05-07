@@ -34,6 +34,7 @@
 #include "Scene.h"
 #include "UI.h"
 #include "Server.h"
+#include "Script.h"
 
 Game game;
 Server server;

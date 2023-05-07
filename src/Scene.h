@@ -12,6 +12,7 @@ public:
 	void Update();
 	void Cleanup();
 	//void SetActive();
+	//Physics physics;
 
 private:
 	void UpdateAllEntities();
