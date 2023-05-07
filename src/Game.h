@@ -82,15 +82,17 @@ class Game {
 
   private:
     void Render();
+    void CheckEvents();
     void Input();
+    void ApplyChangesFromInput();
     void Update();
 
     void InputThread();
-
-    void CheckEvents();
+    void RenderThread();
+    bool ThreadIsRunning();
 
     SDL_Event mainevent;
-    SDL_Window *sdl_window = nullptr;
+    //SDL_Window *sdl_window = nullptr;
     Mix_Music *music;
     bool music_playing = false;
     Scene scene; // let's start with only one scene
@@ -100,14 +102,15 @@ class Game {
 
     int my;
     int mx;
-    float camspeed = 0.5f;
+    float camspeed = 2.5f;
     float rotspeed = 0.01f;
 
-    OgreBites::ApplicationContext *ctx = nullptr;
-    Ogre::Root *root = nullptr;
-    Ogre::RenderWindow *window = nullptr;
-    Ogre::Camera *cam = nullptr;
-    Ogre::SceneNode *cam_node = nullptr;
+    OgreBites::ApplicationContext* ctx = nullptr;
+    Ogre::Root* root = nullptr;
+    Ogre::RenderWindow* window = nullptr;
+    Ogre::Camera* cam = nullptr;
+    Ogre::SceneNode* cam_node = nullptr;
+    Ogre::SceneNode* cam_node_alt = nullptr;
     Ogre::Viewport* viewport = nullptr;
 
     // test

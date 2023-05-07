@@ -6,6 +6,8 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <thread>
+#include <mutex>
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
@@ -39,3 +41,6 @@ Server server;
 std::string meshfolder = "";
 std::string scriptfolder = "";
 std::map<std::string, Script*> scripthandler;
+
+std::mutex ogre_resource_mut;
+std::mutex clock_mut;

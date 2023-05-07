@@ -10,11 +10,103 @@
 
 #include <OgreMaterialManager.h>
 #include <OgreMeshManager.h>
+//#include <OgreQuaternion.h>
 
 extern Game game;
 extern std::string meshfolder;
 
+extern std::mutex ogre_resource_mut;
+
+std::string Entity::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
+    ogre_resource_mut.lock();
+    if (name.find(".X") != std::string::npos && name.size() > 2) {
+        try {
+            // From ChatGPT:
+            // Ogre::String meshName = "skeleton.X";         // your mesh name
+            ////Ogre::String materialName = "skeleton_D.png"; // your material name
+            // Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            ////// Ogre::MaterialPtr material =
+            ////Ogre::MaterialManager::getSingleton().getByName(materialName);
+            ////Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skeleton_material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+            ////material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
+            ////ent->setMaterialName("skeleton_material");
+
+            //// Flip the texture coordinates of all submeshes in the mesh
+            // Ogre::Mesh::SubMeshIterator submeshIter = mesh->getSubMeshIterator();
+            // while (submeshIter.hasMoreElements()) {
+            //    Ogre::SubMesh *submesh = submeshIter.getNext();
+            //    Ogre::HardwareVertexBufferSharedPtr vertexBuffer = submesh->vertexData->vertexBufferBinding->getBuffer(0);
+            //    float *textureCoordinates = static_cast<float *>(vertexBuffer->lock(Ogre::HardwareBuffer::HBL_NORMAL));
+            //    for (size_t i = 0; i < vertexBuffer->getNumVertices(); ++i) {
+            //        //textureCoordinates[i * 2 + 1] = 1.0f - textureCoordinates[i * 2 + 1];
+            //    }
+            //    vertexBuffer->unlock();
+            //    //submesh->setMaterial(material);
+            //    std::cout << " OOOO\n";
+            //}
+
+            // Create an entity from the mesh
+            // Ogre::Entity* entity = scnMgr->createEntity(mesh);
+            name = name.substr(0, name.size() - 2);
+
+            ent = game.scnMgr->createEntity(std::string(name + ".X"));
+            // Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
+            // ent->setMaterialName("skeleton_material");
+            if (ent) {//export mesh
+                Ogre::MeshSerializer serializer;
+                serializer.exportMesh(ent->getMesh(), meshfolder + name + ".mesh");
+            }
+
+            SetMaterial(name);
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
+    else {
+        try {
+            ent = game.scnMgr->createEntity(std::string(name + ".mesh"));
+            SetMaterial(name);
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
+    if (ent) {
+
+        size = ent->getBoundingBox().getSize();//this sounds like the size
+        mass = 1.0f * size.x * size.y * size.z;//"density" 1.0f
+
+        node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
+
+        node->setScale(Ogre::Vector3(scale, scale, scale));
+        node->setPosition(start_x, start_y, start_z);
+
+        node->attachObject(ent);
+
+        ogre_resource_mut.unlock();
+        return ent->getName();
+    }
+    else {
+        std::cout << "Can't find mesh '" << name << "'\n";
+        ogre_resource_mut.unlock();
+        return "";
+    }
+}
+
 void Entity::Update() {
+    //std::cout << "a";
+    //node->translate(Ogre::Vector3((Ogre::Real)(0.0f), (Ogre::Real)(0.1f), (Ogre::Real)(0.0f)), Ogre::Node::TS_LOCAL);
+    if (node && ent) {
+        node->translate(Ogre::Vector3(0.0f, 0.1f, 0.0f), Ogre::Node::TS_PARENT);
+        //node->setPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
+        //node->attachObject(ent);
+    }
+    //else {
+    //    std::cout << "b";
+    //}
 }
 
 void Entity::SetMaterial(std::string name) {
@@ -107,77 +199,7 @@ void Entity::SetMaterial(std::string name) {
     return;
 }
 
-std::string Entity::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
-    if (name.find(".X") != std::string::npos && name.size() > 2) {
-        try {
-            // From ChatGPT:
-            // Ogre::String meshName = "skeleton.X";         // your mesh name
-            ////Ogre::String materialName = "skeleton_D.png"; // your material name
-            // Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-            ////// Ogre::MaterialPtr material =
-            ////Ogre::MaterialManager::getSingleton().getByName(materialName);
-            ////Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skeleton_material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-            ////material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
-            ////ent->setMaterialName("skeleton_material");
-
-            //// Flip the texture coordinates of all submeshes in the mesh
-            // Ogre::Mesh::SubMeshIterator submeshIter = mesh->getSubMeshIterator();
-            // while (submeshIter.hasMoreElements()) {
-            //    Ogre::SubMesh *submesh = submeshIter.getNext();
-            //    Ogre::HardwareVertexBufferSharedPtr vertexBuffer = submesh->vertexData->vertexBufferBinding->getBuffer(0);
-            //    float *textureCoordinates = static_cast<float *>(vertexBuffer->lock(Ogre::HardwareBuffer::HBL_NORMAL));
-            //    for (size_t i = 0; i < vertexBuffer->getNumVertices(); ++i) {
-            //        //textureCoordinates[i * 2 + 1] = 1.0f - textureCoordinates[i * 2 + 1];
-            //    }
-            //    vertexBuffer->unlock();
-            //    //submesh->setMaterial(material);
-            //    std::cout << " OOOO\n";
-            //}
-
-            // Create an entity from the mesh
-            // Ogre::Entity* entity = scnMgr->createEntity(mesh);
-            name = name.substr(0, name.size() - 2);
-
-            ent = game.scnMgr->createEntity(std::string(name + ".X"));
-            // Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("MyMaterial", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-            // material->getTechnique(0)->getPass(0)->createTextureUnitState("skeleton_D.png");
-            // ent->setMaterialName("skeleton_material");
-            if (ent) {//export mesh
-                Ogre::MeshSerializer serializer;
-                serializer.exportMesh(ent->getMesh(), meshfolder + name + ".mesh");
-            }
-
-            SetMaterial(name);
-        }
-        catch (...) {
-            ent = nullptr;
-        }
-    }
-    else {
-        try {
-            ent = game.scnMgr->createEntity(std::string(name + ".mesh"));
-            SetMaterial(name);
-        }
-        catch (...) {
-            ent = nullptr;
-        }
-    }
-    if (ent) {
-        Ogre::SceneNode* node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
-
-        node->setScale(Ogre::Vector3(scale, scale, scale));
-        node->setPosition(start_x, start_y, start_z);
-
-        node->attachObject(ent);
-
-        return ent->getName();
-    }
-    else {
-        std::cout << "Can't find mesh '" << name << "'\n";
-        return "";
-    }
-}
 //
 //void Entity::SetMaterial(std::string name) {
 //    if (Ogre::MaterialManager::getSingleton().resourceExists(std::string(name + "_material"))) { // material exists, just assign it
