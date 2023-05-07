@@ -145,7 +145,6 @@ std::string Entity::LoadAsImage(std::string filename, float x, float y, float z,
         //indexData->indexBuffer = indexBuffer;
         //indexData->indexCount = 6;
         //indexData->indexStart = 0;
-
         ent = game.scnMgr->createEntity("skeleton.X");
         ent->setMaterial(material);
         node->attachObject(ent);

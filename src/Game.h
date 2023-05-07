@@ -73,9 +73,7 @@ class Game {
 
     SDL_Event mainevent;
     //SDL_Window *sdl_window = nullptr;
-    Mix_Music *music;
-    bool music_playing = false;
-    Scene scene; // let's start with only one scene
+    //bool music_playing = false;
 
     bool running = false;//don't access this directly, use IsRunning() and Shutdown() instead
     std::mutex running_mut;

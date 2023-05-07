@@ -6,6 +6,8 @@
 
 #include <string>
 
+#include "Script.h"
+
 class Entity {
 public:
     std::string Load(std::string name, float scale = 1.0f, float start_x = 0.0f, float start_y = 0.0f, float start_z = 0.0f);
@@ -17,6 +19,8 @@ public:
     Ogre::Real getMass() {
         return mass;
     }
+    Script* update_script;
+    Script* interaction_script;
 private:
     void SetMaterial(std::string name);
 

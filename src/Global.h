@@ -37,11 +37,13 @@
 #include "Script.h"
 
 Game game;
+Scene scene; //let's start with only one scene
 Server server;
 
 std::string meshfolder = "";
 std::string scriptfolder = "";
 std::map<std::string, Script*> scripthandler;
+std::map<std::string, Mix_Music*> musichandler;
 
 std::mutex ogre_resource_mut;
 std::mutex clock_mut;

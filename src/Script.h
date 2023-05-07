@@ -21,4 +21,7 @@ public:
     std::vector<std::string> command;
     std::vector<std::vector<Variable>> argument;
     void Read();
+private:
+    float GetValue(std::string name, int a, float default_value = 0.0f);
+    std::string GetContent(std::string name, int a, std::string default_content = "");
 };

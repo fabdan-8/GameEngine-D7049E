@@ -19,9 +19,11 @@ extern std::mutex ogre_resource_mut;
 extern std::mutex clock_mut;
 
 extern Game game;
+extern Scene scene;
 extern std::string meshfolder;
 extern std::string scriptfolder;
 extern std::map<std::string, Script*> scripthandler;
+extern std::map<std::string, Mix_Music*> musichandler;
 
 //class KeyHandler : public OgreBites::InputListener {
 //    bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -148,9 +150,9 @@ void Game::Load() {
     // getline(std::cin, name);
 
     scriptfolder = "ArgumentsGameFolder/data/scripts/";
-    ScriptReader("button1script.txt");
-    ScriptReader("button1script.txt");
-    ScriptReader("button1script.txt");
+    
+    //ScriptReader("button1script.txt");
+    //ScriptReader("button1script.txt");
     //getline(std::cin, name);
 
     meshfolder = "ArgumentsGameFolder/data/mesh/";
@@ -219,12 +221,16 @@ void Game::Load() {
     // }
 
     // Load music
-    music = Mix_LoadMUS("Spinnin.mp3");
-    if (!music) {
-        return;
-    }
+    //Mix_Music* music = Mix_LoadMUS("Spinnin.mp3");
+    ////if (!music) {
+    ////    return;
+    ////}
+    //musichandler["Spinnin.mp3"] = music;
+
     Mix_VolumeMusic(48); // set volume
     running = true;//this is the only time it is OK to access game.running directly
+
+    ScriptReader("startup.txt");//run the startup script
 
     return;
 }
@@ -512,16 +518,16 @@ void Game::Input() {
         Shutdown();
     }
     if (Clicked(SDLK_RETURN)) {
-        if (!music_playing) {
-            Mix_PlayMusic(music, 0);
-            music_playing = true;
-            //std::cout << "W";
-        } else {
-            Mix_HaltMusic();
-            music_playing = false;
-            //std::cout << "\n\n";
-        }
-        // ctx->getRenderWindow()->setHidden(false);
+        //if (!music_playing) {
+        //    Mix_PlayMusic(music, 0);
+        //    music_playing = true;
+        //    //std::cout << "W";
+        //} else {
+        //    Mix_HaltMusic();
+        //    music_playing = false;
+        //    //std::cout << "\n\n";
+        //}
+        //// ctx->getRenderWindow()->setHidden(false);
     }
     if (MouseClicked(SDL_BUTTON_LEFT)) {
         scene.Update();
