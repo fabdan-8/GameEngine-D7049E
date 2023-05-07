@@ -182,6 +182,8 @@ void Game::Load() {
     scene.AddEntity("skeleton", 1, -50, 0, 0);
     scene.AddEntity("skeleton", 1, 0, 0, -100);
     scene.AddEntity("skeleton", 0.2, -50, 0, -50);
+
+    //scene.AddImage("Skeleton.bmp", 50.0f, 10.0f, -100.0f, 40.0f, 40.0f);
     // std::cout << "---------------------\n";
     // std::cout << skeleton_name << "\n";
     // std::string town_name = scene.AddEntity("sibenik.mesh");

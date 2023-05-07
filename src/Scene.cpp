@@ -19,6 +19,18 @@ std::string Scene::AddEntity(std::string name, float scale, float start_x, float
     return "";
 }
 
+std::string Scene::AddImage(std::string filename, float x, float y, float z, float w, float h, float rot) {
+    if (filename.size() > 0) {
+        Entity* ent = new Entity;
+        std::string ID = ent->LoadAsImage(filename, x, y, z, w, h, rot);
+        if (ID.size() > 0) {
+            entity_map[ID] = ent;
+        }
+        return ID;
+    }
+    return "";
+}
+
 void Scene::RemoveEntity(Entity* ent) {
     if (ent) {
         for (auto const& entity_entry : entity_map) {

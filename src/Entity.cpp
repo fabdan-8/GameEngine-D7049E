@@ -15,10 +15,10 @@
 extern Game game;
 extern std::string meshfolder;
 
-extern std::mutex ogre_resource_mut;
+//extern std::mutex ogre_resource_mut;
 
 std::string Entity::Load(std::string name, float scale, float start_x, float start_y, float start_z) {
-    ogre_resource_mut.lock();
+    //ogre_resource_mut.lock();
     if (name.find(".X") != std::string::npos && name.size() > 2) {
         try {
             // From ChatGPT:
@@ -86,12 +86,92 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
 
         node->attachObject(ent);
 
-        ogre_resource_mut.unlock();
+        //ogre_resource_mut.unlock();
         return ent->getName();
     }
     else {
         std::cout << "Can't find mesh '" << name << "'\n";
-        ogre_resource_mut.unlock();
+        //ogre_resource_mut.unlock();
+        return "";
+    }
+}
+
+std::string Entity::LoadAsImage(std::string filename, float x, float y, float z, float w, float h, float rot) {
+    try {
+        Ogre::TextureManager& texMgr = Ogre::TextureManager::getSingleton();
+        Ogre::TexturePtr texture = texMgr.load(filename, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(filename, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        material->getTechnique(0)->getPass(0)->createTextureUnitState(filename);
+
+        //std::string meshname = filename + std::to_string(w) + std::to_string(h);
+
+        //if (Ogre::MaterialManager::getSingleton().resourceExists(meshname)) {
+        //    //already exists
+        //    return "";
+        //}
+
+        //Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual(meshname, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        //Ogre::SubMesh* submesh = mesh->createSubMesh();
+        //submesh->useSharedVertices = false;
+        //submesh->vertexData = new Ogre::VertexData();
+        //submesh->indexData = new Ogre::IndexData();
+
+        //Ogre::VertexData* vertexData = submesh->vertexData;
+        //Ogre::IndexData* indexData = submesh->indexData;
+
+        //// Define the vertices of the rectangle
+        //Ogre::VertexDeclaration* vertexDecl = vertexData->vertexDeclaration;
+        //vertexDecl->addElement(0, 0, Ogre::VET_FLOAT3, Ogre::VES_POSITION);
+        //Ogre::VertexBufferBinding* binding = vertexData->vertexBufferBinding;
+        //Ogre::HardwareVertexBufferSharedPtr vertexBuffer = Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(
+        //    vertexDecl->getVertexSize(0), 4, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        //float* vertices = static_cast<float*>(vertexBuffer->lock(Ogre::HardwareBuffer::HBL_DISCARD));
+        //vertices[0] = -1.0f; vertices[1] = 0.0f; vertices[2] = -1.0f;
+        //vertices[3] = -1.0f; vertices[4] = 0.0f; vertices[5] = 1.0f;
+        //vertices[6] = 1.0f; vertices[7] = 0.0f; vertices[8] = -1.0f;
+        //vertices[9] = 1.0f; vertices[10] = 0.0f; vertices[11] = 1.0f;
+        //vertexBuffer->unlock();
+        //binding->setBinding(0, vertexBuffer);
+
+        //// Define the indices of the rectangle
+        //Ogre::HardwareIndexBufferSharedPtr indexBuffer = Ogre::HardwareBufferManager::getSingleton().createIndexBuffer(
+        //    Ogre::HardwareIndexBuffer::IT_16BIT, 6, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        //uint16_t* indices = static_cast<uint16_t*>(indexBuffer->lock(Ogre::HardwareBuffer::HBL_DISCARD));
+        //indices[0] = 0; indices[1] = 1; indices[2] = 2;
+        //indices[3] = 1; indices[4] = 3; indices[5] = 2;
+        //indexBuffer->unlock();
+        //indexData->indexBuffer = indexBuffer;
+        //indexData->indexCount = 6;
+        //indexData->indexStart = 0;
+
+        ent = game.scnMgr->createEntity("skeleton.X");
+        ent->setMaterial(material);
+        node->attachObject(ent);
+    }
+    catch (...) {
+        ent = nullptr;
+    }
+
+    if (ent) {
+
+        size = Ogre::Vector3(w, h, 0.0f);
+        mass = 0.0f;
+
+        node = game.scnMgr->getRootSceneNode()->createChildSceneNode();
+
+        node->setScale(Ogre::Vector3(w, h, 0.1f));
+        node->setPosition(x, y, z);
+        node->rotate(Ogre::Quaternion(Ogre::Radian(rot), Ogre::Vector3::UNIT_Y), Ogre::Node::TS_PARENT);
+
+        node->attachObject(ent);
+
+        //ogre_resource_mut.unlock();
+        return ent->getName();
+    }
+    else {
+        //ogre_resource_mut.unlock();
         return "";
     }
 }

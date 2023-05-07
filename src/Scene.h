@@ -7,6 +7,7 @@
 class Scene {
 public:
 	std::string AddEntity(std::string name, float scale = 1.0f, float start_x = 0.0f, float start_y = 0.0f, float start_z = 0.0f);
+	std::string AddImage(std::string filename, float x, float y, float z, float w, float h, float rot = 0.0f);
 	void RemoveEntity(Entity* ent);
 	void RemoveEntityByName(std::string name);
 	void Update();
