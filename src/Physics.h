@@ -1,11 +1,29 @@
 #pragma once
 
+#include "Entity.h"
+#include "OgreApplicationContext.h"
+#include "btBulletDynamicsCommon.h"
+#include "btBulletCollisionCommon.h"
+#include "BulletSoftBody/btSoftRigidDynamicsWorld.h"
+#include "BulletSoftBody/btSoftBodyHelpers.h"
+#include "BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h"
+#include "BulletCollision/CollisionShapes/btShapeHull.h"
+
 struct Physics {
-    const int entityId;
-    bool isImoveable;
-    float weight; // How fast it moves
+    //const int entityId;
 
-    void Update();
+    btDefaultCollisionConfiguration* collisionConfiguration;
+    btCollisionDispatcher* dispatcher;
+    btBroadphaseInterface* broadphase;
+    btSequentialImpulseConstraintSolver* solver;
+    btDiscreteDynamicsWorld* dynamicsWorld;
+    std::vector<btRigidBody*> rigidBodies;
+    std::vector<btSoftBody*> softBodies;
 
-    Physics(int id, bool isMoveable = true, int weight = 1.0f);
+    void update(int timeSinceLastFrame);
+    btRigidBody* createRigidBody(Ogre::SceneNode* node, Entity *entity);
+    //btSoftBody* createSoftBody(OgreBulletCollisions::CollisionShape* shape, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float mass);
+
+    Physics(float gravityX, float gravityY, float gravityZ);
+    ~Physics();
 };
