@@ -1,6 +1,8 @@
 #pragma once
 #include "Defines.h"
 
+#include <mutex>
+
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
 
@@ -18,36 +20,14 @@
 #include <SDL2/SDL_pixels.h>
 #endif
 
-// probably change glm to ogre specific stuff later
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
+//// probably change glm to ogre specific stuff later
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtx/rotate_vector.hpp>
+//#include <glm/gtx/vector_angle.hpp>
 
 #include "Scene.h"
-
-/*
-class Variable {
-public:
-    std::string name = "";
-    std::string content = "";
-    double value = 0;
-    bool IsValue() {
-        return content == "$value";
-    }
-    bool IsString() {
-        return !IsValue();
-    }
-};
-
-class Script {
-public:
-    std::vector<std::string> command;
-    std::vector<std::vector<Variable>> argument;
-    void Read();
-};
-*/
 
 class Game {
   public:
@@ -58,29 +38,58 @@ class Game {
     void MainLoop();
     void Cleanup();
 
+    bool Clicked(unsigned char key);
+    bool Pressed(unsigned char key);
+    bool Released(unsigned char key);
+    bool MouseClicked(unsigned char button);
+    bool MousePressed(unsigned char button);
+    bool MouseReleased(unsigned char button);
+
+    void ScriptReader(std::string filename);
+    bool IsRunning();
+    void Shutdown();
+
+    Ogre::SceneManager *scnMgr = nullptr;
+    
+    unsigned char keybuffer[256] = {0}; // 0b00000000 is the binary representation. The last byte
+                                        // is "clicked", the second to last is "pressed", the third
+                                        // to last is "released"
+    unsigned char mousebuffer[256] = {0};
+    int mouseX;
+    int mouseY;
+    int screenW;
+    int screenH;
+
   private:
     void Render();
+    void CheckEvents();
     void Input();
+    void ApplyChangesFromInput();
     void Update();
 
-    void CheckEvents();
+    void InputThread();
+    void RenderThread();
+    bool ThreadIsRunning();
 
     SDL_Event mainevent;
-    SDL_Window *sdl_window = nullptr;
-    Mix_Music *music;
-    bool music_playing = false;
+    //SDL_Window *sdl_window = nullptr;
+    //bool music_playing = false;
+
+    bool running = false;//don't access this directly, use IsRunning() and Shutdown() instead
+    std::mutex running_mut;
 
     int my;
     int mx;
-    float camspeed = 0.5f;
+    float camspeed = 2.5f;
     float rotspeed = 0.01f;
 
-    OgreBites::ApplicationContext *ctx = nullptr;
-    Ogre::Root *root = nullptr;
-    Ogre::RenderWindow *window = nullptr;
-    Ogre::Camera *cam = nullptr;
-    Ogre::SceneNode *cam_node = nullptr;
-    Ogre::Viewport *viewport = nullptr;
+    OgreBites::ApplicationContext* ctx = nullptr;
+    Ogre::Root* root = nullptr;
+    Ogre::RenderWindow* window = nullptr;
+    Ogre::Camera* cam = nullptr;
+    Ogre::SceneNode* cam_node = nullptr;
+    Ogre::SceneNode* cam_node_alt = nullptr;
+    Ogre::Viewport* viewport = nullptr;
 
     // test
     double rot = 0.0;
