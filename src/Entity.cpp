@@ -1,6 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(int entityId) : entityId(entityId) {
+    
 }
 
 Ogre::Vector3 Entity::getSize(){
