@@ -530,7 +530,29 @@ void Game::Input() {
         //// ctx->getRenderWindow()->setHidden(false);
     }
     if (MouseClicked(SDL_BUTTON_LEFT)) {
-        scene.Update();
+        //scene.Update();
+        //// Step 1: Get a reference to the scene manager
+        ////Ogre::SceneManager* sceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
+
+        //// Step 2: Get a reference to the camera
+        //Ogre::Camera* camera = scnMgr->createCamera("MyCamera");
+
+        //// Step 3: Calculate the ray
+        //Ogre::Ray ray = camera->getCameraToViewportRay(mouseX, mouseY);
+
+        //// Step 4: Find the first entity that the ray intersects with
+        //Ogre::MovableObject* hitObject = nullptr;
+        //Ogre::Vector3 hitPosition;
+        //if (scnMgr->getRayIntersection(ray, hitObject, hitPosition))
+        //{
+        //    // Step 5: Check if the hit object is an entity and get its properties
+        //    Ogre::Entity* entity = dynamic_cast<Ogre::Entity*>(hitObject);
+        //    if (entity)
+        //    {
+        //        Ogre::String entityName = entity->getName();
+        //        // Do something with the entity...
+        //    }
+        //}
     }
     if (MouseClicked(SDL_BUTTON_MIDDLE)) {
 
