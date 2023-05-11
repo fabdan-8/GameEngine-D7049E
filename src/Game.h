@@ -52,6 +52,9 @@ class Game {
     Ogre::Camera* GetCamera() {
         return cam;
     }
+    Ogre::RenderWindow* GetWindow() {
+        return window;
+    }
 
     Ogre::SceneManager *scnMgr = nullptr;
     

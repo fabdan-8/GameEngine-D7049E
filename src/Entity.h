@@ -19,6 +19,13 @@ public:
     Ogre::Real getMass() {
         return mass;
     }
+    Ogre::Entity* getEntity() {
+        return ent;
+    }
+    Ogre::SceneNode* getNode() {
+        return node;
+    }
+
     Script* update_script;
     Script* interaction_script;
 private:

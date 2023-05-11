@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "OgreRay.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -531,14 +532,24 @@ void Game::Input() {
     }
     if (MouseClicked(SDL_BUTTON_LEFT)) {
         //scene.Update();
-        //// Step 1: Get a reference to the scene manager
-        ////Ogre::SceneManager* sceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
+        // Step 1: Get a reference to the scene manager
+        //Ogre::SceneManager* sceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
 
         //// Step 2: Get a reference to the camera
         //Ogre::Camera* camera = scnMgr->createCamera("MyCamera");
 
         //// Step 3: Calculate the ray
         //Ogre::Ray ray = camera->getCameraToViewportRay(mouseX, mouseY);
+
+        std::cout << "clicked > ";
+        Entity* clicked_entity = scene.GetHoveredEntity();
+        if (clicked_entity) {
+            std::cout << clicked_entity->getEntity()->getName() << " ";
+            for (int a = 0; a < 100; a++) {
+                clicked_entity->Update();
+            }
+        }
+        std::cout << "\n";
 
         //// Step 4: Find the first entity that the ray intersects with
         //Ogre::MovableObject* hitObject = nullptr;
