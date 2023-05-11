@@ -1,13 +1,27 @@
 #pragma once
 
-#include <iostream>
+#include <string>
+#include <vector>
 
-struct Script {
-    const int scriptId; // This is not entityId
-    std::string name;
-    void *code;
+class Variable {
+public:
+    std::string name = "";
+    std::string content = "";
+    double value = 0;
+    bool IsValue() {
+        return content == "$value";
+    }
+    bool IsString() {
+        return !IsValue();
+    }
+};
 
-    void Update();
-
-    Script(std::string filename);
+class Script {
+public:
+    std::vector<std::string> command;
+    std::vector<std::vector<Variable>> argument;
+    void Read();
+private:
+    float GetValue(std::string name, int a, float default_value = 0.0f);
+    std::string GetContent(std::string name, int a, std::string default_content = "");
 };

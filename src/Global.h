@@ -1,20 +1,13 @@
 #pragma once
 
-struct GameEngine;
-struct EntityManager;
-struct GameSceneManager;
-
-extern GameEngine *GAME_ENGINE;
-extern EntityManager *ENTITY_M;
-extern GameSceneManager *GAME_SCENE_M;
-/*
-
 #include "Defines.h"
 
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
+#include <thread>
+#include <mutex>
 
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
@@ -40,10 +33,17 @@ extern GameSceneManager *GAME_SCENE_M;
 #include "Player.h"
 #include "Scene.h"
 #include "UI.h"
+#include "Server.h"
+#include "Script.h"
 
 Game game;
+Scene scene; //let's start with only one scene
+Server server;
 
 std::string meshfolder = "";
 std::string scriptfolder = "";
 std::map<std::string, Script*> scripthandler;
-*/
+std::map<std::string, Mix_Music*> musichandler;
+
+std::mutex ogre_resource_mut;
+std::mutex clock_mut;
