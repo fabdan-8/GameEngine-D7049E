@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "OgreApplicationContext.h"
+//#include "Bullet/OgreBullet.h"
 #include "btBulletDynamicsCommon.h"
 #include "btBulletCollisionCommon.h"
 #include "BulletSoftBody/btSoftRigidDynamicsWorld.h"
@@ -17,7 +18,7 @@ struct Physics {
     btBroadphaseInterface* broadphase;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
-    std::map<Entity*, std::vector<btRigidBody*>> rigidBodies;
+    std::map<Entity*, btRigidBody*> rigidBodies;
     //std::map<Entity*, std::vector<btSoftBody*>> softBodies;
 
     void update(int timeSinceLastFrame);

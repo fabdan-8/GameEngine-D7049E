@@ -10,7 +10,7 @@
 #include "Physics.h"
 
 extern Game game;
-extern Physics physics;
+//extern Physics physics;
 
 std::string Scene::AddEntity(std::string name, float scale, float start_x, float start_y, float start_z) {
     if (name.size() > 0) {
@@ -21,7 +21,7 @@ std::string Scene::AddEntity(std::string name, float scale, float start_x, float
         std::string ID = ent->Load(name, scale, start_x, start_y, start_z);
         if (ID.size() > 0) {
             entity_map[ID] = ent;//name should always be unique, otherwise check through map first
-            physics.createRigidBody()
+            physics.createRigidBody(ent->getNode(), ent);
         }
         return ID;
     }

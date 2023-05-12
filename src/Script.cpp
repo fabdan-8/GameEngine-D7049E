@@ -5,8 +5,8 @@
 #include "Game.h"
 #include "Scene.h"
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_mixer.h>
+//#include <SDL/SDL.h>
+//#include <SDL/SDL_mixer.h>
 
 extern Game game;
 extern Scene scene;
