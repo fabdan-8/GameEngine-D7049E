@@ -2,7 +2,12 @@
 #include <mutex>
 #include <thread>
 
-#include "Ogre.h"
+#include "Game.h"
+#include "OgreRay.h"
+
+#include <iostream>
+
+extern Game game;
 
 std::string Scene::AddEntity(std::string name, float scale, float start_x, float start_y, float start_z) {
     if (name.size() > 0) {
@@ -57,6 +62,74 @@ void Scene::Update() {
     //        entity_entry.second->node->translate(Ogre::Vector3(0.0f, 0.1f, 0.0f), Ogre::Node::TS_LOCAL);
     //    }
     //}
+}
+
+Entity* Scene::GetCenteredEntity() {
+    Entity* ret = nullptr;
+    float least_distance = 10000.0f;
+    Ogre::Ray ray = game.GetCamera()->getCameraToViewportRay(0.5f, 0.5f);
+
+    for (auto const& entity_entry : entity_map) {
+        if (entity_entry.second) {
+            // Get the world transform of the parent node
+            const Ogre::Matrix4& worldTransform = entity_entry.second->getNode()->_getFullTransform();
+
+            // Get the AxisAlignedBox from the entity's bounding box
+            const Ogre::AxisAlignedBox& localAABB = entity_entry.second->getEntity()->getBoundingBox();
+
+            // Transform the minimum and maximum corners of the local bounding box to world space
+            Ogre::AxisAlignedBox worldAABB;
+            worldAABB.merge(worldTransform * localAABB.getMinimum());
+            worldAABB.merge(worldTransform * localAABB.getMaximum());
+
+            //// Access the minimum and maximum corners of the transformed AxisAlignedBox
+            //const Ogre::Vector3& minCorner = worldAABB.getMinimum();
+            //const Ogre::Vector3& maxCorner = worldAABB.getMaximum();
+            Ogre::RayTestResult res = ray.intersects(worldAABB);
+            if (res.first && res.second < least_distance) {
+                ret = entity_entry.second;
+                least_distance = res.second;
+            }
+            else {
+                //std::cout << entity_entry.second->getEntity()->getBoundingBox();
+            }
+        }
+    }
+    return ret;
+}
+
+Entity* Scene::GetHoveredEntity() {
+    Entity* ret = nullptr;
+    float least_distance = 10000.0f;
+    Ogre::Ray ray = game.GetCamera()->getCameraToViewportRay((Ogre::Real)game.mouseX / (Ogre::Real)game.GetWindow()->getWidth(), (Ogre::Real)game.mouseY / (Ogre::Real)game.GetWindow()->getHeight());
+
+    for (auto const& entity_entry : entity_map) {
+        if (entity_entry.second) {
+            // Get the world transform of the parent node
+            const Ogre::Matrix4& worldTransform = entity_entry.second->getNode()->_getFullTransform();
+
+            // Get the AxisAlignedBox from the entity's bounding box
+            const Ogre::AxisAlignedBox& localAABB = entity_entry.second->getEntity()->getBoundingBox();
+
+            // Transform the minimum and maximum corners of the local bounding box to world space
+            Ogre::AxisAlignedBox worldAABB;
+            worldAABB.merge(worldTransform * localAABB.getMinimum());
+            worldAABB.merge(worldTransform * localAABB.getMaximum());
+
+            //// Access the minimum and maximum corners of the transformed AxisAlignedBox
+            //const Ogre::Vector3& minCorner = worldAABB.getMinimum();
+            //const Ogre::Vector3& maxCorner = worldAABB.getMaximum();
+            Ogre::RayTestResult res = ray.intersects(worldAABB);
+            if (res.first && res.second < least_distance) {
+                ret = entity_entry.second;
+                least_distance = res.second;
+            }
+            else {
+                //std::cout << entity_entry.second->getEntity()->getBoundingBox();
+            }
+        }
+    }
+    return ret;
 }
 
 void Scene::Cleanup() {

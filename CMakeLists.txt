@@ -14,14 +14,14 @@ if (WIN32)
 endif()
 # The COMPONENTS part checks that OGRE was built the way we need it
 # The CONFIG flag makes sure we get OGRE instead of OGRE-next
-find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem Bullet CONFIG)
+find_package(OGRE REQUIRED COMPONENTS Bites RTShaderSystem CONFIG)
 # find_package(SDL2 REQUIRED)
  
 # add the source files as usual
-add_executable(${PROJECT_NAME} "src/GameEngine.cpp" "src/GameSceneManager.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h" "src/EntityManager.cpp" "src/Renderable.cpp" "src/Physics.cpp" "src/ScriptData.cpp" "src/Camera.cpp")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/Game.cpp" "src/Scene.cpp" "src/Entity.cpp" "src/Map.cpp" "src/Chunk.cpp" "src/Player.cpp" "src/UI.cpp" "src/Global.h" "src/Script.h" "src/Script.cpp")
  
 # this also sets the includes and pulls third party dependencies
-target_link_libraries(${PROJECT_NAME} OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator OgreOverlay OgreBullet ${SDL2STUFF})
+target_link_libraries(${PROJECT_NAME} OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator OgreOverlay ${SDL2STUFF})
 
 if (WIN32)
     add_custom_command(

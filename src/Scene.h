@@ -11,6 +11,10 @@ public:
 	void RemoveEntity(Entity* ent);
 	void RemoveEntityByName(std::string name);
 	void Update();
+
+	Entity* GetCenteredEntity();
+	Entity* GetHoveredEntity();
+
 	void Cleanup();
 	//void SetActive();
 	//Physics physics;

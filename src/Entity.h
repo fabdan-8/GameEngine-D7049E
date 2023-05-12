@@ -19,8 +19,15 @@ public:
     Ogre::Real getMass() {
         return mass;
     }
-    Script* update_script;
-    Script* interaction_script;
+    Ogre::Entity* getEntity() {
+        return ent;
+    }
+    Ogre::SceneNode* getNode() {
+        return node;
+    }
+
+    Script* update_script = nullptr;
+    Script* interaction_script = nullptr;
 private:
     void SetMaterial(std::string name);
 
@@ -29,4 +36,6 @@ private:
     //double speed = 0;//??
     Ogre::Vector3 size = { 1.0f, 1.0f, 1.0f };
     Ogre::Real mass = 1.0f;
+    //float speed = 0.0f;
+    //Ogre::Vector3 target = { 0.0f, 0.0f, 0.0f };
 };
