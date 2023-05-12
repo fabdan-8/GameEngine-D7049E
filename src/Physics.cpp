@@ -40,10 +40,10 @@ Physics::Physics() {
 }
 
 Physics::~Physics() {
-    for (btRigidBody* rb : rigidBodies) {
-        delete rb;
-    }
-    delete &rigidBodies;
+    //for (btRigidBody* rb : rigidBodies) {
+    //    delete rb;
+    //}
+    //delete &rigidBodies;
     /*for (btSoftBody* sb : softBodies) {
         delete sb;
     }
