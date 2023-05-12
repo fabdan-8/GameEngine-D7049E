@@ -21,9 +21,11 @@ struct Physics {
     //std::map<Entity*, std::vector<btSoftBody*>> softBodies;
 
     void update(int timeSinceLastFrame);
-    btRigidBody* createRigidBody(Ogre::SceneNode* node, Entity *entity);
+    void SetGravity(float gravityX, float gravityY, float gravityZ);
+    btRigidBody* createRigidBody(Ogre::SceneNode* node, Entity* entity);
     //btSoftBody* createSoftBody(OgreBulletCollisions::CollisionShape* shape, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float mass);
 
     Physics(float gravityX, float gravityY, float gravityZ);
+    Physics();
     ~Physics();
 };

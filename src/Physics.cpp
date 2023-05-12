@@ -21,6 +21,24 @@ Physics::Physics(float gravityX, float gravityY, float gravityZ ) {
     dynamicsWorld->setGravity(btVector3(gravityX, gravityY, gravityZ));
 }
 
+Physics::Physics() {
+    //collision configuration specifies the type of collision detection algorithm to use
+    collisionConfiguration = new btDefaultCollisionConfiguration();
+
+    //dispatcher is responsible for sending collision detection events to the correct objects 
+    dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+    //broadphase algorithm create a list of possible collisions for the dispatcher to check
+    broadphase = new btDbvtBroadphase();
+
+    //solver resolve collisions & apply constraints
+    solver = new btSequentialImpulseConstraintSolver();
+
+    //dynamics world contains all the objects in the simulation & updates them each frame
+    //simulates gravity and apply forces to objects
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+}
+
 Physics::~Physics() {
     for (btRigidBody* rb : rigidBodies) {
         delete rb;
@@ -58,7 +76,6 @@ btRigidBody* Physics::createRigidBody(Ogre::SceneNode* node, Entity *entity) {
     btRigidBody* body = new btRigidBody(rigidBodyCI);
     dynamicsWorld->addRigidBody(body);
     rigidBodies.insert(std::make_pair(entity,body));
-
     return body;
 }
 
@@ -97,4 +114,11 @@ void Physics::update(int timeSinceLastFrame) {
         node->setOrientation(quart);
     }
     
+}
+
+void Physics::SetGravity(float gravityX, float gravityY, float gravityZ) {
+    //set gravity (0, -9.81, 0) for Earth
+    if (dynamicsWorld) {
+        dynamicsWorld->setGravity(btVector3(gravityX, gravityY, gravityZ));
+    }
 }

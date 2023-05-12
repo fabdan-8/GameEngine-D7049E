@@ -15,12 +15,14 @@
 
 #include "Player.h"
 #include "Script.h"
+#include "Physics.h"
 
 extern std::mutex ogre_resource_mut;
 extern std::mutex clock_mut;
 
 extern Game game;
 extern Scene scene;
+extern Physics physics;
 extern std::string meshfolder;
 extern std::string scriptfolder;
 extern std::map<std::string, Script*> scripthandler;
@@ -98,6 +100,9 @@ void Game::Load() {
     // register our scene with the RTSS
     Ogre::RTShader::ShaderGenerator *shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
     shadergen->addSceneManager(scnMgr);
+
+    //set gravity
+    physics.SetGravity(0.0f, -9.81f, 0.0f);
 
     // attempt to resize the window
     // ctx->getRenderWindow()->destroy();
@@ -232,7 +237,7 @@ void Game::Load() {
     running = true;//this is the only time it is OK to access game.running directly
 
     ScriptReader("startup.txt");//run the startup script
-
+    
     return;
 }
 
@@ -240,6 +245,7 @@ void Game::MainLoop() {
     clock_t last_tick = clock();
     clock_t last_input = clock();
     clock_t current_time;
+    clock_t last_time;
 
     //launch the separate thread(s)
     //std::thread input_thread(&Game::InputThread, this);//needs many mutexes to work
@@ -252,7 +258,8 @@ void Game::MainLoop() {
         clock_mut.lock();
         current_time = clock();
         clock_mut.unlock();
-        Render();                                     // no fps cap.
+        Render();// no fps cap.
+        physics.update(current_time - last_time);
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
             if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
@@ -279,6 +286,7 @@ void Game::MainLoop() {
         ApplyChangesFromInput();
         // Connection(); //check internet communication, this should maybe be
         // done on a separate thread
+        last_time = current_time;
     }
 
     //join the threads again
@@ -662,6 +670,7 @@ void Game::ApplyChangesFromInput() {
 
 void Game::Update() {
     scene.Update();
+    
     //if (music_playing) {
     //    rot += 0.05;
     //    if (rot >= M_PI * 2.0) {
