@@ -18,7 +18,7 @@ struct Physics {
     btBroadphaseInterface* broadphase;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
-    std::map<Entity*, std::vector<btRigidBody*>> rigidBodies;
+    std::map<Entity*, btRigidBody*> rigidBodies;
     //std::map<Entity*, std::vector<btSoftBody*>> softBodies;
 
     void update(int timeSinceLastFrame);

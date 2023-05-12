@@ -76,6 +76,7 @@ btRigidBody* Physics::createRigidBody(Ogre::SceneNode* node, Entity *entity) {
     btRigidBody* body = new btRigidBody(rigidBodyCI);
     dynamicsWorld->addRigidBody(body);
     rigidBodies.insert(std::make_pair(entity,body));
+    //rigidBodies[entity] = body;
     return body;
 }
 
@@ -99,10 +100,10 @@ void Physics::update(int timeSinceLastFrame) {
     dynamicsWorld->stepSimulation(timeSinceLastFrame * 0.001f, 10);
     btRigidBody *rb;
 
-    for(std::vector<btRigidBody *>::iterator it = rigidBodies.begin(); it != rigidBodies.end(); ++it) {
+    for(std::map<Entity*, btRigidBody*>::iterator it = rigidBodies.begin(); it != rigidBodies.end(); ++it) {
         // Update renderer
-        Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it)->getUserPointer());
-        rb = *it;
+        Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>(it->second->getUserPointer());
+        rb = it->second;
 
         // Set position
         btVector3 Point = rb->getCenterOfMassPosition();

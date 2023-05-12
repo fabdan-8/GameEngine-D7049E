@@ -10,7 +10,7 @@
 #include "Physics.h"
 
 extern Game game;
-extern Physics physics;
+//extern Physics physics;
 
 std::string Scene::AddEntity(std::string name, float scale, float start_x, float start_y, float start_z) {
     if (name.size() > 0) {

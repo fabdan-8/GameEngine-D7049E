@@ -22,7 +22,6 @@ extern std::mutex clock_mut;
 
 extern Game game;
 extern Scene scene;
-extern Physics physics;
 extern std::string meshfolder;
 extern std::string scriptfolder;
 extern std::map<std::string, Script*> scripthandler;
@@ -102,7 +101,7 @@ void Game::Load() {
     shadergen->addSceneManager(scnMgr);
 
     //set gravity
-    physics.SetGravity(0.0f, -9.81f, 0.0f);
+    scene.physics.SetGravity(0.0f, -9.81f, 0.0f);
 
     // attempt to resize the window
     // ctx->getRenderWindow()->destroy();
@@ -259,7 +258,7 @@ void Game::MainLoop() {
         current_time = clock();
         clock_mut.unlock();
         Render();// no fps cap.
-        physics.update(current_time - last_time);
+        scene.physics.update(current_time - last_time);
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
             last_tick += tick_speed;
             if (current_time > last_tick + tick_speed) { // running (more than) one whole tick behind
