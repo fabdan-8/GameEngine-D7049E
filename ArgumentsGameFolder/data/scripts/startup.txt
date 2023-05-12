@@ -2,6 +2,8 @@
 
 # this is a comment
 # the script is loaded and is run before this script continues running
-script make_menu.txt
+#script make_menu.txt
 
-music Spinning.mp3
+spawn name="skeleton",scale=2.0,x=0,y=0,z=0
+music Spinnin.mp3
+print testing testing

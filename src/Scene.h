@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "Physics.h"
 #include <vector>
 // #include <map>
 
@@ -11,10 +12,13 @@ public:
 	void RemoveEntity(Entity* ent);
 	void RemoveEntityByName(std::string name);
 	void Update();
+
+	Entity* GetCenteredEntity();
+	Entity* GetHoveredEntity();
+
 	void Cleanup();
 	//void SetActive();
-	//Physics physics;
-
+	Physics physics;
 private:
 	void UpdateAllEntities();
 	//std::vector<Entity*> entity;

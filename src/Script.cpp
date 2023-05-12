@@ -58,6 +58,12 @@ void Script::Read() {
         else if (command[a] == "make_button") {
 
         }
+        else if (command[a] == "move") {
+
+        }
+        else if (command[a] == "spin") {
+
+        }
         else if (command[a] == "script" && argument[a].size() > 0) {
             game.ScriptReader(argument[a][0].content);
         }

@@ -49,6 +49,13 @@ class Game {
     bool IsRunning();
     void Shutdown();
 
+    Ogre::Camera* GetCamera() {
+        return cam;
+    }
+    Ogre::RenderWindow* GetWindow() {
+        return window;
+    }
+
     Ogre::SceneManager *scnMgr = nullptr;
     
     unsigned char keybuffer[256] = {0}; // 0b00000000 is the binary representation. The last byte

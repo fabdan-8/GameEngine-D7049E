@@ -33,12 +33,13 @@
 #include "Player.h"
 #include "Scene.h"
 #include "UI.h"
-#include "Server.h"
+//#include "Server.h"
 #include "Script.h"
+//#include "Physics.h"
 
 Game game;
 Scene scene; //let's start with only one scene
-Server server;
+//Server server;
 
 std::string meshfolder = "";
 std::string scriptfolder = "";
