@@ -22,6 +22,7 @@ Physics::Physics(float gravityX, float gravityY, float gravityZ ) {
 }
 
 Physics::Physics() {
+#ifdef __unix__
     //collision configuration specifies the type of collision detection algorithm to use
     collisionConfiguration = new btDefaultCollisionConfiguration();
 
@@ -37,9 +38,11 @@ Physics::Physics() {
     //dynamics world contains all the objects in the simulation & updates them each frame
     //simulates gravity and apply forces to objects
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+#endif
 }
 
 Physics::~Physics() {
+#ifdef __unix__
     //for (btRigidBody* rb : rigidBodies) {
     //    delete rb;
     //}
@@ -53,9 +56,11 @@ Physics::~Physics() {
     delete broadphase;
     delete dispatcher;
     delete collisionConfiguration;
+#endif
 }
 
 btRigidBody* Physics::createRigidBody(Ogre::SceneNode* node, Entity *entity) {
+#ifdef __unix__
     //get the size & mass of the entity
     Ogre::Vector3 size = entity->getSize();
     Ogre::Real mass = entity->getMass();
@@ -78,6 +83,10 @@ btRigidBody* Physics::createRigidBody(Ogre::SceneNode* node, Entity *entity) {
     rigidBodies.insert(std::make_pair(entity,body));
     //rigidBodies[entity] = body;
     return body;
+#endif
+#ifdef WIN32
+    return nullptr;
+#endif
 }
 
 /*btSoftBody* Physics::createSoftBody(OgreBulletCollisions::CollisionShape* shape, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float mass) {
@@ -97,6 +106,7 @@ btRigidBody* Physics::createRigidBody(Ogre::SceneNode* node, Entity *entity) {
 }*/
 
 void Physics::update(int timeSinceLastFrame) {
+#ifdef __unix__
     dynamicsWorld->stepSimulation(timeSinceLastFrame * 0.001f, 10);
     btRigidBody *rb;
     for(auto const& iterator : rigidBodies){
@@ -116,11 +126,14 @@ void Physics::update(int timeSinceLastFrame) {
             node->setOrientation(quart);
         }
     }
+#endif
 }
 
 void Physics::SetGravity(float gravityX, float gravityY, float gravityZ) {
+#ifdef __unix__
     //set gravity (0, -9.81, 0) for Earth
     if (dynamicsWorld) {
         dynamicsWorld->setGravity(btVector3(gravityX, gravityY, gravityZ));
     }
+#endif
 }

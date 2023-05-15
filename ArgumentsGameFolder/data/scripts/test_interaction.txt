@@ -1,0 +1,6 @@
+#test interaction script
+
+move x=0,y=0,z=0,speed=2.0
+move x=200,y=0,z=0,speed=2.0,script="done_move.txt"
+no_interaction
+no_update

@@ -12,7 +12,7 @@
 extern Game game;
 //extern Physics physics;
 
-std::string Scene::AddEntity(std::string name, float scale, float start_x, float start_y, float start_z) {
+std::string Scene::AddEntity(std::string name, float scale, float start_x, float start_y, float start_z, std::string interaction_script, std::string update_script) {
     if (name.size() > 0) {
         //entity.push_back(new Entity);
         Entity* ent = new Entity;
@@ -20,6 +20,11 @@ std::string Scene::AddEntity(std::string name, float scale, float start_x, float
         //entity_thread = std::thread(&Entity::Load, ent, name, scale, start_x, start_y, start_z);
         std::string ID = ent->Load(name, scale, start_x, start_y, start_z);
         if (ID.size() > 0) {
+            ent->update_script = game.ScriptLoader(update_script);
+            ent->interaction_script = game.ScriptLoader(interaction_script);
+            if (ent->interaction_script) {
+                std::cout << "YES";
+            }
             entity_map[ID] = ent;//name should always be unique, otherwise check through map first
             physics.createRigidBody(ent->getNode(), ent);
         }
@@ -139,6 +144,7 @@ Entity* Scene::GetHoveredEntity() {
 void Scene::Cleanup() {
     for (auto const& entity_entry : entity_map) {
         if (entity_entry.second) {
+            //entity_entry.second.Cleanup();
             delete entity_entry.second;
         }
     }

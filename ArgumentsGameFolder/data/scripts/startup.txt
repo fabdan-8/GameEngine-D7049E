@@ -4,6 +4,6 @@
 # the script is loaded and is run before this script continues running
 #script make_menu.txt
 
-spawn name="skeleton",scale=2.0,x=0,y=0,z=0
+spawn name="skeleton",scale=2.0,x=0,y=0,z=0,interaction_script="test_interaction.txt"
 music Spinnin.mp3
 print testing testing

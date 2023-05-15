@@ -24,8 +24,10 @@ extern Game game;
 extern Scene scene;
 extern std::string meshfolder;
 extern std::string scriptfolder;
+extern std::string soundsfolder;
 extern std::map<std::string, Script*> scripthandler;
 extern std::map<std::string, Mix_Music*> musichandler;
+extern std::map<std::string, Mix_Chunk*> soundhandler;
 
 //class KeyHandler : public OgreBites::InputListener {
 //    bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -161,10 +163,12 @@ void Game::Load() {
     //getline(std::cin, name);
 
     meshfolder = "ArgumentsGameFolder/data/mesh/";
-    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
 
     // Add the new resource location
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
     rgm.addResourceLocation(meshfolder, "FileSystem");
+
+    soundsfolder = "ArgumentsGameFolder/data/sounds/";
 
     //scene.AddEntity("skeleton");
     ////scene.AddEntity("sibenik.mesh");
@@ -302,6 +306,12 @@ void Game::Cleanup() {
     for (auto const& script : scripthandler) {
         delete script.second;
     }
+    for (auto const& music : musichandler) {
+        Mix_FreeMusic(music.second);
+    }
+    for (auto const& sound : soundhandler) {
+        Mix_FreeChunk(sound.second);
+    }
 
     SDLNet_Quit();
     Mix_CloseAudio();
@@ -351,7 +361,7 @@ bool Game::MouseReleased(unsigned char button) {
     return false;
 }
 
-void Game::ScriptReader(std::string filename) {
+Script* Game::ScriptLoader(std::string filename) {
     Script* script = nullptr;
     if (scripthandler.find(filename) != scripthandler.end()) {//script already exists, just read it
         script = scripthandler[filename];
@@ -363,7 +373,7 @@ void Game::ScriptReader(std::string filename) {
         if (!file.is_open()) {
             //could not run script
             //std::cout << "could not find script '" << scriptfolder + filename << "'\n";
-            return;
+            return nullptr;
         }
 
         script = new Script;//deleted in game.Cleanup()
@@ -376,7 +386,7 @@ void Game::ScriptReader(std::string filename) {
             //std::cout << "command\n";
             getline(file, buf);
             buf += ";";//add ';' to be able to find end easier
-            size_t div = buf.find_first_of(" ");//find first space
+            size_t div = buf.find_first_of(" ;");//find first space
             if (div > 0 && div != std::string::npos && buf[0] != '#') {//also check if it is a comment
                 script->command.push_back(buf.substr(0, div));//command name
                 std::vector<Variable> var_vector;
@@ -435,11 +445,16 @@ void Game::ScriptReader(std::string filename) {
 
         file.close();
     }
+    return script;
+    //std::cout << "all done\n";
+}
+
+void Game::ScriptReader(std::string filename) {
+    Script* script = ScriptLoader(filename);
     if (script) {
         //std::cout << "running script\n";
         script->Read();
     }
-    //std::cout << "all done\n";
 }
 
 bool Game::IsRunning() {
@@ -552,9 +567,7 @@ void Game::Input() {
         Entity* clicked_entity = scene.GetHoveredEntity();
         if (clicked_entity) {
             std::cout << clicked_entity->getEntity()->getName() << " ";
-            for (int a = 0; a < 100; a++) {
-                clicked_entity->Update();
-            }
+            clicked_entity->Interact();
         }
         std::cout << "\n";
 

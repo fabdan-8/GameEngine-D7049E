@@ -45,6 +45,7 @@ class Game {
     bool MousePressed(unsigned char button);
     bool MouseReleased(unsigned char button);
 
+    Script* ScriptLoader(std::string filename);
     void ScriptReader(std::string filename);
     bool IsRunning();
     void Shutdown();
