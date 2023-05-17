@@ -26,11 +26,8 @@
 #include <SDL2/SDL_pixels.h>
 #endif
 
-#include "Chunk.h"
 #include "Entity.h"
 #include "Game.h"
-#include "Map.h"
-#include "Player.h"
 #include "Scene.h"
 //#include "UI.h"
 //#include "Server.h"
