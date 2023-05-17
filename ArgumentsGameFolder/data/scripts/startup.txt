@@ -7,6 +7,22 @@
 spawn name="skeleton",scale=2.0,x=0,y=0,z=0,interaction_script="test_interaction.txt"
 music Spinnin.mp3
 print testing testing
-spawn name="fern",scale=2.0,x=1000,y=0,z=0,interaction_script="flower_to_zero.txt"
-spawn name="fern",scale=2.0,x=500,y=0,z=100,interaction_script="flower_to_zero.txt"
-spawn name="fern",scale=2.0,x=700,y=0,z=500,interaction_script="flower_to_zero.txt"
+
+# placing the wall
+spawn name="statuewall",scale=3.0,x=-850,y=0,z=-700,interaction_script="flower_to_zero.txt"
+spawn name="statuewall",scale=3.0,x=850,y=0,z=-700,interaction_script="flower_to_zero.txt"
+
+# placing the fern
+spawn name="fern",scale=2.0,x=100,y=0,z=-100,interaction_script="flower_to_zero.txt"
+spawn name="fern",scale=2.0,x=400,y=0,z=-100,interaction_script="flower_to_zero.txt"
+spawn name="fern",scale=2.0,x=700,y=0,z=-100,interaction_script="flower_to_zero.txt"
+spawn name="fern",scale=2.0,x=699,y=0,z=-445,interaction_script="flower_to_zero.txt"
+
+# placing the tomb
+
+# placing the skeleton
+spawn name="skeleton",scale=2.0,x=50,y=0,z=-350,interaction_script="flower_to_zero.txt"
+
+# placing the chapel
+spawn name="crypt",scale=2.0,x=700,y=0,z=-450,interaction_script="flower_to_zero.txt"
+
