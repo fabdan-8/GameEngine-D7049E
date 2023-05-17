@@ -13,7 +13,6 @@
 #include <vector>
 #include <thread>
 
-#include "Player.h"
 #include "Script.h"
 #include "Physics.h"
 
@@ -110,6 +109,22 @@ void Game::Load() {
 
     // without light we would just get a black screen
 
+    scriptfolder = "ArgumentsGameFolder/data/scripts/";
+
+    //ScriptReader("button1script.txt");
+    //ScriptReader("button1script.txt");
+    //getline(std::cin, name);
+
+    meshfolder = "ArgumentsGameFolder/data/mesh/";
+
+    // Add the new resource location
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+    rgm.addResourceLocation(meshfolder, "FileSystem");
+
+    soundsfolder = "ArgumentsGameFolder/data/sounds/";
+
+    //scnMgr->setWorldGeometry("scene.scene");
+
     scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f)); // works on skeleton
 
     Ogre::Light *light = scnMgr->createLight("MainLight");
@@ -156,20 +171,6 @@ void Game::Load() {
     // ctx->addInputListener(&keyHandler);
     // getline(std::cin, name);
 
-    scriptfolder = "ArgumentsGameFolder/data/scripts/";
-    
-    //ScriptReader("button1script.txt");
-    //ScriptReader("button1script.txt");
-    //getline(std::cin, name);
-
-    meshfolder = "ArgumentsGameFolder/data/mesh/";
-
-    // Add the new resource location
-    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
-    rgm.addResourceLocation(meshfolder, "FileSystem");
-
-    soundsfolder = "ArgumentsGameFolder/data/sounds/";
-
     //scene.AddEntity("skeleton");
     ////scene.AddEntity("sibenik.mesh");
     //// finally something to render
@@ -183,8 +184,8 @@ void Game::Load() {
     //        }
     //    }
     //}
-    scene.AddEntity("Sphere", 1, 0, 0, 0);
-    scene.AddEntity("scene.scene", 1, 0, 0, 0);
+    scene.AddEntity("Sphere", 100, 0, 0, 0);
+    //scene.AddEntity("scene.scene", 1, 0, 0, 0);
     //scene.AddEntity("skeleton", 1, 0, 0, 0);
     //scene.AddEntity("fern", 1, 50, 0, 0);
     //scene.AddEntity("Desiccated Priest", 1, 0, 0, 200);
