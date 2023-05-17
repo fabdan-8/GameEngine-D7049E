@@ -16,6 +16,7 @@ extern std::string soundsfolder;
 extern std::map<std::string, Script*> scripthandler;
 extern std::map<std::string, Mix_Music*> musichandler;
 extern std::map<std::string, Mix_Chunk*> soundhandler;
+extern std::map<std::string, Variable*> variablehandler;
 
 void Script::Read(void* target) {
     //std::cout << "script is being read\n";
@@ -99,6 +100,65 @@ void Script::Read(void* target) {
         else if (command[a] == "spin") {
 
         }
+        else if (command[a] == "set_variable" && argument[a].size() > 0) {
+            std::string var_name = argument[a][0].name;
+            std::string op = GetContent("operation", a);
+            if (op == "add") {
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    var->value += 1;
+                    //std::cout << var->name << "=" << var->value;
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                    var->value += 1;
+                    //std::cout << var->name << "=" << var->value;
+                }
+            }
+            else {
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    *var = argument[a][0];
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                }
+            }
+        }
+        else if (command[a] == "check_variable") {
+            std::string var_name = argument[a][0].name;
+            std::string check = GetContent("check", a);
+            std::string check_true = GetContent("true", a);
+            std::string check_false = GetContent("false", a);
+            bool is_true = false;
+            if (variablehandler.find(var_name) != variablehandler.end() && (check_true.size() > 0 || check_false.size() > 0)) {
+                Variable* var = variablehandler[var_name];
+                if (check == "equals") {
+                    if (var->value == argument[a][0].value && var->content == argument[a][0].content) {
+                        is_true = true;
+                        //std::cout << "TRUE";
+                    }
+                    else {
+                        is_true = false;
+                        //std::cout << "FALSE";
+                    }
+                }
+            }
+            if (is_true && check_true.size() > 0) {
+                if (check_true == "jump") {
+                    a += 1;
+                }
+            }
+            else if (!is_true && check_false.size() > 0) {
+                if (check_false == "jump") {
+                    a += 1;
+                }
+            }
+        }
         else if (command[a] == "set_update" && argument[a].size() > 0) {
             std::string script_name = argument[a][0].content;
             if (target) {
@@ -125,6 +185,13 @@ void Script::Read(void* target) {
         }
         else if (command[a] == "break") {
             a = command.size();
+        }
+        else if (command[a] == "jump" && argument[a].size() > 0) {
+            std::string jump_string = argument[a][0].content;
+            int jump_length = atoi(jump_string.c_str());
+            if (jump_length > 0) {
+                a += jump_length;
+            }
         }
         else if (command[a] == "script" && argument[a].size() > 0) {
             game.ScriptReader(argument[a][0].content);

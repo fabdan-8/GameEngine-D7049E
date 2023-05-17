@@ -73,6 +73,18 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
             ent = nullptr;
         }
     }
+    else if (name.find(".dbo") != std::string::npos && name.size() > 2) {
+        try {
+            ent = game.scnMgr->createEntity(std::string(name + ".dbo"));
+            //if (ent) {//export mesh
+            //    Ogre::MeshSerializer serializer;
+            //    serializer.exportMesh(ent->getMesh(), meshfolder + name + ".mesh");
+            //}
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
     else {
         try {
             ent = game.scnMgr->createEntity(std::string(name + ".mesh"));
@@ -98,7 +110,7 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
         return ent->getName();
     }
     else {
-        std::cout << "Can't find mesh '" << name << "'\n";
+        std::cout << "Can't load mesh '" << name << "'\n";
         //ogre_resource_mut.unlock();
         return "";
     }
@@ -213,6 +225,9 @@ void Entity::Update() {
             //std::cout << update_pos.x << " " << update_pos.y << " " << update_pos.z << ":";
             node->translate(update_pos);
         }
+    }
+    if (update_script) {
+        update_script->Read(this);
     }
 }
 

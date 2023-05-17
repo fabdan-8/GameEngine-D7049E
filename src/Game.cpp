@@ -27,6 +27,7 @@ extern std::string soundsfolder;
 extern std::map<std::string, Script*> scripthandler;
 extern std::map<std::string, Mix_Music*> musichandler;
 extern std::map<std::string, Mix_Chunk*> soundhandler;
+extern std::map<std::string, Variable*> variablehandler;
 
 //class KeyHandler : public OgreBites::InputListener {
 //    bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -315,6 +316,9 @@ void Game::Cleanup() {
     }
     for (auto const& sound : soundhandler) {
         Mix_FreeChunk(sound.second);
+    }
+    for (auto const& var : variablehandler) {
+        delete var.second;
     }
 
     SDLNet_Quit();

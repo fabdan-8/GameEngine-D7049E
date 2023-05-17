@@ -44,6 +44,7 @@ std::string soundsfolder = "";
 std::map<std::string, Script*> scripthandler;
 std::map<std::string, Mix_Music*> musichandler;
 std::map<std::string, Mix_Chunk*> soundhandler;
+std::map<std::string, Variable*> variablehandler;
 
 std::mutex ogre_resource_mut;
 std::mutex clock_mut;
