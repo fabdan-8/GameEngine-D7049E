@@ -183,16 +183,18 @@ void Game::Load() {
     //        }
     //    }
     //}
-    scene.AddEntity("skeleton", 1, 0, 0, 0);
-    scene.AddEntity("fern", 1, 50, 0, 0);
-    scene.AddEntity("Desiccated Priest", 1, 0, 0, 200);
-    scene.AddEntity("Goblin", 1, 50, 0, 50);
-    scene.AddEntity("Orc", 1, 100, 0, 50);
-    scene.AddEntity("crypt", 1, -400, 0, 100);
-    scene.AddEntity("statuewall", 1, 0, 0, 300);
-    scene.AddEntity("skeleton", 1, -50, 0, 0);
-    scene.AddEntity("skeleton", 1, 0, 0, -100);
-    scene.AddEntity("skeleton", 0.2, -50, 0, -50);
+    scene.AddEntity("Sphere", 1, 0, 0, 0);
+    scene.AddEntity("scene.scene", 1, 0, 0, 0);
+    //scene.AddEntity("skeleton", 1, 0, 0, 0);
+    //scene.AddEntity("fern", 1, 50, 0, 0);
+    //scene.AddEntity("Desiccated Priest", 1, 0, 0, 200);
+    //scene.AddEntity("Goblin", 1, 50, 0, 50);
+    //scene.AddEntity("Orc", 1, 100, 0, 50);
+    //scene.AddEntity("crypt", 1, -400, 0, 100);
+    //scene.AddEntity("statuewall", 1, 0, 0, 300);
+    //scene.AddEntity("skeleton", 1, -50, 0, 0);
+    //scene.AddEntity("skeleton", 1, 0, 0, -100);
+    //scene.AddEntity("skeleton", 0.2, -50, 0, -50);
 
     //scene.AddImage("Skeleton.bmp", 50.0f, 10.0f, -100.0f, 40.0f, 40.0f);
     // std::cout << "---------------------\n";
