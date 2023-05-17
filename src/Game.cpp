@@ -184,7 +184,8 @@ void Game::Load() {
     //        }
     //    }
     //}
-    scene.AddEntity("Sphere", 100, 0, 0, 0);
+    //scene.AddEntity("Sphere", 100, 0, 0, 0);
+    scene.AddEntity("scene.fbx", 1, 0, 0, 0);
     //scene.AddEntity("scene.scene", 1, 0, 0, 0);
     //scene.AddEntity("skeleton", 1, 0, 0, 0);
     //scene.AddEntity("fern", 1, 50, 0, 0);

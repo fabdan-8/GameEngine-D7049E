@@ -65,14 +65,14 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
             ent = nullptr;
         }
     }
-    //else if (name.find(".scene") != std::string::npos && name.size() > 2) {
-    //    try {
-    //        ent = game.scnMgr->createEntity(std::string(name + ".scene"));
-    //    }
-    //    catch (...) {
-    //        ent = nullptr;
-    //    }
-    //}
+    else if (name.find(".fbx") != std::string::npos && name.size() > 2) {
+        try {
+            ent = game.scnMgr->createEntity(std::string(name + ".fbx"));
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
     else {
         try {
             ent = game.scnMgr->createEntity(std::string(name + ".mesh"));

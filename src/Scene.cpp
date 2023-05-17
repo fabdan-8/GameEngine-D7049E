@@ -22,9 +22,9 @@ std::string Scene::AddEntity(std::string name, float scale, float start_x, float
         if (ID.size() > 0) {
             ent->update_script = game.ScriptLoader(update_script);
             ent->interaction_script = game.ScriptLoader(interaction_script);
-            if (ent->interaction_script) {
-                std::cout << "YES";
-            }
+            //if (ent->interaction_script) {
+            //    std::cout << "YES";
+            //}
             entity_map[ID] = ent;//name should always be unique, otherwise check through map first
             physics.createRigidBody(ent->getNode(), ent);
         }

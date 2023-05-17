@@ -7,3 +7,6 @@
 spawn name="skeleton",scale=2.0,x=0,y=0,z=0,interaction_script="test_interaction.txt"
 music Spinnin.mp3
 print testing testing
+spawn name="fern",scale=2.0,x=1000,y=0,z=0,interaction_script="flower_to_zero.txt"
+spawn name="fern",scale=2.0,x=500,y=0,z=100,interaction_script="flower_to_zero.txt"
+spawn name="fern",scale=2.0,x=700,y=0,z=500,interaction_script="flower_to_zero.txt"
