@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- exporter: blender2ogre 0.8.3 -->
+<!-- export_time: Tue, 16 May 2023 15:10:06 +0000 -->
+<!-- previous_export_time: Tue, 16 May 2023 15:07:47 +0000 -->
+<scene author="adelie" formatVersion="1.1" >
+  <nodes >
+    <node name="Sphere" >
+      <position x="-0.388088" y="-15.859108" z="15.396156" />
+      <rotation qw="1.000000" qx="0.000000" qy="0.000000" qz="0.000000" />
+      <scale x="151.894608" y="151.894608" z="151.894608" />
+      <entity meshFile="Sphere.mesh" name="Sphere" >
+        <userData />
+      </entity>
+    </node>
+    <node name="Camera" >
+      <position x="26.569813" y="14.529675" z="-0.504517" />
+      <rotation qw="0.307248" qx="0.414066" qy="0.687489" qz="0.511378" />
+      <scale x="1.000000" y="1.000000" z="1.000000" />
+      <camera fov="0.471090" name="Camera" projectionType="perspective" >
+        <clipping far="1000.000000" near="0.100000" />
+      </camera>
+    </node>
+    <node name="Camera.001" >
+      <position x="1.001074" y="-0.604004" z="20.395960" />
+      <rotation qw="0.227949" qx="0.197906" qy="0.625041" qz="0.719858" />
+      <scale x="1.000000" y="1.000000" z="1.000000" />
+      <camera fov="0.356186" name="Camera.001" projectionType="perspective" >
+        <clipping far="1000.000000" near="0.100000" />
+      </camera>
+    </node>
+  </nodes>
+  <externals >
+    <item type="material" >
+      <file name="Material.015.material" />
+    </item>
+  </externals>
+  <environment >
+    <colourBackground b="0.050876" g="0.050876" r="0.050876" />
+  </environment>
+</scene>
