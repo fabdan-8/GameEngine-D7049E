@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- exporter: blender2ogre 0.8.3 -->
-<!-- export_time: Tue, 16 May 2023 15:10:06 +0000 -->
-<!-- previous_export_time: Tue, 16 May 2023 15:07:47 +0000 -->
+<!-- export_time: Wed, 17 May 2023 08:40:30 +0000 -->
 <scene author="adelie" formatVersion="1.1" >
   <nodes >
     <node name="Sphere" >
