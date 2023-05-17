@@ -84,6 +84,7 @@ class Game {
     //bool music_playing = false;
 
     bool running = false;//don't access this directly, use IsRunning() and Shutdown() instead
+    bool fixed_y = true;
     std::mutex running_mut;
 
     int my;

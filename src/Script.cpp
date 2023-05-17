@@ -79,8 +79,9 @@ void Script::Read(void* target) {
             //also the update and interaction scripts
             std::string update_script = GetContent("update_script", a);
             std::string interaction_script = GetContent("interaction_script", a);
+            std::string spawn_script = GetContent("spawn_script", a);
             //std::cout << interaction_script;
-            scene.AddEntity(name, scale, start_x, start_y, start_z, interaction_script, update_script);
+            scene.AddEntity(name, scale, start_x, start_y, start_z, interaction_script, update_script, spawn_script);
         }
         else if (command[a] == "make_button") {
 

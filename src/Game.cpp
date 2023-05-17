@@ -651,6 +651,14 @@ void Game::Input() {
         // camNode->yaw(Ogre::Radian(rotX));
         // camNode->pitch(Ogre::Radian(rotY));
     }
+    if (Clicked(SDLK_f)) {
+        if (fixed_y) {
+            fixed_y = false;
+        }
+        else {
+            fixed_y = true;
+        }
+    }
     if (Pressed(SDLK_UP) || Pressed(SDLK_w)) {
         cam_node_alt->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
     }
@@ -682,7 +690,13 @@ void Game::ApplyChangesFromInput() {
     ogre_resource_mut.lock();
     //std::cout << "b";
     cam_node->setOrientation(cam_node_alt->getOrientation());
-    cam_node->setPosition(cam_node_alt->getPosition());
+    if (fixed_y) {
+        cam_node->setPosition(Ogre::Vector3(cam_node_alt->getPosition().x, 120.0f, cam_node_alt->getPosition().z));
+        cam_node_alt->setPosition(cam_node->getPosition());
+    }
+    else {
+        cam_node->setPosition(cam_node_alt->getPosition());
+    }
     //std::cout << "c";
     ogre_resource_mut.unlock();
     //std::cout << "d";

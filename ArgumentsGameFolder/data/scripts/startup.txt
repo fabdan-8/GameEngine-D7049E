@@ -20,13 +20,17 @@ spawn name="fern",scale=2.0,x=500,y=0,z=10,interaction_script="flower_to_zero.tx
 # placing the tomb
 
 # placing the skeleton
-spawn name="skeleton",scale=2.0,x=0,y=0,z=-350,interaction_script="give_me_flowers.txt",update_script="check_flowers.txt"
+spawn name="skeleton",scale=2.0,x=0,y=0,z=-350,interaction_script="give_me_flowers.txt",update_script="check_flowers.txt",spawn_script="give_me_flowers.txt"
 
-# placing the chapel
-spawn name="barn",scale=1.3,x=700,y=0,z=-350
+# placing the barn
+spawn name="barn",scale=1.3,x=700,y=0,z=-350,interaction_script="barn.txt"
 
+# placing the back wall
 spawn name="fort",scale=1.5,x=1700,y=0,z=1000
 spawn name="fort",scale=1.5,x=1000,y=0,z=1000
 spawn name="fort",scale=1.5,x=300,y=0,z=1000
 spawn name="fort",scale=1.5,x=-400,y=0,z=1000
 spawn name="fort",scale=1.5,x=-1100,y=0,z=1000
+
+# placing the church int he background
+spawn name="church",scale=1.3,x=0,y=0,z=-2500,interaction_script="church.txt"
