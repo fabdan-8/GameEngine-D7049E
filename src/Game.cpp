@@ -129,11 +129,11 @@ void Game::Load() {
 
     scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
 
-    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skybox_desert", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    if (std::filesystem::exists(meshfolder + "skybox_desert.png")) {
-        material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox_desert.png");
+    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skybox", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (std::filesystem::exists(meshfolder + "skybox.png")) {
+        material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox.png");
     }
-    scnMgr->setSkyBox(true, "skybox_desert");
+    scnMgr->setSkyBox(true, "skybox");
 
     Ogre::Light *light = scnMgr->createLight("MainLight");
     // light->setDiffuseColour(Ogre::ColourValue::White);
