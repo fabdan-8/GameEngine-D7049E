@@ -12,6 +12,7 @@
 #include <map>
 #include <vector>
 #include <thread>
+#include <filesystem>
 
 #include "Script.h"
 #include "Physics.h"
@@ -126,7 +127,13 @@ void Game::Load() {
 
     //scnMgr->setWorldGeometry("scene.scene");
 
-    scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f)); // works on skeleton
+    scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
+
+    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skybox_desert", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (std::filesystem::exists(meshfolder + "skybox_desert.png")) {
+        material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox_desert.png");
+    }
+    scnMgr->setSkyBox(true, "skybox_desert");
 
     Ogre::Light *light = scnMgr->createLight("MainLight");
     // light->setDiffuseColour(Ogre::ColourValue::White);
