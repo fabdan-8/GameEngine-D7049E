@@ -129,17 +129,30 @@ void Game::Load() {
 
     scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
 
-    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create("skybox", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    Ogre::MaterialPtr skybox_material = Ogre::MaterialManager::getSingleton().create("skybox", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     if (std::filesystem::exists(meshfolder + "skybox.png")) {
-        material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox.png");
+        skybox_material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox.png");
     }
     scnMgr->setSkyBox(true, "skybox");
+
+    Ogre::Plane plane;
+    plane.normal = Ogre::Vector3::UNIT_Y;
+    plane.d = 0;
+    Ogre::MeshManager::getSingleton().createPlane("Myplane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 25000, 25000, 10, 10, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+    Ogre::Entity* pPlaneEnt = scnMgr->createEntity("plane", "Myplane");
+    Ogre::MaterialPtr floor_material = Ogre::MaterialManager::getSingleton().create("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (std::filesystem::exists(meshfolder + "floor.png")) {
+        floor_material->getTechnique(0)->getPass(0)->createTextureUnitState("floor.png");
+    }
+    pPlaneEnt->setMaterial(floor_material);
+    pPlaneEnt->setCastShadows(false);
+    scnMgr->getRootSceneNode()->createChildSceneNode()->attachObject(pPlaneEnt);
 
     Ogre::Light *light = scnMgr->createLight("MainLight");
     // light->setDiffuseColour(Ogre::ColourValue::White);
     // light->setSpecularColour(Ogre::ColourValue::White);
     Ogre::SceneNode *lightNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-    lightNode->setPosition(20, 40, -50);
+    lightNode->setPosition(0, 200, -250);
     lightNode->attachObject(light);
 
     // also need to tell where we are
