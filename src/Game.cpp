@@ -272,8 +272,8 @@ void Game::Load() {
 void Game::MainLoop() {
     clock_t last_tick = clock();
     clock_t last_input = clock();
-    clock_t current_time;
-    clock_t last_time;
+    clock_t current_time = 0;
+    clock_t last_time = 0;
 
     //launch the separate thread(s)
     //std::thread input_thread(&Game::InputThread, this);//needs many mutexes to work
@@ -286,6 +286,15 @@ void Game::MainLoop() {
         clock_mut.lock();
         current_time = clock();
         clock_mut.unlock();
+        if (run_benchmark) {
+            timedif.push_back(current_time - last_time);
+            for (int a = 0; a < 256; a++) {
+                if ((keybuffer[a] & 1) || (mousebuffer[a] & 1)) {
+                    button_press.push_back(a);
+                    time_point.push_back(current_time);
+                }
+            }
+        }
         Render();// no fps cap.
         scene.physics.update(current_time - last_time);
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
@@ -324,6 +333,10 @@ void Game::MainLoop() {
 void Game::Cleanup() {
     // ctx->closeApp();
     // delete ctx;
+    if (run_benchmark) {
+        BenchmarkToCSV();
+    }
+
     scene.Cleanup();
 
     delete root;
@@ -781,4 +794,23 @@ bool Game::ThreadIsRunning() {
     ret = running;
     running_mut.unlock();
     return ret;
+}
+
+void Game::BenchmarkToCSV() {
+    std::ofstream file;
+    std::ofstream file_button;
+    file.open("benchmark.csv");
+    file_button.open("button.csv");
+    if (file.is_open()) {
+        for (int a = 0; a < timedif.size(); a++) {
+            file << timedif[a] << "\n";
+        }
+        file.close();
+    }
+    if (file_button.is_open() && button_press.size() == time_point.size()) {
+        for (int a = 0; a < button_press.size(); a++) {
+            file_button << button_press[a] << "," << time_point[a] << "\n";
+        }
+        file_button.close();
+    }
 }

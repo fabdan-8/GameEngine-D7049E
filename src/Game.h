@@ -78,6 +78,7 @@ class Game {
     void InputThread();
     void RenderThread();
     bool ThreadIsRunning();
+    void BenchmarkToCSV();
 
     SDL_Event mainevent;
     //SDL_Window *sdl_window = nullptr;
@@ -99,6 +100,12 @@ class Game {
     Ogre::SceneNode* cam_node = nullptr;
     Ogre::SceneNode* cam_node_alt = nullptr;
     Ogre::Viewport* viewport = nullptr;
+
+    //benchmarking
+    bool run_benchmark = true;
+    std::vector<int> timedif;
+    std::vector<unsigned char> button_press;
+    std::vector<int> time_point;
 
     // test
     double rot = 0.0;
