@@ -288,6 +288,7 @@ void Game::MainLoop() {
         clock_mut.unlock();
         if (run_benchmark) {
             timedif.push_back(current_time - last_time);
+            timestamp.push_back(current_time);
             for (int a = 0; a < 256; a++) {
                 if ((keybuffer[a] & 1) || (mousebuffer[a] & 1)) {
                     button_press.push_back(a);
@@ -801,15 +802,15 @@ void Game::BenchmarkToCSV() {
     std::ofstream file_button;
     file.open("benchmark.csv");
     file_button.open("button.csv");
-    if (file.is_open()) {
+    if (file.is_open() && timestamp.size() == timedif.size()) {
         for (int a = 0; a < timedif.size(); a++) {
-            file << timedif[a] << "\n";
+            file << timedif[a] << "," << timestamp[a] << "\n";
         }
         file.close();
     }
     if (file_button.is_open() && button_press.size() == time_point.size()) {
         for (int a = 0; a < button_press.size(); a++) {
-            file_button << button_press[a] << "," << time_point[a] << "\n";
+            file_button << (int)button_press[a] << "," << time_point[a] << "\n";
         }
         file_button.close();
     }

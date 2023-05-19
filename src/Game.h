@@ -104,6 +104,7 @@ class Game {
     //benchmarking
     bool run_benchmark = true;
     std::vector<int> timedif;
+    std::vector<int> timestamp;
     std::vector<unsigned char> button_press;
     std::vector<int> time_point;
 
