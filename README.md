@@ -1,3 +1,6 @@
+# NOTICE TO TEACHER
+The "something" branch is the one where our latest work is at. If you see this notice, we have not yet merged it into master.
+
 # GameEngine-D7049E
 
 A game engine made for the course D7049E
