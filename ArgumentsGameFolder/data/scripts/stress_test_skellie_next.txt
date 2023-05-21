@@ -1,0 +1,3 @@
+set_variable boi=0,operation="add:10"
+spawn name="skeleton",rel_x=50,y=0,rel_z=-100,scale=1,spawn_script="stress_test_skellie.txt"
+move rel_x=0,y=0,rel_z=-100,speed=2.0,script="stress_test_skellie.txt"

@@ -206,7 +206,7 @@ void Game::Load() {
     //    }
     //}
     //scene.AddEntity("Sphere", 100, 0, 0, 0);
-    scene.AddEntity("scene.fbx", 1, 0, 0, 0);
+    //scene.AddEntity("scene.fbx", 1, 0, 0, 0);
     //scene.AddEntity("scene.scene", 1, 0, 0, 0);
     //scene.AddEntity("skeleton", 1, 0, 0, 0);
     //scene.AddEntity("fern", 1, 50, 0, 0);
@@ -287,8 +287,12 @@ void Game::MainLoop() {
         current_time = clock();
         clock_mut.unlock();
         if (run_benchmark) {
+            if (current_time >= 11500) {
+                running = false;
+            }
             timedif.push_back(current_time - last_time);
             timestamp.push_back(current_time);
+            entities_per_timepoint.push_back(scene.AmountOfEntities());
             for (int a = 0; a < 256; a++) {
                 if ((keybuffer[a] & 1) || (mousebuffer[a] & 1)) {
                     button_press.push_back(a);
@@ -802,9 +806,9 @@ void Game::BenchmarkToCSV() {
     std::ofstream file_button;
     file.open("benchmark.csv");
     file_button.open("button.csv");
-    if (file.is_open() && timestamp.size() == timedif.size()) {
+    if (file.is_open() && timestamp.size() == timedif.size() && timestamp.size() == entities_per_timepoint.size()) {
         for (int a = 0; a < timedif.size(); a++) {
-            file << timedif[a] << "," << timestamp[a] << "\n";
+            file << timedif[a] << "," << timestamp[a] << "," << entities_per_timepoint[a] << "\n";
         }
         file.close();
     }

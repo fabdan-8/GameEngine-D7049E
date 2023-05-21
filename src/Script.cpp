@@ -73,9 +73,34 @@ void Script::Read(void* target) {
         else if (command[a] == "spawn") {
             std::string name = GetContent("name", a);
             float scale = GetValue("scale", a, 1.0f);
-            float start_x = GetValue("x", a);
-            float start_y = GetValue("y", a);
-            float start_z = GetValue("z", a);
+
+            //start x
+            float start_x = GetValue("rel_x", a, FLT_MAX);
+            if (start_x == FLT_MAX) {
+                start_x = GetValue("x", a);
+            }
+            else if (target) {
+                start_x += ((Entity*)(target))->getNode()->getPosition().x;
+            }
+
+            //start y
+            float start_y = GetValue("rel_y", a, FLT_MAX);
+            if (start_y == FLT_MAX) {
+                start_y = GetValue("y", a);
+            }
+            else if (target) {
+                start_y += ((Entity*)(target))->getNode()->getPosition().y;
+            }
+
+            //start z
+            float start_z = GetValue("rel_z", a, FLT_MAX);
+            if (start_z == FLT_MAX) {
+                start_z = GetValue("z", a);
+            }
+            else if (target) {
+                start_z += ((Entity*)(target))->getNode()->getPosition().z;
+            }
+
             //also the update and interaction scripts
             std::string update_script = GetContent("update_script", a);
             std::string interaction_script = GetContent("interaction_script", a);
@@ -87,9 +112,33 @@ void Script::Read(void* target) {
 
         }
         else if (command[a] == "move") {
-            float set_x = GetValue("x", a);
-            float set_y = GetValue("y", a);
-            float set_z = GetValue("z", a);
+            //set x
+            float set_x = GetValue("rel_x", a, FLT_MAX);
+            if (set_x == FLT_MAX) {
+                set_x = GetValue("x", a);
+            }
+            else if (target) {
+                set_x += ((Entity*)(target))->getNode()->getPosition().x;
+            }
+
+            //set y
+            float set_y = GetValue("rel_y", a, FLT_MAX);
+            if (set_y == FLT_MAX) {
+                set_y = GetValue("y", a);
+            }
+            else if (target) {
+                set_y += ((Entity*)(target))->getNode()->getPosition().y;
+            }
+
+            //set z
+            float set_z = GetValue("rel_z", a, FLT_MAX);
+            if (set_z == FLT_MAX) {
+                set_z = GetValue("z", a);
+            }
+            else if (target) {
+                set_z += ((Entity*)(target))->getNode()->getPosition().z;
+            }
+
             float speed = GetValue("speed", a);
             std::string script_name = GetContent("script", a);
             if (target) {
@@ -115,6 +164,21 @@ void Script::Read(void* target) {
                     *var = argument[a][0];
                     variablehandler[var_name] = var;
                     var->value += 1;
+                    //std::cout << var->name << "=" << var->value;
+                }
+            }
+            else if (op.size() > 4 && op.substr(0, 4) == "add:") {
+                float addval = atof(op.substr(4).c_str());
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    var->value += addval;
+                    //std::cout << var->name << "=" << var->value;
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                    var->value += addval;
                     //std::cout << var->name << "=" << var->value;
                 }
             }
@@ -195,6 +259,7 @@ void Script::Read(void* target) {
             }
         }
         else if (command[a] == "script" && argument[a].size() > 0) {
+            std::cout << "running " << argument[a][0].content << "\n";
             game.ScriptReader(argument[a][0].content);
         }
         else if (command[a] == "print" && argument[a].size() > 0) {
@@ -214,6 +279,17 @@ float Script::GetValue(std::string name, int a, float default_value) {
             if (argument[a][b].IsValue()) {
                 return argument[a][b].value;
             }
+            else if(argument[a][b].content.size() > 1 && argument[a][b].content[0] == '$') {
+                std::string var_name = argument[a][b].content.substr(1);
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    if (var && var->name == var_name) {
+                        if (var->IsValue()) {
+                            return var->value;
+                        }
+                    }
+                }
+            }
         }
     }
     return default_value;
@@ -223,6 +299,17 @@ std::string Script::GetContent(std::string name, int a, std::string default_cont
     for (int b = 0; b < argument[a].size(); b++) {
         if (argument[a][b].name == name) {
             if (argument[a][b].IsString()) {
+                if (argument[a][b].content.size() > 1 && argument[a][b].content[0] == '$') {
+                    std::string var_name = argument[a][b].content.substr(1);
+                    if (variablehandler.find(var_name) != variablehandler.end()) {
+                        Variable* var = variablehandler[var_name];
+                        if (var && var->name == var_name) {
+                            if (var->IsString()) {
+                                return var->content;
+                            }
+                        }
+                    }
+                }
                 return argument[a][b].content;
             }
         }

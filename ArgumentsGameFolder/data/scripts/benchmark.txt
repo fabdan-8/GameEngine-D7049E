@@ -1,0 +1,9 @@
+set_variable boi=0,operation="add:50"
+spawn name="skeleton",x="$boi",y=0,rel_z=0,scale=1,spawn_script="stress_test_skellie.txt"
+spawn name="skeleton",x="$boi",y=0,rel_z=150,scale=1,spawn_script="stress_test_skellie.txt"
+spawn name="skeleton",x="$boi",y=0,rel_z=300,scale=1,spawn_script="stress_test_skellie.txt"
+spawn name="skeleton",x="$boi",y=0,rel_z=450,scale=1,spawn_script="stress_test_skellie.txt"
+
+set_variable boi=0,operation="add:10"
+spawn name="skeleton",rel_x=50,y=0,rel_z=-100,scale=1,spawn_script="stress_test_skellie.txt"
+move rel_x=0,y=0,rel_z=-100,speed=2.0,script="stress_test_skellie.txt"

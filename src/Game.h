@@ -107,6 +107,7 @@ class Game {
     std::vector<int> timestamp;
     std::vector<unsigned char> button_press;
     std::vector<int> time_point;
+    std::vector<int> entities_per_timepoint;
 
     // test
     double rot = 0.0;

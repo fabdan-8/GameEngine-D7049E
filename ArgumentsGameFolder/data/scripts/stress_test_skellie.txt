@@ -1,0 +1,1 @@
+move rel_x=0,y=0,rel_z=100,speed=2.0,script="stress_test_skellie_next.txt"

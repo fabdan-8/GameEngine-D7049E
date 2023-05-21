@@ -12,6 +12,9 @@ public:
 	void RemoveEntity(Entity* ent);
 	void RemoveEntityByName(std::string name);
 	void Update();
+	int AmountOfEntities() {
+		return entity_map.size();
+	}
 
 	Entity* GetCenteredEntity();
 	Entity* GetHoveredEntity();
