@@ -1,0 +1,2 @@
+sound collect.wav
+set_variable flowers=0,operation="add"

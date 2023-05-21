@@ -1,0 +1,5 @@
+check_variable flowers=4,check="equals",true="jump"
+break
+sound win.wav
+no_update
+set_interaction thank_you_flowers.txt

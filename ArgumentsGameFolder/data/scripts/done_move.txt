@@ -1,0 +1,4 @@
+#runs when test_interaction move is done
+print done
+set_interaction test_interaction.txt
+sound yoda.wav

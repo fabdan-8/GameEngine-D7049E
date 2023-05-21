@@ -11,9 +11,14 @@
 extern Game game;
 extern Scene scene;
 
-extern std::map<std::string, Mix_Music*> musichandler;
+extern std::string soundsfolder;
 
-void Script::Read() {
+extern std::map<std::string, Script*> scripthandler;
+extern std::map<std::string, Mix_Music*> musichandler;
+extern std::map<std::string, Mix_Chunk*> soundhandler;
+extern std::map<std::string, Variable*> variablehandler;
+
+void Script::Read(void* target) {
     //std::cout << "script is being read\n";
     //std::cout << command.size() << " " << argument.size() << "\n";
     if (command.size() == 0 || command.size() != argument.size()) {//not a valid command
@@ -26,7 +31,7 @@ void Script::Read() {
             game.Shutdown();
         }
         else if (command[a] == "music") {
-            std::string& music_name = argument[a][0].content;
+            std::string music_name = soundsfolder + argument[a][0].content;
             //std::cout << "attempting to play '" << music_name << "'\n";
             if (musichandler.find(music_name) != musichandler.end()) {
                 //std::cout << "playing '" << music_name << "'\n";
@@ -45,26 +50,216 @@ void Script::Read() {
                 }
             }
         }
+        else if (command[a] == "sound") {
+            std::string sound_name = soundsfolder + argument[a][0].content;
+            //std::cout << "attempting to play '" << music_name << "'\n";
+            if (musichandler.find(sound_name) != musichandler.end()) {
+                //std::cout << "playing '" << music_name << "'\n";
+                Mix_PlayChannel(0, soundhandler[sound_name], 0);
+            }
+            else {
+                //std::cout << "loading '" << music_name << "'...\n";
+                Mix_Chunk* sound = Mix_LoadWAV(sound_name.c_str());
+                if (sound) {
+                    //std::cout << "playing '" << music_name << "'\n";
+                    soundhandler[sound_name] = sound;
+                    Mix_PlayChannel(0, soundhandler[sound_name], 0);
+                }
+                else {
+                    //std::cout << "failed to load '" << music_name << "'\n";
+                }
+            }
+        }
         else if (command[a] == "spawn") {
             std::string name = GetContent("name", a);
             float scale = GetValue("scale", a, 1.0f);
-            float start_x = GetValue("x", a);
-            float start_y = GetValue("y", a);
-            float start_z = GetValue("z", a);
-            //also the update and interaction scripts
 
-            scene.AddEntity(name, scale, start_x, start_y, start_z);
+            //start x
+            float start_x = GetValue("rel_x", a, FLT_MAX);
+            if (start_x == FLT_MAX) {
+                start_x = GetValue("x", a);
+            }
+            else if (target) {
+                start_x += ((Entity*)(target))->getNode()->getPosition().x;
+            }
+
+            //start y
+            float start_y = GetValue("rel_y", a, FLT_MAX);
+            if (start_y == FLT_MAX) {
+                start_y = GetValue("y", a);
+            }
+            else if (target) {
+                start_y += ((Entity*)(target))->getNode()->getPosition().y;
+            }
+
+            //start z
+            float start_z = GetValue("rel_z", a, FLT_MAX);
+            if (start_z == FLT_MAX) {
+                start_z = GetValue("z", a);
+            }
+            else if (target) {
+                start_z += ((Entity*)(target))->getNode()->getPosition().z;
+            }
+
+            //also the update and interaction scripts
+            std::string update_script = GetContent("update_script", a);
+            std::string interaction_script = GetContent("interaction_script", a);
+            std::string spawn_script = GetContent("spawn_script", a);
+            //std::cout << interaction_script;
+            scene.AddEntity(name, scale, start_x, start_y, start_z, interaction_script, update_script, spawn_script);
         }
         else if (command[a] == "make_button") {
 
         }
         else if (command[a] == "move") {
+            //set x
+            float set_x = GetValue("rel_x", a, FLT_MAX);
+            if (set_x == FLT_MAX) {
+                set_x = GetValue("x", a);
+            }
+            else if (target) {
+                set_x += ((Entity*)(target))->getNode()->getPosition().x;
+            }
 
+            //set y
+            float set_y = GetValue("rel_y", a, FLT_MAX);
+            if (set_y == FLT_MAX) {
+                set_y = GetValue("y", a);
+            }
+            else if (target) {
+                set_y += ((Entity*)(target))->getNode()->getPosition().y;
+            }
+
+            //set z
+            float set_z = GetValue("rel_z", a, FLT_MAX);
+            if (set_z == FLT_MAX) {
+                set_z = GetValue("z", a);
+            }
+            else if (target) {
+                set_z += ((Entity*)(target))->getNode()->getPosition().z;
+            }
+
+            float speed = GetValue("speed", a);
+            std::string script_name = GetContent("script", a);
+            if (target) {
+                Script* script = game.ScriptLoader(script_name);
+                //script doesn't have to be valid
+                ((Entity*)(target))->QueueMove(set_x, set_y, set_z, speed, script);
+            }
         }
         else if (command[a] == "spin") {
 
         }
+        else if (command[a] == "set_variable" && argument[a].size() > 0) {
+            std::string var_name = argument[a][0].name;
+            std::string op = GetContent("operation", a);
+            if (op == "add") {
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    var->value += 1;
+                    //std::cout << var->name << "=" << var->value;
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                    var->value += 1;
+                    //std::cout << var->name << "=" << var->value;
+                }
+            }
+            else if (op.size() > 4 && op.substr(0, 4) == "add:") {
+                float addval = atof(op.substr(4).c_str());
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    var->value += addval;
+                    //std::cout << var->name << "=" << var->value;
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                    var->value += addval;
+                    //std::cout << var->name << "=" << var->value;
+                }
+            }
+            else {
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    *var = argument[a][0];
+                }
+                else {
+                    Variable* var = new Variable;
+                    *var = argument[a][0];
+                    variablehandler[var_name] = var;
+                }
+            }
+        }
+        else if (command[a] == "check_variable") {
+            std::string var_name = argument[a][0].name;
+            std::string check = GetContent("check", a);
+            std::string check_true = GetContent("true", a);
+            std::string check_false = GetContent("false", a);
+            bool is_true = false;
+            if (variablehandler.find(var_name) != variablehandler.end() && (check_true.size() > 0 || check_false.size() > 0)) {
+                Variable* var = variablehandler[var_name];
+                if (check == "equals") {
+                    if (var->value == argument[a][0].value && var->content == argument[a][0].content) {
+                        is_true = true;
+                        //std::cout << "TRUE";
+                    }
+                    else {
+                        is_true = false;
+                        //std::cout << "FALSE";
+                    }
+                }
+            }
+            if (is_true && check_true.size() > 0) {
+                if (check_true == "jump") {
+                    a += 1;
+                }
+            }
+            else if (!is_true && check_false.size() > 0) {
+                if (check_false == "jump") {
+                    a += 1;
+                }
+            }
+        }
+        else if (command[a] == "set_update" && argument[a].size() > 0) {
+            std::string script_name = argument[a][0].content;
+            if (target) {
+                Script* script = game.ScriptLoader(script_name);
+                ((Entity*)(target))->update_script = script;
+            }
+        }
+        else if (command[a] == "set_interaction" && argument[a].size() > 0) {
+            std::string script_name = argument[a][0].content;
+            if (target) {
+                Script* script = game.ScriptLoader(script_name);
+                ((Entity*)(target))->interaction_script = script;
+            }
+        }
+        else if (command[a] == "no_update") {
+            if (target) {
+                ((Entity*)(target))->update_script = nullptr;
+            }
+        }
+        else if (command[a] == "no_interaction") {
+            if (target) {
+                ((Entity*)(target))->interaction_script = nullptr;
+            }
+        }
+        else if (command[a] == "break") {
+            a = command.size();
+        }
+        else if (command[a] == "jump" && argument[a].size() > 0) {
+            std::string jump_string = argument[a][0].content;
+            int jump_length = atoi(jump_string.c_str());
+            if (jump_length > 0) {
+                a += jump_length;
+            }
+        }
         else if (command[a] == "script" && argument[a].size() > 0) {
+            std::cout << "running " << argument[a][0].content << "\n";
             game.ScriptReader(argument[a][0].content);
         }
         else if (command[a] == "print" && argument[a].size() > 0) {
@@ -84,6 +279,17 @@ float Script::GetValue(std::string name, int a, float default_value) {
             if (argument[a][b].IsValue()) {
                 return argument[a][b].value;
             }
+            else if(argument[a][b].content.size() > 1 && argument[a][b].content[0] == '$') {
+                std::string var_name = argument[a][b].content.substr(1);
+                if (variablehandler.find(var_name) != variablehandler.end()) {
+                    Variable* var = variablehandler[var_name];
+                    if (var && var->name == var_name) {
+                        if (var->IsValue()) {
+                            return var->value;
+                        }
+                    }
+                }
+            }
         }
     }
     return default_value;
@@ -93,6 +299,17 @@ std::string Script::GetContent(std::string name, int a, std::string default_cont
     for (int b = 0; b < argument[a].size(); b++) {
         if (argument[a][b].name == name) {
             if (argument[a][b].IsString()) {
+                if (argument[a][b].content.size() > 1 && argument[a][b].content[0] == '$') {
+                    std::string var_name = argument[a][b].content.substr(1);
+                    if (variablehandler.find(var_name) != variablehandler.end()) {
+                        Variable* var = variablehandler[var_name];
+                        if (var && var->name == var_name) {
+                            if (var->IsString()) {
+                                return var->content;
+                            }
+                        }
+                    }
+                }
                 return argument[a][b].content;
             }
         }

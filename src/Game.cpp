@@ -12,8 +12,8 @@
 #include <map>
 #include <vector>
 #include <thread>
+#include <filesystem>
 
-#include "Player.h"
 #include "Script.h"
 #include "Physics.h"
 
@@ -24,8 +24,11 @@ extern Game game;
 extern Scene scene;
 extern std::string meshfolder;
 extern std::string scriptfolder;
+extern std::string soundsfolder;
 extern std::map<std::string, Script*> scripthandler;
 extern std::map<std::string, Mix_Music*> musichandler;
+extern std::map<std::string, Mix_Chunk*> soundhandler;
+extern std::map<std::string, Variable*> variablehandler;
 
 //class KeyHandler : public OgreBites::InputListener {
 //    bool keyPressed(const OgreBites::KeyboardEvent &evt) override {
@@ -108,13 +111,48 @@ void Game::Load() {
 
     // without light we would just get a black screen
 
-    scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f)); // works on skeleton
+    scriptfolder = "ArgumentsGameFolder/data/scripts/";
+
+    //ScriptReader("button1script.txt");
+    //ScriptReader("button1script.txt");
+    //getline(std::cin, name);
+
+    meshfolder = "ArgumentsGameFolder/data/mesh/";
+
+    // Add the new resource location
+    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+    rgm.addResourceLocation(meshfolder, "FileSystem");
+
+    soundsfolder = "ArgumentsGameFolder/data/sounds/";
+
+    //scnMgr->setWorldGeometry("scene.scene");
+
+    scnMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
+
+    Ogre::MaterialPtr skybox_material = Ogre::MaterialManager::getSingleton().create("skybox", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (std::filesystem::exists(meshfolder + "skybox.png")) {
+        skybox_material->getTechnique(0)->getPass(0)->createTextureUnitState("skybox.png");
+    }
+    scnMgr->setSkyBox(true, "skybox");
+
+    Ogre::Plane plane;
+    plane.normal = Ogre::Vector3::UNIT_Y;
+    plane.d = 0;
+    Ogre::MeshManager::getSingleton().createPlane("Myplane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 25000, 25000, 10, 10, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+    Ogre::Entity* pPlaneEnt = scnMgr->createEntity("plane", "Myplane");
+    Ogre::MaterialPtr floor_material = Ogre::MaterialManager::getSingleton().create("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (std::filesystem::exists(meshfolder + "floor.png")) {
+        floor_material->getTechnique(0)->getPass(0)->createTextureUnitState("floor.png");
+    }
+    pPlaneEnt->setMaterial(floor_material);
+    pPlaneEnt->setCastShadows(false);
+    scnMgr->getRootSceneNode()->createChildSceneNode()->attachObject(pPlaneEnt);
 
     Ogre::Light *light = scnMgr->createLight("MainLight");
     // light->setDiffuseColour(Ogre::ColourValue::White);
     // light->setSpecularColour(Ogre::ColourValue::White);
     Ogre::SceneNode *lightNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-    lightNode->setPosition(20, 40, -50);
+    lightNode->setPosition(0, 200, -250);
     lightNode->attachObject(light);
 
     // also need to tell where we are
@@ -154,18 +192,6 @@ void Game::Load() {
     // ctx->addInputListener(&keyHandler);
     // getline(std::cin, name);
 
-    scriptfolder = "ArgumentsGameFolder/data/scripts/";
-    
-    //ScriptReader("button1script.txt");
-    //ScriptReader("button1script.txt");
-    //getline(std::cin, name);
-
-    meshfolder = "ArgumentsGameFolder/data/mesh/";
-    Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
-
-    // Add the new resource location
-    rgm.addResourceLocation(meshfolder, "FileSystem");
-
     //scene.AddEntity("skeleton");
     ////scene.AddEntity("sibenik.mesh");
     //// finally something to render
@@ -179,16 +205,19 @@ void Game::Load() {
     //        }
     //    }
     //}
-    scene.AddEntity("skeleton", 1, 0, 0, 0);
-    scene.AddEntity("fern", 1, 50, 0, 0);
-    scene.AddEntity("Desiccated Priest", 1, 0, 0, 200);
-    scene.AddEntity("Goblin", 1, 50, 0, 50);
-    scene.AddEntity("Orc", 1, 100, 0, 50);
-    scene.AddEntity("crypt", 1, -400, 0, 100);
-    scene.AddEntity("statuewall", 1, 0, 0, 300);
-    scene.AddEntity("skeleton", 1, -50, 0, 0);
-    scene.AddEntity("skeleton", 1, 0, 0, -100);
-    scene.AddEntity("skeleton", 0.2, -50, 0, -50);
+    //scene.AddEntity("Sphere", 100, 0, 0, 0);
+    //scene.AddEntity("scene.fbx", 1, 0, 0, 0);
+    //scene.AddEntity("scene.scene", 1, 0, 0, 0);
+    //scene.AddEntity("skeleton", 1, 0, 0, 0);
+    //scene.AddEntity("fern", 1, 50, 0, 0);
+    //scene.AddEntity("Desiccated Priest", 1, 0, 0, 200);
+    //scene.AddEntity("Goblin", 1, 50, 0, 50);
+    //scene.AddEntity("Orc", 1, 100, 0, 50);
+    //scene.AddEntity("crypt", 1, -400, 0, 100);
+    //scene.AddEntity("statuewall", 1, 0, 0, 300);
+    //scene.AddEntity("skeleton", 1, -50, 0, 0);
+    //scene.AddEntity("skeleton", 1, 0, 0, -100);
+    //scene.AddEntity("skeleton", 0.2, -50, 0, -50);
 
     //scene.AddImage("Skeleton.bmp", 50.0f, 10.0f, -100.0f, 40.0f, 40.0f);
     // std::cout << "---------------------\n";
@@ -243,8 +272,8 @@ void Game::Load() {
 void Game::MainLoop() {
     clock_t last_tick = clock();
     clock_t last_input = clock();
-    clock_t current_time;
-    clock_t last_time;
+    clock_t current_time = 0;
+    clock_t last_time = 0;
 
     //launch the separate thread(s)
     //std::thread input_thread(&Game::InputThread, this);//needs many mutexes to work
@@ -257,6 +286,20 @@ void Game::MainLoop() {
         clock_mut.lock();
         current_time = clock();
         clock_mut.unlock();
+        if (run_benchmark) {
+            if (current_time >= 11500) {
+                running = false;
+            }
+            timedif.push_back(current_time - last_time);
+            timestamp.push_back(current_time);
+            entities_per_timepoint.push_back(scene.AmountOfEntities());
+            for (int a = 0; a < 256; a++) {
+                if ((keybuffer[a] & 1) || (mousebuffer[a] & 1)) {
+                    button_press.push_back(a);
+                    time_point.push_back(current_time);
+                }
+            }
+        }
         Render();// no fps cap.
         scene.physics.update(current_time - last_time);
         if (current_time >= last_tick + tick_speed) { // update once per tick_speed milliseconds
@@ -295,12 +338,25 @@ void Game::MainLoop() {
 void Game::Cleanup() {
     // ctx->closeApp();
     // delete ctx;
+    if (run_benchmark) {
+        BenchmarkToCSV();
+    }
+
     scene.Cleanup();
 
     delete root;
 
     for (auto const& script : scripthandler) {
         delete script.second;
+    }
+    for (auto const& music : musichandler) {
+        Mix_FreeMusic(music.second);
+    }
+    for (auto const& sound : soundhandler) {
+        Mix_FreeChunk(sound.second);
+    }
+    for (auto const& var : variablehandler) {
+        delete var.second;
     }
 
     SDLNet_Quit();
@@ -351,7 +407,7 @@ bool Game::MouseReleased(unsigned char button) {
     return false;
 }
 
-void Game::ScriptReader(std::string filename) {
+Script* Game::ScriptLoader(std::string filename) {
     Script* script = nullptr;
     if (scripthandler.find(filename) != scripthandler.end()) {//script already exists, just read it
         script = scripthandler[filename];
@@ -363,7 +419,7 @@ void Game::ScriptReader(std::string filename) {
         if (!file.is_open()) {
             //could not run script
             //std::cout << "could not find script '" << scriptfolder + filename << "'\n";
-            return;
+            return nullptr;
         }
 
         script = new Script;//deleted in game.Cleanup()
@@ -376,7 +432,7 @@ void Game::ScriptReader(std::string filename) {
             //std::cout << "command\n";
             getline(file, buf);
             buf += ";";//add ';' to be able to find end easier
-            size_t div = buf.find_first_of(" ");//find first space
+            size_t div = buf.find_first_of(" ;");//find first space
             if (div > 0 && div != std::string::npos && buf[0] != '#') {//also check if it is a comment
                 script->command.push_back(buf.substr(0, div));//command name
                 std::vector<Variable> var_vector;
@@ -435,11 +491,16 @@ void Game::ScriptReader(std::string filename) {
 
         file.close();
     }
+    return script;
+    //std::cout << "all done\n";
+}
+
+void Game::ScriptReader(std::string filename) {
+    Script* script = ScriptLoader(filename);
     if (script) {
         //std::cout << "running script\n";
         script->Read();
     }
-    //std::cout << "all done\n";
 }
 
 bool Game::IsRunning() {
@@ -552,9 +613,7 @@ void Game::Input() {
         Entity* clicked_entity = scene.GetHoveredEntity();
         if (clicked_entity) {
             std::cout << clicked_entity->getEntity()->getName() << " ";
-            for (int a = 0; a < 100; a++) {
-                clicked_entity->Update();
-            }
+            clicked_entity->Interact();
         }
         std::cout << "\n";
 
@@ -630,6 +689,14 @@ void Game::Input() {
         // camNode->yaw(Ogre::Radian(rotX));
         // camNode->pitch(Ogre::Radian(rotY));
     }
+    if (Clicked(SDLK_f)) {
+        if (fixed_y) {
+            fixed_y = false;
+        }
+        else {
+            fixed_y = true;
+        }
+    }
     if (Pressed(SDLK_UP) || Pressed(SDLK_w)) {
         cam_node_alt->translate(Ogre::Vector3(0.0f, 0.0f, -camspeed), Ogre::Node::TS_LOCAL);
     }
@@ -661,7 +728,13 @@ void Game::ApplyChangesFromInput() {
     ogre_resource_mut.lock();
     //std::cout << "b";
     cam_node->setOrientation(cam_node_alt->getOrientation());
-    cam_node->setPosition(cam_node_alt->getPosition());
+    if (fixed_y) {
+        cam_node->setPosition(Ogre::Vector3(cam_node_alt->getPosition().x, 120.0f, cam_node_alt->getPosition().z));
+        cam_node_alt->setPosition(cam_node->getPosition());
+    }
+    else {
+        cam_node->setPosition(cam_node_alt->getPosition());
+    }
     //std::cout << "c";
     ogre_resource_mut.unlock();
     //std::cout << "d";
@@ -726,4 +799,23 @@ bool Game::ThreadIsRunning() {
     ret = running;
     running_mut.unlock();
     return ret;
+}
+
+void Game::BenchmarkToCSV() {
+    std::ofstream file;
+    std::ofstream file_button;
+    file.open("benchmark.csv");
+    file_button.open("button.csv");
+    if (file.is_open() && timestamp.size() == timedif.size() && timestamp.size() == entities_per_timepoint.size()) {
+        for (int a = 0; a < timedif.size(); a++) {
+            file << timedif[a] << "," << timestamp[a] << "," << entities_per_timepoint[a] << "\n";
+        }
+        file.close();
+    }
+    if (file_button.is_open() && button_press.size() == time_point.size()) {
+        for (int a = 0; a < button_press.size(); a++) {
+            file_button << (int)button_press[a] << "," << time_point[a] << "\n";
+        }
+        file_button.close();
+    }
 }

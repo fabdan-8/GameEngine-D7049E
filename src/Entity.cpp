@@ -65,6 +65,26 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
             ent = nullptr;
         }
     }
+    else if (name.find(".fbx") != std::string::npos && name.size() > 2) {
+        try {
+            ent = game.scnMgr->createEntity(std::string(name + ".fbx"));
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
+    else if (name.find(".dbo") != std::string::npos && name.size() > 2) {
+        try {
+            ent = game.scnMgr->createEntity(std::string(name + ".dbo"));
+            //if (ent) {//export mesh
+            //    Ogre::MeshSerializer serializer;
+            //    serializer.exportMesh(ent->getMesh(), meshfolder + name + ".mesh");
+            //}
+        }
+        catch (...) {
+            ent = nullptr;
+        }
+    }
     else {
         try {
             ent = game.scnMgr->createEntity(std::string(name + ".mesh"));
@@ -90,7 +110,7 @@ std::string Entity::Load(std::string name, float scale, float start_x, float sta
         return ent->getName();
     }
     else {
-        std::cout << "Can't find mesh '" << name << "'\n";
+        std::cout << "Can't load mesh '" << name << "'\n";
         //ogre_resource_mut.unlock();
         return "";
     }
@@ -176,16 +196,68 @@ std::string Entity::LoadAsImage(std::string filename, float x, float y, float z,
 }
 
 void Entity::Update() {
+    if (!node) {
+        return;
+    }
     //std::cout << "a";
     //node->translate(Ogre::Vector3((Ogre::Real)(0.0f), (Ogre::Real)(0.1f), (Ogre::Real)(0.0f)), Ogre::Node::TS_LOCAL);
-    if (node) {
-        node->translate(Ogre::Vector3(0.0f, 0.02f, 0.0f), Ogre::Node::TS_PARENT);//TEST ONLY
-        //node->setPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
-        //node->attachObject(ent);
-    }
+    //if (node) {
+    //    node->translate(Ogre::Vector3(0.0f, 0.02f, 0.0f), Ogre::Node::TS_PARENT);//TEST ONLY
+    //    //node->setPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
+    //    //node->attachObject(ent);
+    //}
     //else {
     //    std::cout << "b";
     //}
+    if (moves.size() > 0) {
+        //std::cout << moves.front().counter << "/" << moves.front().maxcounter << " ";
+        moves.front().counter += 1;
+        float weight = 1.0f / moves.front().maxcounter;
+        if (moves.front().counter >= moves.front().maxcounter) {
+            node->setPosition(Ogre::Vector3(moves.front().x, moves.front().y, moves.front().z));
+            if (moves.front().finished_script) {
+                moves.front().finished_script->Read(this);
+            }
+            moves.erase(moves.begin());
+        }
+        else {
+            Ogre::Vector3 update_pos = moves.front().dir * weight;
+            //std::cout << update_pos.x << " " << update_pos.y << " " << update_pos.z << ":";
+            node->translate(update_pos);
+        }
+    }
+    if (update_script) {
+        update_script->Read(this);
+    }
+}
+
+void Entity::Interact() {
+    if (interaction_script) {
+        interaction_script->Read(this);
+    }
+}
+
+void Entity::QueueMove(float x, float y, float z, float speed, Script* script) {
+    if (!node || speed <= 0.0f) {
+        return;
+    }
+    Ogre::Vector3 pos;
+    if (moves.size() == 0) {
+        pos = node->getPosition();
+    }
+    else {
+        pos = Ogre::Vector3(moves.back().x, moves.back().y, moves.back().z);
+    }
+    float dist = sqrt(pow(x - pos.x, 2) + pow(y - pos.y, 2) + pow(z - pos.z, 2));
+    Ogre::Vector3 dir = Ogre::Vector3(x, y, z) - pos;
+    int maxcounter = dist / speed;
+    if (maxcounter < 1) {
+        maxcounter = 1;
+        dir = Ogre::Vector3(0.0f, 1.0f, 0.0f);
+    }
+    //dir.normalise();
+    moves.push_back({ x, y, z, dir, 0, maxcounter, script });
+    //std::cout << "Queued a move. ";
 }
 
 void Entity::SetMaterial(std::string name) {

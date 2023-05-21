@@ -45,6 +45,7 @@ class Game {
     bool MousePressed(unsigned char button);
     bool MouseReleased(unsigned char button);
 
+    Script* ScriptLoader(std::string filename);
     void ScriptReader(std::string filename);
     bool IsRunning();
     void Shutdown();
@@ -77,12 +78,14 @@ class Game {
     void InputThread();
     void RenderThread();
     bool ThreadIsRunning();
+    void BenchmarkToCSV();
 
     SDL_Event mainevent;
     //SDL_Window *sdl_window = nullptr;
     //bool music_playing = false;
 
     bool running = false;//don't access this directly, use IsRunning() and Shutdown() instead
+    bool fixed_y = true;
     std::mutex running_mut;
 
     int my;
@@ -97,6 +100,14 @@ class Game {
     Ogre::SceneNode* cam_node = nullptr;
     Ogre::SceneNode* cam_node_alt = nullptr;
     Ogre::Viewport* viewport = nullptr;
+
+    //benchmarking
+    bool run_benchmark = true;
+    std::vector<int> timedif;
+    std::vector<int> timestamp;
+    std::vector<unsigned char> button_press;
+    std::vector<int> time_point;
+    std::vector<int> entities_per_timepoint;
 
     // test
     double rot = 0.0;

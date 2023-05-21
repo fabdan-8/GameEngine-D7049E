@@ -26,13 +26,10 @@
 #include <SDL2/SDL_pixels.h>
 #endif
 
-#include "Chunk.h"
 #include "Entity.h"
 #include "Game.h"
-#include "Map.h"
-#include "Player.h"
 #include "Scene.h"
-#include "UI.h"
+//#include "UI.h"
 //#include "Server.h"
 #include "Script.h"
 //#include "Physics.h"
@@ -43,8 +40,11 @@ Scene scene; //let's start with only one scene
 
 std::string meshfolder = "";
 std::string scriptfolder = "";
+std::string soundsfolder = "";
 std::map<std::string, Script*> scripthandler;
 std::map<std::string, Mix_Music*> musichandler;
+std::map<std::string, Mix_Chunk*> soundhandler;
+std::map<std::string, Variable*> variablehandler;
 
 std::mutex ogre_resource_mut;
 std::mutex clock_mut;
